@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Heart, X } from "lucide-react";
 
@@ -11,6 +11,34 @@ function Card({
   imageSrc = "/img/sony_fx6.jpg",
 }) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const zoomRef = useRef(null);
+
+  // Function to close Lightbox
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    setZoom(1); // Reset zoom on close
+  };
+
+  // Handle zooming on mouse scroll
+  const handleZoom = (event) => {
+    event.preventDefault(); // Prevent default page scroll
+    const newZoom = zoom + event.deltaY * -0.002; // Adjust zoom level
+    setZoom(Math.min(Math.max(newZoom, 1), 3)); // Limit zoom between 1x - 3x
+  };
+
+  // Handle mouse move to track cursor position
+  const handleMouseMove = (event) => {
+    if (!zoomRef.current) return;
+    const { left, top, width, height } =
+      zoomRef.current.getBoundingClientRect();
+
+    const x = ((event.clientX - left) / width) * 100;
+    const y = ((event.clientY - top) / height) * 100;
+
+    setPosition({ x, y });
+  };
 
   return (
     <>
@@ -51,24 +79,40 @@ function Card({
 
       {/* Lightbox Overlay */}
       {isLightboxOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          {/* Close Button */}
-          <button
-            className="absolute top-6 right-6 text-white bg-gray-800 p-2 rounded-full hover:bg-gray-600 transition"
-            onClick={() => setIsLightboxOpen(false)}
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
+          onClick={closeLightbox} // Click outside closes lightbox
+          onWheel={handleZoom} // Zoom on scroll
+        >
+          {/* Lightbox Content - Prevent Click Propagation */}
+          <div
+            className="relative max-w-4xl w-full p-4 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+            onMouseMove={handleMouseMove} // Track cursor position
+            ref={zoomRef}
           >
-            <X size={24} />
-          </button>
+            {/* Close Button */}
+            <button
+              className="absolute top-6 right-6 text-white bg-gray-800 p-2 rounded-full hover:bg-gray-600 transition"
+              onClick={closeLightbox}
+            >
+              <X size={24} />
+            </button>
 
-          {/* Large Image */}
-          <div className="relative max-w-4xl w-full p-4">
-            <Image
-              src={imageSrc}
-              alt="card enlarged"
-              width={800}
-              height={600}
-              className="w-full h-auto rounded-lg shadow-lg"
-            />
+            {/* Large Image with Zoom Effect */}
+            <div className="relative overflow-hidden">
+              <Image
+                src={imageSrc}
+                alt="card enlarged"
+                width={800}
+                height={600}
+                className="w-full h-auto rounded-lg shadow-lg transition-transform"
+                style={{
+                  transform: `scale(${zoom})`,
+                  transformOrigin: `${position.x}% ${position.y}%`,
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
