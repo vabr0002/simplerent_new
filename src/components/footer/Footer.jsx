@@ -11,7 +11,7 @@ const Footer = () => {
           We are here to help and serve you. Give us a call or send us a mail
         </p>
         <Button className="bg-lime text-black">Contact Us</Button>
-        <h3>Jernholmen dut dut dut</h3>
+        <h3>Jernholmen 2, 2650 Hvidovre</h3>
       </div>
       <div className="w-full md:w-1/4 flex flex-col gap-4 text-center md:text-left">
         <h2 className="font-helvetica text-h2">Booking</h2>
