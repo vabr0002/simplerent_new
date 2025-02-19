@@ -45,7 +45,7 @@ const Navigation = () => {
           "Monitors & Recorders",
           "Grips & Gadgets",
           "Cables & Adapters",
-          "Production & Consumables"
+          "Production & Consumables",
         ].map((item, index) => (
           <Link key={index} className={linkClasses} href="">
             <FaCamera className={iconClasses} />
