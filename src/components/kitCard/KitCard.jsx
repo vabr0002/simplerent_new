@@ -8,7 +8,7 @@ function Card({
   description = "This is a placeholder description.",
   buttonText = "Button Text",
   buttonLink = "#",
-  imageSrc = "/img/sony_fx6.jpg",
+  imageSrc = "/img/sony_fx6.jpg"
 }) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
@@ -20,10 +20,10 @@ function Card({
   return (
     <>
       {/* Card Component */}
-      <article className="w-90 rounded-2xl border border-gray-300 bg-black shadow-md overflow-hidden p-4 relative">
+      <article className="w-[350px] h-[400px] rounded-2xl border border-gray-300 bg-black shadow-md overflow-hidden p-4 relative pb-4">
         {/* Image - Click to Open Lightbox */}
         <div
-          className="relative w-full h-48 bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
+          className="relative w-full h-2/3 bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
           onClick={() => setIsLightboxOpen(true)}
         >
           <Image
