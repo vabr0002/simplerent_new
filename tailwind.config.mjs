@@ -12,6 +12,7 @@ export default {
         lime: "#D4ED31",
         gray: "#DBDDE1",
         lightgray: "#F7F7F7",
+        darkgrey: "#ACACAC",
         white: "#FFFFFF",
         red: "#FF0000",
         green: "#008709"
