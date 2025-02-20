@@ -7,7 +7,7 @@ const Navigation = () => {
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 w-full h-16 text-center border-r border-gray-400 flex flex-col items-center justify-center";
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap"; // Added px-4
   const iconButtonClasses =
     "relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime";
 
@@ -46,10 +46,18 @@ const Navigation = () => {
           "Grips & Gadgets",
           "Cables & Adapters",
           "Production & Consumables",
-        ].map((item, index) => (
-          <Link key={index} className={linkClasses} href="">
+        ].map((item, index, array) => (
+          <Link
+            key={index}
+            className={`${linkClasses} ${
+              index < array.length - 1 ? "border-r border-gray-400" : ""
+            }`}
+            href=""
+          >
             <FaCamera className={iconClasses} />
-            <span className="text-center leading-tight">{item}</span>
+            <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis">
+              {item}
+            </span>
           </Link>
         ))}
       </div>
