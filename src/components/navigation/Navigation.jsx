@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   FaSearch,
@@ -14,34 +14,14 @@ import { BsGearWideConnected } from "react-icons/bs";
 
 const Navigation = () => {
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
-  const toolboxRef = useRef(null);
-
-  // Luk værktøjskassen, hvis brugeren klikker udenfor
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (toolboxRef.current && !toolboxRef.current.contains(event.target)) {
-        setIsToolboxOpen(false);
-      }
-    };
-
-    if (isToolboxOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isToolboxOpen]);
 
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap";
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none";
 
   return (
-    <nav className="flex flex-col items-center relative w-full">
+    <nav className="sticky top-0 z-50 flex flex-col items-center  w-full bg-black select-none">
       {/* Top Navigation */}
       <div className="flex justify-between items-center w-full p-3 bg-black text-white">
         <div className="flex gap-6 ml-4">
@@ -56,14 +36,14 @@ const Navigation = () => {
           <h1>LOGO</h1>
         </div>
         <div className="flex gap-6 mr-4 relative">
-          {/* Search Icon - Stays White */}
-          <div className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime">
+          {/* Search Icon */}
+          <div className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none">
             <FaSearch className="absolute text-black text-xl" />
           </div>
 
           {/* Gear Icon - Turns Lime When Active */}
           <div
-            className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer ${
+            className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer select-none ${
               isToolboxOpen
                 ? "bg-lime text-black"
                 : "bg-white text-black hover:bg-lime"
@@ -72,46 +52,11 @@ const Navigation = () => {
           >
             <BsGearWideConnected className="absolute text-black text-xl" />
           </div>
-
-          {/* Floating Toolbox */}
-          {isToolboxOpen && (
-            <div
-              ref={toolboxRef}
-              className="absolute right-0 top-16 bg-black text-white p-4 rounded-lg shadow-lg transition-all duration-300 z-20 w-16"
-            >
-              <div className="grid grid-cols-1 gap-3">
-                {/* Booking Date */}
-                <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
-                  <FaCalendarAlt className="text-black text-xl" />
-                </button>
-
-                {/* Profile */}
-                <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
-                  <FaUser className="text-black text-xl" />
-                </button>
-
-                {/* Liked Equipment */}
-                <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
-                  <FaHeart className="text-black text-xl" />
-                </button>
-
-                {/* Shopping Cart */}
-                <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
-                  <FaShoppingCart className="text-black text-xl" />
-                </button>
-
-                {/* Contact */}
-                <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
-                  <FaExclamationCircle className="text-black text-xl" />
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
       {/* Category Menu */}
-      <div className="flex flex-row w-full pt-2 bg-opacity-80 font-helvetica">
+      <div className="flex flex-row w-full pt-2 bg-opacity-80 font-helvetica select-none">
         {[
           "Kits",
           "Camera & Accessories",
@@ -136,6 +81,44 @@ const Navigation = () => {
             </span>
           </Link>
         ))}
+      </div>
+
+      {/* Floating Toolbox - 5px Away from Left Side */}
+      <div
+        className={`absolute right-1 top-full mt-1 transition-all duration-300 z-20 ${
+          isToolboxOpen
+            ? "opacity-100 scale-100"
+            : "opacity-0 scale-90 pointer-events-none"
+        }`}
+      >
+        <div className="bg-black text-white p-4 rounded-lg shadow-lg w-16">
+          <div className="grid grid-cols-1 gap-3">
+            {/* Booking Date */}
+            <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition select-none">
+              <FaCalendarAlt className="text-black text-xl" />
+            </button>
+
+            {/* Profile */}
+            <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition select-none">
+              <FaUser className="text-black text-xl" />
+            </button>
+
+            {/* Liked Equipment */}
+            <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition select-none">
+              <FaHeart className="text-black text-xl" />
+            </button>
+
+            {/* Shopping Cart */}
+            <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition select-none">
+              <FaShoppingCart className="text-black text-xl" />
+            </button>
+
+            {/* Contact */}
+            <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition select-none">
+              <FaExclamationCircle className="text-black text-xl" />
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
   );
