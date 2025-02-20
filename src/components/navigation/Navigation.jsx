@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   FaSearch,
@@ -14,6 +14,26 @@ import { BsGearWideConnected } from "react-icons/bs";
 
 const Navigation = () => {
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
+  const toolboxRef = useRef(null);
+
+  // Luk værktøjskassen, hvis brugeren klikker udenfor
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (toolboxRef.current && !toolboxRef.current.contains(event.target)) {
+        setIsToolboxOpen(false);
+      }
+    };
+
+    if (isToolboxOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isToolboxOpen]);
 
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
@@ -55,7 +75,10 @@ const Navigation = () => {
 
           {/* Floating Toolbox */}
           {isToolboxOpen && (
-            <div className="absolute right-0 top-16 bg-black text-white p-4 rounded-lg shadow-lg transition-all duration-300 z-20 w-16">
+            <div
+              ref={toolboxRef}
+              className="absolute right-0 top-16 bg-black text-white p-4 rounded-lg shadow-lg transition-all duration-300 z-20 w-16"
+            >
               <div className="grid grid-cols-1 gap-3">
                 {/* Booking Date */}
                 <button className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-lime transition">
