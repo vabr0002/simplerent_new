@@ -42,15 +42,20 @@ const Navigation = () => {
             Learn
           </Link>
         </div>
+
+        {/* Wrap LOGO in Link to home */}
         <div>
-          <h1>LOGO</h1>
+          <Link href="/">
+            <h1>LOGO</h1>
+          </Link>
         </div>
+
         <div className="flex gap-6 mr-4 relative">
           {/* Search Icon */}
           <div
             className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
-                          rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
-                          hover:bg-lime select-none"
+                        rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
+                        hover:bg-lime select-none"
           >
             <FaSearch className="absolute text-black text-xl" />
           </div>
