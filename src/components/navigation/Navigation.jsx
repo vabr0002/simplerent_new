@@ -42,9 +42,11 @@ const Navigation = () => {
             Learn
           </Link>
         </div>
-        <div>
-          <h1>LOGO</h1>
-        </div>
+        <Link href="/">
+          <div>
+            <h1>LOGO</h1>
+          </div>
+        </Link>
         <div className="flex gap-6 mr-4 relative">
           {/* Search Icon */}
           <div
