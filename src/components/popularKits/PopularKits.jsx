@@ -36,6 +36,7 @@ const PopularKits = () => {
             heartColor="lime"
             borderWidth="border"
             borderRadius="rounded-2xl"
+            className="w-[350px] h-[400px]"
           />
         ))}
       </div>

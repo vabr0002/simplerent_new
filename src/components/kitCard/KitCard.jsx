@@ -31,7 +31,7 @@ function Card({
           <Image
             src={imageSrc}
             alt={title}
-            width={320}
+            width={350}
             height={240}
             className="w-full h-full object-cover"
           />
