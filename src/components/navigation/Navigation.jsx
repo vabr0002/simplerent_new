@@ -8,7 +8,7 @@ import {
   FaUser,
   FaHeart,
   FaShoppingCart,
-  FaExclamationCircle,
+  FaExclamationCircle
 } from "react-icons/fa";
 import { BsGearWideConnected } from "react-icons/bs";
 
@@ -35,10 +35,10 @@ const Navigation = () => {
       {/* Top Navigation */}
       <div className="flex justify-between items-center w-full p-3 bg-black text-white">
         <div className="flex gap-6 ml-4">
-          <Link className="text-h4 hover:text-lime" href="">
+          <Link className="text-h4 hover:text-lime" href="/pages/howItWorks">
             How it works
           </Link>
-          <Link className="text-h4 hover:text-lime" href="">
+          <Link className="text-h4 hover:text-lime" href="/pages/learn">
             Learn
           </Link>
         </div>
@@ -85,7 +85,7 @@ const Navigation = () => {
           "Monitors & Recorders",
           "Grips & Gadgets",
           "Cables & Adapters",
-          "Production & Consumables",
+          "Production & Consumables"
         ].map((item, index, array) => (
           <Link
             key={index}
