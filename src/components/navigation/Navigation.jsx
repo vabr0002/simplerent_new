@@ -151,12 +151,11 @@ const Navigation = () => {
       */}
       <div
         className="flex flex-col w-full"
-        // Show categories on hover; hide if you want on mouse leave
         onMouseEnter={() => setIsCategoryVisible(true)}
-        // optional: onMouseLeave={() => setIsCategoryVisible(false)}
       >
         {/* --- TOP NAV BAR --- */}
-        <div className="flex justify-between items-center w-full p-3 bg-black text-white">
+        <div className="relative w-full p-3 bg-black text-white flex items-center">
+          {/* Left Links */}
           <div className="flex gap-6 ml-4">
             <Link className="text-h4 hover:text-lime" href="/pages/howItWorks">
               How it works
@@ -166,14 +165,15 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* LOGO -> Home */}
-          <div>
+          {/* LOGO center-absolute */}
+          <div className="absolute left-1/2 -translate-x-1/2">
             <Link href="/">
               <h1>LOGO</h1>
             </Link>
           </div>
 
-          <div className="flex gap-6 mr-4 relative">
+          {/* Right Icons */}
+          <div className="flex gap-6 mr-4 ml-auto relative">
             {/* Search Icon */}
             <div
               className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
