@@ -31,7 +31,6 @@ const Navigation = () => {
   // Store the last scroll position
   const [lastScrollPos, setLastScrollPos] = useState(0);
 
-  // Listen for scroll events: hide on scroll down, show on scroll up
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
@@ -50,6 +49,7 @@ const Navigation = () => {
 
   // Toggle which toolbox item is open
   const handleIconClick = (item) => {
+    // If clicking the same item, unselect it. Otherwise select new.
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
@@ -370,41 +370,61 @@ const Navigation = () => {
             {/* Calendar */}
             <button
               onClick={() => handleIconClick("calendar")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "calendar"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaCalendarAlt className="text-black text-xl" />
+              <FaCalendarAlt className="text-xl" />
             </button>
 
             {/* User */}
             <button
               onClick={() => handleIconClick("user")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "user"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaUser className="text-black text-xl" />
+              <FaUser className="text-xl" />
             </button>
 
             {/* Heart */}
             <button
               onClick={() => handleIconClick("heart")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "heart"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaHeart className="text-black text-xl" />
+              <FaHeart className="text-xl" />
             </button>
 
             {/* Cart */}
             <button
               onClick={() => handleIconClick("cart")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "cart"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaShoppingCart className="text-black text-xl" />
+              <FaShoppingCart className="text-xl" />
             </button>
 
             {/* Contact */}
             <button
               onClick={() => handleIconClick("contact")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "contact"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaExclamationCircle className="text-black text-xl" />
+              <FaExclamationCircle className="text-xl" />
             </button>
           </div>
         </div>
