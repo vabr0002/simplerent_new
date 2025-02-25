@@ -25,7 +25,8 @@ function Hero() {
   }, []);
 
   return (
-    <section className="relative h-[85vh]">
+    // Added "-mt-[75px]"
+    <section className="relative h-[95vh] -mt-[75px]">
       {/* Background Image */}
       <div className="relative w-full h-full">
         <Image
@@ -51,11 +52,12 @@ function Hero() {
           {/* Search Bar med Smooth Animation */}
           <div
             ref={searchRef}
-            className={`flex items-center bg-white text-black overflow-hidden transition-all duration-500 ease-in-out ${
-              isSearchOpen
-                ? "w-96 h-[45px] rounded-full"
-                : "w-[130px] h-[100px] rounded-r-full"
-            }`}
+            className={`flex items-center bg-white text-black overflow-hidden 
+                        transition-all duration-500 ease-in-out ${
+                          isSearchOpen
+                            ? "w-96 h-[45px] rounded-full"
+                            : "w-[130px] h-[100px] rounded-r-full"
+                        }`}
             onClick={openSearch}
           >
             <input
@@ -86,11 +88,14 @@ function Hero() {
           {[
             "Cashback for returning customers",
             "Build in tools for planning",
-            "24/7 instant booking"
+            "24/7 instant booking",
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg flex flex-col items-center justify-center p-4 w-[110px] h-[120px] transform hover:scale-105 hover:translate-y-[-3px] transition duration-300 ease-in-out"
+              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg 
+                         flex flex-col items-center justify-center p-4 w-[110px] h-[120px] 
+                         transform hover:scale-105 hover:translate-y-[-3px] 
+                         transition duration-300 ease-in-out"
             >
               {/* Example SVG Icons */}
               <svg
