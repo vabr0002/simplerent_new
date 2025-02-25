@@ -1,11 +1,31 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { FaSearch } from "react-icons/fa";
 
 function Hero() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef(null);
+
+  const openSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  const handleClickOutside = (event) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setIsSearchOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    // Pull the hero up behind the sticky nav
-    <section className="relative h-[95vh] -mt-[75px] z-0">
+    <section className="relative h-[85vh]">
       {/* Background Image */}
       <div className="relative w-full h-full">
         <Image
@@ -28,29 +48,36 @@ function Hero() {
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex items-center bg-white text-black rounded-full overflow-hidden w-64">
+          {/* Search Bar med Smooth Animation */}
+          <div
+            ref={searchRef}
+            className={`flex items-center bg-white text-black overflow-hidden transition-all duration-500 ease-in-out ${
+              isSearchOpen
+                ? "w-96 h-[45px] rounded-full"
+                : "w-[130px] h-[100px] rounded-r-full"
+            }`}
+            onClick={openSearch}
+          >
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 outline-none"
+              className={`p-2 outline-none transition-all duration-300 ${
+                isSearchOpen ? "opacity-100 w-full pl-4" : "opacity-0 w-0"
+              }`}
             />
-            <button className="bg-white p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-black"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z"
-                />
-              </svg>
-            </button>
+            <div
+              className={`flex items-center justify-center transition-all duration-500 ease-in-out ${
+                isSearchOpen ? "p-2" : "w-full h-full"
+              }`}
+            >
+              <FaSearch
+                className={`text-black transition-all duration-500 ease-in-out ${
+                  isSearchOpen
+                    ? "text-xl translate-x-0"
+                    : "text-3xl translate-x-[-8px]"
+                }`}
+              />
+            </div>
           </div>
         </div>
 
@@ -59,14 +86,11 @@ function Hero() {
           {[
             "Cashback for returning customers",
             "Build in tools for planning",
-            "24/7 instant booking",
+            "24/7 instant booking"
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg
-                         flex flex-col items-center justify-center p-4 w-[110px] h-[120px]
-                         transform hover:scale-105 hover:translate-y-[-3px]
-                         transition duration-300 ease-in-out"
+              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg flex flex-col items-center justify-center p-4 w-[110px] h-[120px] transform hover:scale-105 hover:translate-y-[-3px] transition duration-300 ease-in-out"
             >
               {/* Example SVG Icons */}
               <svg

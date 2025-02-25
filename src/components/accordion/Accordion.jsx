@@ -344,7 +344,7 @@ const Accordion = () => {
   ];
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto">
       {accordionItems.map((item, index) => (
         <div
           key={index}
