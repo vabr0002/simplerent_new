@@ -1,22 +1,39 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { FaSearch } from "react-icons/fa";
 
 function Hero() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef(null);
+
+  const openSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  const handleClickOutside = (event) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setIsSearchOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="relative h-[85vh]">
-      {" "}
-      {/* Adjusted height here */}
       {/* Background Image */}
       <div className="relative w-full h-full">
-        {" "}
-        {/* Made sure it takes up the full height of the section */}
         <Image
-          src="/img/hero.webp" // Replace with your image path
+          src="/img/hero.webp"
           alt="Hero Image"
           layout="fill"
           objectFit="cover"
-          className="brightness-50" // This reduces the brightness for a darker overlay effect
+          className="brightness-50"
         />
       </div>
       {/* Overlay Content */}
@@ -29,29 +46,36 @@ function Hero() {
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex items-center bg-white text-black rounded-full overflow-hidden w-64">
+          {/* Search Bar med Smooth Animation */}
+          <div
+            ref={searchRef}
+            className={`flex items-center bg-white text-black overflow-hidden transition-all duration-500 ease-in-out ${
+              isSearchOpen
+                ? "w-96 h-[45px] rounded-full"
+                : "w-[130px] h-[100px] rounded-r-full"
+            }`}
+            onClick={openSearch}
+          >
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 outline-none"
+              className={`p-2 outline-none transition-all duration-300 ${
+                isSearchOpen ? "opacity-100 w-full pl-4" : "opacity-0 w-0"
+              }`}
             />
-            <button className="bg-white p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-black"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z"
-                />
-              </svg>
-            </button>
+            <div
+              className={`flex items-center justify-center transition-all duration-500 ease-in-out ${
+                isSearchOpen ? "p-2" : "w-full h-full"
+              }`}
+            >
+              <FaSearch
+                className={`text-black transition-all duration-500 ease-in-out ${
+                  isSearchOpen
+                    ? "text-xl translate-x-0"
+                    : "text-3xl translate-x-[-8px]"
+                }`}
+              />
+            </div>
           </div>
         </div>
 
@@ -64,7 +88,7 @@ function Hero() {
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg flex flex-col items-center justify-center p-4 w-[110px] h-[120px] transform hover:scale-105 hover:translate-y-[-3px] transition duration-300 ease-in-out "
+              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg flex flex-col items-center justify-center p-4 w-[110px] h-[120px] transform hover:scale-105 hover:translate-y-[-3px] transition duration-300 ease-in-out"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +100,6 @@ function Hero() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                {/* SVG paths would go here based on index or feature name */}
                 {index === 0 && (
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 )}
