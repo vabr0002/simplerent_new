@@ -31,7 +31,8 @@ const Navigation = () => {
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none relative";
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
+    "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
   // Toggles which toolbox item is open
   const handleIconClick = (item) => {
@@ -130,7 +131,7 @@ const Navigation = () => {
   };
 
   return (
-    // Now using sticky again, with partial transparency
+    // Sticky top, partial transparency
     <nav className="sticky top-0 z-50 w-full flex flex-col items-center bg-transparent select-none">
       {/* Top Navigation */}
       <div className="flex justify-between items-center w-full p-3 bg-black text-white">
@@ -178,12 +179,12 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Category Menu (transparent) */}
-      <div className="flex flex-row w-full pt-2 bg-black/50 font-helvetica select-none">
+      {/* Category Menu (transparent). ADDED flex-wrap + justify-center for responsiveness */}
+      <div className="flex flex-row flex-wrap justify-center w-full pt-2 bg-black/50 font-helvetica select-none">
         {categories.map((cat, index, arr) => (
           <div
             key={index}
-            className="relative"
+            className="relative shrink-0"
             onMouseEnter={() => setActiveSubmenu(index)}
             onMouseLeave={() => setActiveSubmenu(null)}
           >
