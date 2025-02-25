@@ -8,7 +8,13 @@ import {
   FaUser,
   FaHeart,
   FaShoppingCart,
-  FaExclamationCircle
+  FaExclamationCircle,
+  FaMicrophone,
+  FaLightbulb,
+  FaVideo,
+  FaGripHorizontal,
+  FaPlug,
+  FaBoxOpen,
 } from "react-icons/fa";
 import { BsGearWideConnected } from "react-icons/bs";
 
@@ -16,22 +22,116 @@ const Navigation = () => {
   // Toolbox open/close state
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
 
-  // Track which toolbox icon is selected ("calendar", "user", "heart", etc.)
+  // Which toolbox icon is selected
   const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
+
+  // Which category index is hovered (sub-menu open)
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none";
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
-  // Handle toggling an icon's content
-  // If the same icon is clicked again, close it (set to null)
+  // Toggles which toolbox item is open
   const handleIconClick = (item) => {
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
+  // Category definitions
+  const categories = [
+    {
+      name: "Kits",
+      icon: <FaBoxOpen className={iconClasses} />,
+      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"],
+    },
+    {
+      name: "Camera & Accessories",
+      icon: <FaCamera className={iconClasses} />,
+      submenu: [
+        "Cameras",
+        "Lenses",
+        "Tripods",
+        "Donuts",
+        "Stabilizers",
+        "Batteries",
+        "Memory Cards",
+        "Cases",
+      ],
+    },
+    {
+      name: "Audio",
+      icon: <FaMicrophone className={iconClasses} />,
+      submenu: [
+        "Microphones",
+        "Recorders",
+        "Mixers",
+        "Headphones",
+        "Wireless Systems",
+      ],
+    },
+    {
+      name: "Lighting, Sfx & Stands",
+      icon: <FaLightbulb className={iconClasses} />,
+      submenu: [
+        "LED Panels",
+        "Fresnel",
+        "Modifiers",
+        "Light Stands",
+        "Special Effects",
+      ],
+    },
+    {
+      name: "Live Production",
+      icon: <FaVideo className={iconClasses} />,
+      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"],
+    },
+    {
+      name: "Monitors & Recorders",
+      icon: <FaVideo className={iconClasses} />,
+      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"],
+    },
+    {
+      name: "Grips & Gadgets",
+      icon: <FaGripHorizontal className={iconClasses} />,
+      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"],
+    },
+    {
+      name: "Cables & Adapters",
+      icon: <FaPlug className={iconClasses} />,
+      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"],
+    },
+    {
+      name: "Production & Consumables",
+      icon: <FaBoxOpen className={iconClasses} />,
+      submenu: [
+        "Gaffer Tape",
+        "Markers",
+        "Batteries",
+        "Gels",
+        "Cleaning Supplies",
+      ],
+    },
+  ];
+
+  // Decide sub-menu alignment
+  const getSubmenuPosition = (index) => {
+    const total = categories.length;
+    if (index >= total - 3) {
+      // last third => align right
+      return "right-0";
+    } else if (index >= Math.floor(total / 3) && index < total - 3) {
+      // middle => center
+      return "left-1/2 -translate-x-1/2";
+    } else {
+      // first third => align left
+      return "left-0";
+    }
+  };
+
   return (
-    <nav className="sticky top-0 z-50 flex flex-col items-center w-full bg-black select-none">
+    // Now using sticky again, with partial transparency
+    <nav className="sticky top-0 z-50 w-full flex flex-col items-center bg-transparent select-none">
       {/* Top Navigation */}
       <div className="flex justify-between items-center w-full p-3 bg-black text-white">
         <div className="flex gap-6 ml-4">
@@ -43,7 +143,7 @@ const Navigation = () => {
           </Link>
         </div>
 
-        {/* Wrap LOGO in Link to home */}
+        {/* LOGO -> Home */}
         <div>
           <Link href="/">
             <h1>LOGO</h1>
@@ -60,7 +160,7 @@ const Navigation = () => {
             <FaSearch className="absolute text-black text-xl" />
           </div>
 
-          {/* Gear Icon - Turns Lime When Active */}
+          {/* Gear Icon (toolbox toggle) */}
           <div
             className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 
                         transition-transform duration-300 cursor-pointer select-none ${
@@ -70,7 +170,6 @@ const Navigation = () => {
                         }`}
             onClick={() => {
               setIsToolboxOpen(!isToolboxOpen);
-              // (Optional) reset the selected tool if we’re closing the entire toolbox
               if (isToolboxOpen) setSelectedToolboxItem(null);
             }}
           >
@@ -79,35 +178,50 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Category Menu */}
-      <div className="flex flex-row w-full pt-2 bg-opacity-80 font-helvetica select-none">
-        {[
-          "Kits",
-          "Camera & Accessories",
-          "Audio",
-          "Lighting, Sfx & Stands",
-          "Live Production",
-          "Monitors & Recorders",
-          "Grips & Gadgets",
-          "Cables & Adapters",
-          "Production & Consumables"
-        ].map((item, index, array) => (
-          <Link
+      {/* Category Menu (transparent) */}
+      <div className="flex flex-row w-full pt-2 bg-black/50 font-helvetica select-none">
+        {categories.map((cat, index, arr) => (
+          <div
             key={index}
-            className={`${linkClasses} ${
-              index < array.length - 1 ? "border-r border-gray-400" : ""
-            }`}
-            href=""
+            className="relative"
+            onMouseEnter={() => setActiveSubmenu(index)}
+            onMouseLeave={() => setActiveSubmenu(null)}
           >
-            <FaCamera className={iconClasses} />
-            <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis">
-              {item}
-            </span>
-          </Link>
+            <Link
+              href=""
+              className={`${linkClasses} ${
+                index < arr.length - 1 ? "border-r border-gray-400" : ""
+              }`}
+            >
+              {cat.icon}
+              <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
+                {cat.name}
+              </span>
+            </Link>
+
+            {/* Submenu on hover */}
+            {activeSubmenu === index && (
+              <div
+                className={`absolute top-full ${getSubmenuPosition(index)} bg-black/50 text-white p-2 rounded-b-md w-max z-20`}
+              >
+                <div className="grid grid-cols-2 gap-2">
+                  {cat.submenu.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      href=""
+                      className="whitespace-nowrap text-sm px-4 py-2 hover:bg-lime hover:text-black rounded-md transition-colors duration-200"
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
 
-      {/* Floating Toolbox */}
+      {/* Toolbox area (gear icon) */}
       <div
         className={`absolute right-1 top-full mt-1 transition-all duration-300 z-20 ${
           isToolboxOpen
@@ -116,9 +230,10 @@ const Navigation = () => {
         }`}
       >
         <div className="bg-black text-white p-4 rounded-lg shadow-lg flex">
-          {/* Content panel (on the left) - only if an icon is selected */}
+          {/* Left Content Panel */}
           {selectedToolboxItem && (
             <div className="mr-4 w-56">
+              {/* Calendar */}
               {selectedToolboxItem === "calendar" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Select Dates</h2>
@@ -147,6 +262,7 @@ const Navigation = () => {
                 </div>
               )}
 
+              {/* User/Login */}
               {selectedToolboxItem === "user" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Login</h2>
@@ -170,6 +286,7 @@ const Navigation = () => {
                 </div>
               )}
 
+              {/* Heart */}
               {selectedToolboxItem === "heart" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Liked Items</h2>
@@ -181,6 +298,7 @@ const Navigation = () => {
                 </div>
               )}
 
+              {/* Cart */}
               {selectedToolboxItem === "cart" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Cart Settings</h2>
@@ -195,6 +313,7 @@ const Navigation = () => {
                 </div>
               )}
 
+              {/* Contact */}
               {selectedToolboxItem === "contact" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Contact Us</h2>
@@ -220,9 +339,9 @@ const Navigation = () => {
             </div>
           )}
 
-          {/* Icons column (on the right) */}
+          {/* Icons (right) */}
           <div className="grid grid-cols-1 gap-3">
-            {/* Booking Date */}
+            {/* Calendar */}
             <button
               onClick={() => handleIconClick("calendar")}
               className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
@@ -230,7 +349,7 @@ const Navigation = () => {
               <FaCalendarAlt className="text-black text-xl" />
             </button>
 
-            {/* Profile */}
+            {/* User */}
             <button
               onClick={() => handleIconClick("user")}
               className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
@@ -238,7 +357,7 @@ const Navigation = () => {
               <FaUser className="text-black text-xl" />
             </button>
 
-            {/* Liked Equipment */}
+            {/* Heart */}
             <button
               onClick={() => handleIconClick("heart")}
               className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
@@ -246,7 +365,7 @@ const Navigation = () => {
               <FaHeart className="text-black text-xl" />
             </button>
 
-            {/* Shopping Cart */}
+            {/* Cart */}
             <button
               onClick={() => handleIconClick("cart")}
               className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"

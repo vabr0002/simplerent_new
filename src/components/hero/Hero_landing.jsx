@@ -4,23 +4,22 @@ import Image from "next/image";
 
 function Hero() {
   return (
-    <section className="relative h-[85vh]">
-      {" "}
-      {/* Adjusted height here */}
+    // Pull the hero up behind the sticky nav
+    <section className="relative h-[95vh] -mt-[75px] z-0">
       {/* Background Image */}
       <div className="relative w-full h-full">
-        {" "}
-        {/* Made sure it takes up the full height of the section */}
         <Image
-          src="/img/hero.webp" // Replace with your image path
+          src="/img/hero.webp"
           alt="Hero Image"
           layout="fill"
           objectFit="cover"
-          className="brightness-50" // This reduces the brightness for a darker overlay effect
+          className="brightness-50"
         />
       </div>
+
       {/* Overlay Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
+        {/* Title + Search */}
         <div className="flex items-center justify-center w-full">
           <div className="text-h1 font-bold mr-4 flex flex-col justify-start items-start">
             <span>Keeping film rental</span>
@@ -60,12 +59,16 @@ function Hero() {
           {[
             "Cashback for returning customers",
             "Build in tools for planning",
-            "24/7 instant booking"
+            "24/7 instant booking",
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg flex flex-col items-center justify-center p-4 w-[110px] h-[120px] transform hover:scale-105 hover:translate-y-[-3px] transition duration-300 ease-in-out "
+              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg
+                         flex flex-col items-center justify-center p-4 w-[110px] h-[120px]
+                         transform hover:scale-105 hover:translate-y-[-3px]
+                         transition duration-300 ease-in-out"
             >
+              {/* Example SVG Icons */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-white mb-1"
@@ -76,7 +79,6 @@ function Hero() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                {/* SVG paths would go here based on index or feature name */}
                 {index === 0 && (
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 )}
