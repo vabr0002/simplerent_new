@@ -241,7 +241,7 @@ const Navigation = () => {
 
         {/* CATEGORY ROW: hide on scroll down, show on scroll up or hover */}
         <div
-          className={`flex flex-row flex-wrap justify-center w-full bg-black/50 font-helvetica select-none
+          className={`flex flex-row flex-wrap justify-center w-full bg-white/20 font-helvetica select-none
             transition-all duration-150
             ${
               isCategoryVisible
@@ -283,7 +283,7 @@ const Navigation = () => {
                 <div
                   className={`absolute top-full ${getSubmenuPosition(
                     index
-                  )} bg-black/50 text-white p-2 rounded-b-md w-max z-20`}
+                  )} bg-white/20 text-white p-2 rounded-b-md w-max z-20`}
                 >
                   <div className="grid grid-cols-2 gap-2">
                     {cat.submenu.map((item, idx) => (
