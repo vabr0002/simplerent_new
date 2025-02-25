@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FaSearch,
@@ -21,23 +21,42 @@ import { BsGearWideConnected } from "react-icons/bs";
 const Navigation = () => {
   // Toolbox open/close state
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
-
   // Which toolbox icon is selected
   const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
-
   // Which category index is hovered (sub-menu open)
   const [activeSubmenu, setActiveSubmenu] = useState(null);
+
+  // Whether the category row is visible
+  const [isCategoryVisible, setIsCategoryVisible] = useState(true);
+  // Store the last scroll position
+  const [lastScrollPos, setLastScrollPos] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScrollPos) {
+        // scrolled down -> hide
+        setIsCategoryVisible(false);
+      } else {
+        // scrolled up -> show
+        setIsCategoryVisible(true);
+      }
+      setLastScrollPos(currentScroll);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollPos]);
+
+  // Toggle which toolbox item is open
+  const handleIconClick = (item) => {
+    // If clicking the same item, unselect it. Otherwise select new.
+    setSelectedToolboxItem((prev) => (prev === item ? null : item));
+  };
 
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
-    "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
-
-  // Toggles which toolbox item is open
-  const handleIconClick = (item) => {
-    setSelectedToolboxItem((prev) => (prev === item ? null : item));
-  };
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
   // Category definitions
   const categories = [
@@ -118,111 +137,126 @@ const Navigation = () => {
   // Decide sub-menu alignment
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-    if (index >= total - 3) {
-      // last third => align right
-      return "right-0";
-    } else if (index >= Math.floor(total / 3) && index < total - 3) {
-      // middle => center
+    if (index >= total - 3) return "right-0";
+    else if (index >= Math.floor(total / 3) && index < total - 3)
       return "left-1/2 -translate-x-1/2";
-    } else {
-      // first third => align left
-      return "left-0";
-    }
+    else return "left-0";
   };
 
   return (
-    // Sticky top, partial transparency
-    <nav className="sticky top-0 z-50 w-full flex flex-col items-center bg-transparent select-none">
-      {/* Top Navigation */}
-      <div className="flex justify-between items-center w-full p-3 bg-black text-white">
-        <div className="flex gap-6 ml-4">
-          <Link className="text-h4 hover:text-lime" href="/pages/howItWorks">
-            How it works
-          </Link>
-          <Link className="text-h4 hover:text-lime" href="/pages/learn">
-            Learn
-          </Link>
-        </div>
-
-        {/* LOGO -> Home */}
-        <div>
-          <Link href="/">
-            <h1>LOGO</h1>
-          </Link>
-        </div>
-
-        <div className="flex gap-6 mr-4 relative">
-          {/* Search Icon */}
-          <div
-            className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
-                        rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
-                        hover:bg-lime select-none"
-          >
-            <FaSearch className="absolute text-black text-xl" />
-          </div>
-
-          {/* Gear Icon (toolbox toggle) */}
-          <div
-            className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 
-                        transition-transform duration-300 cursor-pointer select-none ${
-                          isToolboxOpen
-                            ? "bg-lime text-black"
-                            : "bg-white text-black hover:bg-lime"
-                        }`}
-            onClick={() => {
-              setIsToolboxOpen(!isToolboxOpen);
-              if (isToolboxOpen) setSelectedToolboxItem(null);
-            }}
-          >
-            <BsGearWideConnected className="absolute text-black text-xl" />
-          </div>
-        </div>
-      </div>
-
-      {/* Category Menu (transparent). ADDED flex-wrap + justify-center for responsiveness */}
-      <div className="flex flex-row flex-wrap justify-center w-full pt-2 bg-black/50 font-helvetica select-none">
-        {categories.map((cat, index, arr) => (
-          <div
-            key={index}
-            className="relative shrink-0"
-            onMouseEnter={() => setActiveSubmenu(index)}
-            onMouseLeave={() => setActiveSubmenu(null)}
-          >
-            <Link
-              href=""
-              className={`${linkClasses} ${
-                index < arr.length - 1 ? "border-r border-gray-400" : ""
-              }`}
-            >
-              {cat.icon}
-              <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
-                {cat.name}
-              </span>
+    <nav className="sticky top-0 z-50 w-full bg-transparent select-none">
+      {/* 
+        Wrap top nav + category row in one container to unify hover 
+        so user can move smoothly from the top bar to categories
+      */}
+      <div
+        className="flex flex-col w-full"
+        // Show categories on hover; hide if you want on mouse leave
+        onMouseEnter={() => setIsCategoryVisible(true)}
+        // optional: onMouseLeave={() => setIsCategoryVisible(false)}
+      >
+        {/* --- TOP NAV BAR --- */}
+        <div className="flex justify-between items-center w-full p-3 bg-black text-white">
+          <div className="flex gap-6 ml-4">
+            <Link className="text-h4 hover:text-lime" href="/pages/howItWorks">
+              How it works
             </Link>
-
-            {/* Submenu on hover */}
-            {activeSubmenu === index && (
-              <div
-                className={`absolute top-full ${getSubmenuPosition(index)} bg-black/50 text-white p-2 rounded-b-md w-max z-20`}
-              >
-                <div className="grid grid-cols-2 gap-2">
-                  {cat.submenu.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      href=""
-                      className="whitespace-nowrap text-sm px-4 py-2 hover:bg-lime hover:text-black rounded-md transition-colors duration-200"
-                    >
-                      {item}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+            <Link className="text-h4 hover:text-lime" href="/pages/learn">
+              Learn
+            </Link>
           </div>
-        ))}
+
+          {/* LOGO -> Home */}
+          <div>
+            <Link href="/">
+              <h1>LOGO</h1>
+            </Link>
+          </div>
+
+          <div className="flex gap-6 mr-4 relative">
+            {/* Search Icon */}
+            <div
+              className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
+                rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
+                hover:bg-lime select-none"
+            >
+              <FaSearch className="absolute text-black text-xl" />
+            </div>
+
+            {/* Gear Icon (toolbox toggle) */}
+            <div
+              className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 
+                transition-transform duration-300 cursor-pointer select-none ${
+                  isToolboxOpen
+                    ? "bg-lime text-black"
+                    : "bg-white text-black hover:bg-lime"
+                }`}
+              onClick={() => {
+                setIsToolboxOpen(!isToolboxOpen);
+                if (isToolboxOpen) setSelectedToolboxItem(null);
+              }}
+            >
+              <BsGearWideConnected className="absolute text-black text-xl" />
+            </div>
+          </div>
+        </div>
+
+        {/* --- CATEGORY ROW: Hide on scroll down, show on scroll up or hover --- */}
+        <div
+          className={`flex flex-row flex-wrap justify-center w-full bg-black/50 font-helvetica select-none
+            transition-all duration-150
+            ${
+              isCategoryVisible
+                ? "max-h-32 opacity-100 pt-2"
+                : "max-h-0 opacity-0"
+            }
+          `}
+        >
+          {categories.map((cat, index, arr) => (
+            <div
+              key={index}
+              className="relative shrink-0"
+              onMouseEnter={() => setActiveSubmenu(index)}
+              onMouseLeave={() => setActiveSubmenu(null)}
+            >
+              <Link
+                href=""
+                className={`${linkClasses} ${
+                  index < arr.length - 1 ? "border-r border-gray-400" : ""
+                }`}
+              >
+                {cat.icon}
+                <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
+                  {cat.name}
+                </span>
+              </Link>
+
+              {/* Submenu on hover */}
+              {activeSubmenu === index && (
+                <div
+                  className={`absolute top-full ${getSubmenuPosition(
+                    index
+                  )} bg-black/50 text-white p-2 rounded-b-md w-max z-20`}
+                >
+                  <div className="grid grid-cols-2 gap-2">
+                    {cat.submenu.map((item, idx) => (
+                      <Link
+                        key={idx}
+                        href=""
+                        className="whitespace-nowrap text-sm px-4 py-2 hover:bg-lime hover:text-black rounded-md transition-colors duration-200"
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Toolbox area (gear icon) */}
+      {/* --- TOOLBOX AREA (gear icon) --- */}
       <div
         className={`absolute right-1 top-full mt-1 transition-all duration-300 z-20 ${
           isToolboxOpen
@@ -234,7 +268,6 @@ const Navigation = () => {
           {/* Left Content Panel */}
           {selectedToolboxItem && (
             <div className="mr-4 w-56">
-              {/* Calendar */}
               {selectedToolboxItem === "calendar" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Select Dates</h2>
@@ -262,8 +295,6 @@ const Navigation = () => {
                   </div>
                 </div>
               )}
-
-              {/* User/Login */}
               {selectedToolboxItem === "user" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Login</h2>
@@ -286,8 +317,6 @@ const Navigation = () => {
                   </button>
                 </div>
               )}
-
-              {/* Heart */}
               {selectedToolboxItem === "heart" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Liked Items</h2>
@@ -298,8 +327,6 @@ const Navigation = () => {
                   </ul>
                 </div>
               )}
-
-              {/* Cart */}
               {selectedToolboxItem === "cart" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Cart Settings</h2>
@@ -313,8 +340,6 @@ const Navigation = () => {
                   </ul>
                 </div>
               )}
-
-              {/* Contact */}
               {selectedToolboxItem === "contact" && (
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold">Contact Us</h2>
@@ -345,41 +370,61 @@ const Navigation = () => {
             {/* Calendar */}
             <button
               onClick={() => handleIconClick("calendar")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "calendar"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaCalendarAlt className="text-black text-xl" />
+              <FaCalendarAlt className="text-xl" />
             </button>
 
             {/* User */}
             <button
               onClick={() => handleIconClick("user")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "user"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaUser className="text-black text-xl" />
+              <FaUser className="text-xl" />
             </button>
 
             {/* Heart */}
             <button
               onClick={() => handleIconClick("heart")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "heart"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaHeart className="text-black text-xl" />
+              <FaHeart className="text-xl" />
             </button>
 
             {/* Cart */}
             <button
               onClick={() => handleIconClick("cart")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "cart"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaShoppingCart className="text-black text-xl" />
+              <FaShoppingCart className="text-xl" />
             </button>
 
             {/* Contact */}
             <button
               onClick={() => handleIconClick("contact")}
-              className="flex items-center justify-center w-12 h-12 bg-white rounded-md hover:bg-lime transition select-none"
+              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
+                selectedToolboxItem === "contact"
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
             >
-              <FaExclamationCircle className="text-black text-xl" />
+              <FaExclamationCircle className="text-xl" />
             </button>
           </div>
         </div>
