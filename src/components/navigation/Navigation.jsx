@@ -140,10 +140,12 @@ const Navigation = () => {
 
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-    if (index >= total - 3) return "right-0";
+
+    if (index >= total - 3)
+      return "right-[-30px]"; // Shift right submenus slightly to the right
     else if (index >= Math.floor(total / 3) && index < total - 3)
-      return "left-1/2 -translate-x-1/2";
-    else return "left-0";
+      return "left-1/2 -translate-x-[45%]"; // Shift centered submenus slightly to the right
+    else return "left-[-30px]"; // Shift left-aligned submenus slightly to the right
   };
 
   return (
@@ -241,7 +243,7 @@ const Navigation = () => {
 
         {/* CATEGORY ROW: hide on scroll down, show on scroll up or hover */}
         <div
-          className={`flex flex-row flex-wrap justify-center w-full bg-black/50 font-helvetica select-none
+          className={`flex flex-row flex-wrap justify-center w-full bg-white/20 font-helvetica select-none
             transition-all duration-150
             ${
               isCategoryVisible
@@ -283,7 +285,7 @@ const Navigation = () => {
                 <div
                   className={`absolute top-full ${getSubmenuPosition(
                     index
-                  )} bg-black/50 text-white p-2 rounded-b-md w-max z-20`}
+                  )} bg-white/20 text-white p-2 rounded-b-md w-max z-20`}
                 >
                   <div className="grid grid-cols-2 gap-2">
                     {cat.submenu.map((item, idx) => (
