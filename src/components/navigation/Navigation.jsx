@@ -59,7 +59,7 @@ const Navigation = () => {
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
+    "group text-h4 font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
     "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
   // Category definitions
@@ -159,6 +159,16 @@ const Navigation = () => {
         <div className="relative w-full p-3 bg-black text-white flex items-center">
           {/* Left Links */}
           <div className="flex gap-6 ml-4">
+            {/* New "Home" link */}
+            <Link
+              className={`text-h4 ${
+                activeLink === "home" ? "text-lime" : "hover:text-lime"
+              }`}
+              href="/"
+              onClick={() => setActiveLink("home")}
+            >
+              Home
+            </Link>
             {/* "How it works" => lime if activeLink === "howItWorks" */}
             <Link
               className={`text-h4 ${
@@ -169,7 +179,6 @@ const Navigation = () => {
             >
               How it works
             </Link>
-
             {/* "Learn" => lime if activeLink === "learn" */}
             <Link
               className={`text-h4 ${
