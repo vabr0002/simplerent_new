@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   FaSearch,
   FaCamera,
@@ -25,17 +26,15 @@ const Navigation = () => {
   const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
   // Which category index is hovered (sub-menu open)
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-
   // Whether the category row is visible
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
   // Store the last scroll position
   const [lastScrollPos, setLastScrollPos] = useState(0);
-
-  // Track which top nav link is "active"
-  const [activeLink, setActiveLink] = useState(null);
-
   // Track whether the search bar is open
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Use Next.js hook to get current pathname
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -140,7 +139,6 @@ const Navigation = () => {
 
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-
     if (index >= total - 3)
       return "right-[-30px]"; // Shift right submenus slightly to the right
     else if (index >= Math.floor(total / 3) && index < total - 3)
@@ -159,55 +157,48 @@ const Navigation = () => {
         <div className="relative w-full p-3 bg-black text-white flex items-center">
           {/* Left Links */}
           <div className="flex gap-6 ml-4">
-            {/* New "Home" link */}
+            {/* "Home" link: active (lime) when pathname is "/" */}
             <Link
               className={`text-h4 ${
-                activeLink === "home" ? "text-lime" : "hover:text-lime"
+                pathname === "/" ? "text-lime" : "hover:text-lime"
               }`}
               href="/"
-              onClick={() => setActiveLink("home")}
             >
               Home
             </Link>
-            {/* "How it works" => lime if activeLink === "howItWorks" */}
+            {/* "How it works" link: active when pathname is "/pages/howItWorks" */}
             <Link
               className={`text-h4 ${
-                activeLink === "howItWorks" ? "text-lime" : "hover:text-lime"
+                pathname === "/pages/howItWorks"
+                  ? "text-lime"
+                  : "hover:text-lime"
               }`}
               href="/pages/howItWorks"
-              onClick={() => setActiveLink("howItWorks")}
             >
               How it works
             </Link>
-            {/* "Learn" => lime if activeLink === "learn" */}
+            {/* "Learn" link: active when pathname is "/pages/learn" */}
             <Link
               className={`text-h4 ${
-                activeLink === "learn" ? "text-lime" : "hover:text-lime"
+                pathname === "/pages/learn" ? "text-lime" : "hover:text-lime"
               }`}
               href="/pages/learn"
-              onClick={() => setActiveLink("learn")}
             >
               Learn
             </Link>
           </div>
 
-          {/* LOGO center-absolute 
-              Clicking the logo => setActiveLink(null) => reset color
-          */}
+          {/* LOGO center-absolute */}
           <div className="absolute left-1/2 -translate-x-1/2">
-            <Link href="/" onClick={() => setActiveLink(null)}>
+            <Link href="/">
               <h1>LOGO</h1>
             </Link>
           </div>
 
           {/* Right Icons */}
           <div className="flex gap-6 mr-4 ml-auto relative">
-            {/* If search is open => show input with magnifying glass. 
-                If closed => show just the icon. 
-            */}
             {isSearchOpen ? (
               <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-transform duration-300 select-none">
-                {/* Magnifying glass left side */}
                 <FaSearch className="text-black text-xl mr-2" />
                 <input
                   type="text"
@@ -250,7 +241,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* CATEGORY ROW: hide on scroll down, show on scroll up or hover */}
+        {/* CATEGORY ROW */}
         <div
           className={`flex flex-row flex-wrap justify-center w-full bg-black/30 font-helvetica select-none
             transition-all duration-150
@@ -274,22 +265,15 @@ const Navigation = () => {
                   index < arr.length - 1 ? "border-r border-gray-400" : ""
                 }`}
               >
-                {/* 
-                  Clone the icon so if this category is hovered (activeSubmenu === index),
-                  we append "text-lime" to keep it green 
-                */}
                 {React.cloneElement(cat.icon, {
                   className:
                     cat.icon.props.className +
                     (activeSubmenu === index ? " text-lime" : ""),
                 })}
-
                 <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
                   {cat.name}
                 </span>
               </Link>
-
-              {/* Submenu on hover */}
               {activeSubmenu === index && (
                 <div
                   className={`absolute top-full ${getSubmenuPosition(
@@ -314,7 +298,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* TOOLBOX AREA (gear icon) */}
+      {/* TOOLBOX AREA */}
       <div
         className={`absolute right-1 top-full mt-1 transition-all duration-300 z-20 ${
           isToolboxOpen
@@ -323,7 +307,6 @@ const Navigation = () => {
         }`}
       >
         <div className="bg-black text-white p-4 rounded-lg shadow-lg flex">
-          {/* Left Content Panel */}
           {selectedToolboxItem && (
             <div className="mr-4 w-56">
               {selectedToolboxItem === "calendar" && (
@@ -422,10 +405,7 @@ const Navigation = () => {
               )}
             </div>
           )}
-
-          {/* Icons (right) */}
           <div className="grid grid-cols-1 gap-3">
-            {/* Calendar */}
             <button
               onClick={() => handleIconClick("calendar")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
@@ -436,8 +416,6 @@ const Navigation = () => {
             >
               <FaCalendarAlt className="text-xl" />
             </button>
-
-            {/* User */}
             <button
               onClick={() => handleIconClick("user")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
@@ -448,8 +426,6 @@ const Navigation = () => {
             >
               <FaUser className="text-xl" />
             </button>
-
-            {/* Heart */}
             <button
               onClick={() => handleIconClick("heart")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
@@ -460,8 +436,6 @@ const Navigation = () => {
             >
               <FaHeart className="text-xl" />
             </button>
-
-            {/* Cart */}
             <button
               onClick={() => handleIconClick("cart")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
@@ -472,8 +446,6 @@ const Navigation = () => {
             >
               <FaShoppingCart className="text-xl" />
             </button>
-
-            {/* Contact */}
             <button
               onClick={() => handleIconClick("contact")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
