@@ -140,10 +140,12 @@ const Navigation = () => {
 
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-    if (index >= total - 3) return "right-0";
+
+    if (index >= total - 3)
+      return "right-[-30px]"; // Shift right submenus slightly to the right
     else if (index >= Math.floor(total / 3) && index < total - 3)
-      return "left-1/2 -translate-x-1/2";
-    else return "left-0";
+      return "left-1/2 -translate-x-[45%]"; // Shift centered submenus slightly to the right
+    else return "left-[-30px]"; // Shift left-aligned submenus slightly to the right
   };
 
   return (
