@@ -31,15 +31,19 @@ const Navigation = () => {
   // Store the last scroll position
   const [lastScrollPos, setLastScrollPos] = useState(0);
 
+  // Track which top nav link is "active"
+  const [activeLink, setActiveLink] = useState(null);
+
+  // Track whether the search bar is open
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       if (currentScroll > lastScrollPos) {
-        // scrolled down -> hide
-        setIsCategoryVisible(false);
+        setIsCategoryVisible(false); // scrolled down -> hide
       } else {
-        // scrolled up -> show
-        setIsCategoryVisible(true);
+        setIsCategoryVisible(true); // scrolled up -> show
       }
       setLastScrollPos(currentScroll);
     };
@@ -49,14 +53,14 @@ const Navigation = () => {
 
   // Toggle which toolbox item is open
   const handleIconClick = (item) => {
-    // If clicking the same item, unselect it. Otherwise select new.
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
-    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center flex flex-col items-center justify-center whitespace-nowrap select-none relative";
+    "group text-p font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
+    "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
   // Category definitions
   const categories = [
@@ -134,7 +138,6 @@ const Navigation = () => {
     },
   ];
 
-  // Decide sub-menu alignment
   const getSubmenuPosition = (index) => {
     const total = categories.length;
     if (index >= total - 3) return "right-0";
@@ -145,43 +148,78 @@ const Navigation = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-transparent select-none">
-      {/* 
-        Wrap top nav + category row in one container to unify hover 
-        so user can move smoothly from the top bar to categories
-      */}
+      {/* Wrap top nav + category row in one container */}
       <div
         className="flex flex-col w-full"
-        // Show categories on hover; hide if you want on mouse leave
         onMouseEnter={() => setIsCategoryVisible(true)}
-        // optional: onMouseLeave={() => setIsCategoryVisible(false)}
       >
-        {/* --- TOP NAV BAR --- */}
-        <div className="flex justify-between items-center w-full p-3 bg-black text-white">
+        {/* TOP NAV BAR */}
+        <div className="relative w-full p-3 bg-black text-white flex items-center">
+          {/* Left Links */}
           <div className="flex gap-6 ml-4">
-            <Link className="text-h4 hover:text-lime" href="/pages/howItWorks">
+            {/* "How it works" => lime if activeLink === "howItWorks" */}
+            <Link
+              className={`text-h4 ${
+                activeLink === "howItWorks" ? "text-lime" : "hover:text-lime"
+              }`}
+              href="/pages/howItWorks"
+              onClick={() => setActiveLink("howItWorks")}
+            >
               How it works
             </Link>
-            <Link className="text-h4 hover:text-lime" href="/pages/learn">
+
+            {/* "Learn" => lime if activeLink === "learn" */}
+            <Link
+              className={`text-h4 ${
+                activeLink === "learn" ? "text-lime" : "hover:text-lime"
+              }`}
+              href="/pages/learn"
+              onClick={() => setActiveLink("learn")}
+            >
               Learn
             </Link>
           </div>
 
-          {/* LOGO -> Home */}
-          <div>
-            <Link href="/">
+          {/* LOGO center-absolute 
+              Clicking the logo => setActiveLink(null) => reset color
+          */}
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" onClick={() => setActiveLink(null)}>
               <h1>LOGO</h1>
             </Link>
           </div>
 
-          <div className="flex gap-6 mr-4 relative">
-            {/* Search Icon */}
-            <div
-              className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
-                rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
-                hover:bg-lime select-none"
-            >
-              <FaSearch className="absolute text-black text-xl" />
-            </div>
+          {/* Right Icons */}
+          <div className="flex gap-6 mr-4 ml-auto relative">
+            {/* If search is open => show input with magnifying glass. 
+                If closed => show just the icon. 
+            */}
+            {isSearchOpen ? (
+              <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-transform duration-300 select-none">
+                {/* Magnifying glass left side */}
+                <FaSearch className="text-black text-xl mr-2" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="bg-white text-black outline-none w-40"
+                />
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="ml-2 text-black hover:text-lime transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            ) : (
+              <div
+                className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
+                  rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
+                  hover:bg-lime select-none"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                <FaSearch className="absolute text-black text-xl" />
+              </div>
+            )}
 
             {/* Gear Icon (toolbox toggle) */}
             <div
@@ -201,7 +239,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* --- CATEGORY ROW: Hide on scroll down, show on scroll up or hover --- */}
+        {/* CATEGORY ROW: hide on scroll down, show on scroll up or hover */}
         <div
           className={`flex flex-row flex-wrap justify-center w-full bg-black/50 font-helvetica select-none
             transition-all duration-150
@@ -225,7 +263,16 @@ const Navigation = () => {
                   index < arr.length - 1 ? "border-r border-gray-400" : ""
                 }`}
               >
-                {cat.icon}
+                {/* 
+                  Clone the icon so if this category is hovered (activeSubmenu === index),
+                  we append "text-lime" to keep it green 
+                */}
+                {React.cloneElement(cat.icon, {
+                  className:
+                    cat.icon.props.className +
+                    (activeSubmenu === index ? " text-lime" : ""),
+                })}
+
                 <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
                   {cat.name}
                 </span>
@@ -256,7 +303,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* --- TOOLBOX AREA (gear icon) --- */}
+      {/* TOOLBOX AREA (gear icon) */}
       <div
         className={`absolute right-1 top-full mt-1 transition-all duration-300 z-20 ${
           isToolboxOpen
