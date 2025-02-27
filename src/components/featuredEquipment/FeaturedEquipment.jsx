@@ -50,15 +50,13 @@ const FeaturedEquipmentSection = () => {
             description={item.description}
             price={item.price}
             buttonText="Rent Now"
-            buttonLink="#"
+            buttonLink="/pages/singleProducts"
             imageSrc={item.imageSrc}
             bgColor="inherit"
             textColor="white"
-            borderColor="gray-600"
-            borderWidth="border-2"
-            buttonBgColor="lime"
+            buttonBgColor="bg-lime"
             buttonTextColor="black"
-            heartColor="lime"
+            heartColor="text-lime"
             className="w-[240px]" // Fixed width for consistency
           />
         ))}
