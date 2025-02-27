@@ -28,7 +28,10 @@ export default {
         h5: ["16px", { fontWeight: "700" }],
         h6: ["14px", { fontWeight: "700" }],
         p: ["16px", { fontWeight: "400" }] // Regular
-      }
+      },
+      spacing: {
+        "top-spacing": "128px",
+      },
     }
   },
   plugins: []
