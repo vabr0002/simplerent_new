@@ -30,7 +30,10 @@ export default {
         p: ["16px", { fontWeight: "400" }] // Regular
       },
       spacing: {
-        "top-spacing": "128px",
+        "top-spacing": "7rem", // 128 * 4px = 512px
+      },
+      borderRadius: {
+        "border-corner": "1rem", // Equivalent to `rounded-xl`
       },
     }
   },
