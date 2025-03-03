@@ -24,7 +24,7 @@ const Cart = () => {
     <div className="fixed bottom-6 right-6 z-50">
       {/* Cart Button */}
       <div
-        className="bg-lime text-black px-4 py-2 rounded-full shadow-lg cursor-pointer hover:bg-green transition-all"
+        className="bg-white text-black px-4 py-2 rounded-full shadow-lg cursor-pointer hover:bg-lime transition-all"
         onClick={toggleCart}
       >
         🛒 {cartItems.length > 0 ? `(${cartItems.length})` : ""}
@@ -65,7 +65,7 @@ const Cart = () => {
 
         {/* Checkout Button */}
         <Link href="/pages/checkout">
-          <button className="w-full bg-lime text-black py-2 rounded-lg hover:bg-green transition">
+          <button className="w-full bg-white text-black py-2 rounded-lg hover:bg-lime transition">
             Checkout
           </button>
         </Link>
