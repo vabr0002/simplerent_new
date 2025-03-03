@@ -35,7 +35,7 @@ export default {
       borderRadius: {
         "border-corner": "1rem", // Equivalent to `rounded-xl`
       },
-    }
+    } 
   },
   plugins: []
 };
