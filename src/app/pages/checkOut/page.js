@@ -1,6 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 
+// List of all countries
+const countries = [
+  "Denmark", "Sweden", "Norway", "Germany", "United States", "United Kingdom", "Canada", "France",
+  "Italy", "Spain", "Netherlands", "Australia", "Japan", "China", "Brazil", "Mexico", "India", "South Africa"
+];
+
 const CheckOut = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -23,26 +29,12 @@ const CheckOut = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchOrderSummary = async () => {
-      try {
-        const res = await fetch("/api/order-summary");
-
-        // Check if response is actually JSON
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Received non-JSON response from API");
-        }
-
-        const data = await res.json();
-        setOrderSummary(data.items);
-        setTotal(data.total);
-      } catch (error) {
-        console.error("Error fetching order summary:", error);
-        setError("Failed to load order summary. Please try again.");
-      }
-    };
-
-    fetchOrderSummary();
+    setOrderSummary([
+      { name: "Product 1", price: 49.99 },
+      { name: "Product 2", price: 29.99 },
+      { name: "Product 3", price: 19.99 }
+    ]);
+    setTotal(99.97);
   }, []);
 
   const handleChange = (e) => {
@@ -53,99 +45,68 @@ const CheckOut = () => {
     e.preventDefault();
     console.log("Submitting order:", formData);
     alert("Order submitted successfully!");
-    // Here you can send formData to your backend API
   };
 
   return (
     <>
       {/* Checkout Header */}
-      <div className="flex flex-col items-center justify-center py-6 bg-black text-white">
+      <div className="flex flex-col items-center justify-center py-6 bg-black text-white mt-top-spacing">
         <h1 className="text-h1 text-center">Checkout</h1>
       </div>
 
       {/* Responsive Checkout Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 min-h-screen bg-black text-white">
-        {/* Checkout Form Container */}
-        <div className="bg-black text-white p-8 rounded-lg shadow-lg">
-          <form onSubmit={handleSubmit}>
-            <h1 className="text-h1 font-bold mb-6">E-MAIL</h1>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray rounded-md bg-lightgray text-black placeholder-darkgrey text-lg mb-6"
-              placeholder="Enter your email"
-              required
+        
+        {/* Checkout Form */}
+        <div className="bg-black text-white p-10 rounded-xl shadow-lg">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <h1 className="text-h1 font-bold">E-MAIL</h1>
+            <input 
+              type="email" 
+              name="email" 
+              value={formData.email} 
+              onChange={handleChange} 
+              className="w-full p-4 h-14 border border-gray rounded-lg bg-lightgray text-black placeholder-darkgrey text-xl focus:ring-2 focus:ring-primary focus:outline-none" 
+              placeholder="Enter your email" 
+              required 
             />
 
-            {/* Billing Address Section */}
-            <h2 className="text-h2 font-bold mb-4">Billing Address</h2>
+            {/* Billing Address */}
+            <h2 className="text-h2 font-bold">Billing Address</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First name" className="input-style" required />
-              <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last name" className="input-style" required />
+              <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First name" className="input-style h-14 p-4 text-xl rounded-lg" required />
+              <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last name" className="input-style h-14 p-4 text-xl rounded-lg" required />
             </div>
 
-            <input type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Company" className="input-style w-full mt-4" />
-            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (incl. house number and floor)" className="input-style w-full mt-4" required />
+            <input type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Company" className="input-style w-full h-14 p-4 text-xl rounded-lg" />
+            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (incl. house number and floor)" className="input-style w-full h-14 p-4 text-xl rounded-lg" required />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <input type="text" name="zip" value={formData.zip} onChange={handleChange} placeholder="Zip code" className="input-style" />
-              <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="input-style" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" name="zip" value={formData.zip} onChange={handleChange} placeholder="Zip code" className="input-style h-14 p-4 text-xl rounded-lg" />
+              <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" className="input-style h-14 p-4 text-xl rounded-lg" />
             </div>
 
-            {/* Country Select */}
-            <select name="country" value={formData.country} onChange={handleChange} className="input-style w-full mt-4 text-black" required>
-              <option>Denmark</option>
-              <option>Sweden</option>
-              <option>Norway</option>
-              <option>Germany</option>
+            {/* Country Select - Fixed Text Visibility */}
+            <select name="country" value={formData.country} onChange={handleChange} className="input-style w-full h-14 p-4 text-xl bg-gray-800 text-black rounded-lg" required>
+              {countries.map((country, index) => (
+                <option key={index} value={country} className="text-black">
+                  {country}
+                </option>
+              ))}
             </select>
 
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="input-style w-full mt-4" required />
-            <input type="text" name="vatNumber" value={formData.vatNumber} onChange={handleChange} placeholder="VAT number" className="input-style w-full mt-4" />
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="input-style w-full h-14 p-4 text-xl rounded-lg" required />
+            <input type="text" name="vatNumber" value={formData.vatNumber} onChange={handleChange} placeholder="VAT number" className="input-style w-full h-14 p-4 text-xl rounded-lg" />
 
-            <p className="text-sm text-gray mt-2">
+            <p className="text-lg text-white">
               Enter your VAT / business reg. no. - for EU B2B VAT will be deducted
             </p>
 
-            {/* Additional Information */}
-            <h2 className="text-h2 font-bold mt-8">Additional information</h2>
-            <textarea
-              name="orderNotes"
-              value={formData.orderNotes}
-              onChange={handleChange}
-              placeholder="Notes about your order, e.g. special notes for delivery."
-              className="input-style w-full h-24 mt-4"
-            ></textarea>
-
-            {/* Submit Button */}
-            <button type="submit" className="w-full bg-primary text-black font-bold py-3 rounded-lg hover:bg-green mt-6 transition">
+            {/* Submit Button - LIME COLOR for better visibility */}
+            <button type="submit" className="w-full bg-lime text-black font-bold py-6 rounded-lg hover:bg-green transition text-xl">
               Complete Order
             </button>
           </form>
-        </div>
-
-        {/* Order Summary - Dynamic */}
-        <div className="bg-black p-6 rounded-lg shadow-lg">
-          <h2 className="text-h2 font-bold mb-4">Order Summary</h2>
-          {error ? (
-            <p className="text-red">{error}</p>
-          ) : (
-            <ul className="text-white">
-              {orderSummary.map((item, index) => (
-                <li key={index} className="flex justify-between mb-2">
-                  <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
-                </li>
-              ))}
-              <hr className="my-2 border-darkgrey" />
-              <li className="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </li>
-            </ul>
-          )}
         </div>
       </div>
     </>
