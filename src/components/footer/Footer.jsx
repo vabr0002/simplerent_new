@@ -45,7 +45,7 @@ const Footer = () => {
         <Link className="text-h5 hover:text-lime" href="">
           Cookie Policy
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="pages/privacy">
           Privacy Policy
         </Link>
       </div>
