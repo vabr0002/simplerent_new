@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -189,9 +190,9 @@ const Navigation = () => {
           </div>
 
           {/* LOGO center-absolute */}
-          <div className="absolute left-1/2 -translate-x-1/2">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
             <Link href="/">
-              <h1>LOGO</h1>
+              <Image src="/logo/logo.svg" width={150} height={50} alt="Logo" />
             </Link>
           </div>
 
