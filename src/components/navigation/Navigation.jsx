@@ -150,10 +150,7 @@ const Navigation = () => {
   return (
     <nav className="sticky top-0 z-50 w-full bg-transparent select-none">
       {/* Wrap top nav + category row in one container */}
-      <div
-        className="flex flex-col w-full"
-        onMouseEnter={() => setIsCategoryVisible(true)}
-      >
+      <div className="flex flex-col w-full">
         {/* TOP NAV BAR */}
         <div className="relative w-full p-3 bg-black text-white flex items-center">
           {/* Left Links */}
@@ -261,7 +258,7 @@ const Navigation = () => {
               onMouseLeave={() => setActiveSubmenu(null)}
             >
               <Link
-                href=""
+                href="/pages/products"
                 className={`${linkClasses} ${
                   index < arr.length - 1 ? "border-r border-gray-400" : ""
                 }`}
@@ -285,7 +282,7 @@ const Navigation = () => {
                     {cat.submenu.map((item, idx) => (
                       <Link
                         key={idx}
-                        href=""
+                        href="/pages/products"
                         className="whitespace-nowrap text-sm px-4 py-2 hover:bg-lime hover:text-black rounded-md transition-colors duration-200"
                       >
                         {item}
