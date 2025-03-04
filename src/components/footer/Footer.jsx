@@ -42,10 +42,10 @@ const Footer = () => {
         <Link className="text-h5 hover:text-lime" href="">
           Terms & Conditions
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/cookie">
           Cookie Policy
         </Link>
-        <Link className="text-h5 hover:text-lime" href="pages/privacy">
+        <Link className="text-h5 hover:text-lime" href="/pages/privacy">
           Privacy Policy
         </Link>
       </div>
