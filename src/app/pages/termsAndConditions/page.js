@@ -5,7 +5,7 @@ export default function Home() {
         <h1 className="text-h1 m-top-spacing">Terms & Conditions</h1>
       </div>
 
-      <div className="px-20 mx-40 gap-6">
+      <div className="px-20 mx-48 gap-6">
         <p>
           Thank you for considering Simple Rent ApS as your rental provider for
           audio-visual equipment. Our goal is to keep film rental simple, and

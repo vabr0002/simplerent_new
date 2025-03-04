@@ -15,7 +15,7 @@ const Footer = () => {
       </div>
       <div className="w-full md:w-1/4 flex flex-col gap-4 text-center md:text-left">
         <h2 className="font-helvetica text-h2">Booking</h2>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/howItWorks">
           How It Works
         </Link>
         <Link className="text-h5 hover:text-lime" href="">
@@ -30,16 +30,19 @@ const Footer = () => {
       </div>
       <div className="w-full md:w-1/4 flex flex-col gap-4 text-center md:text-left">
         <h2 className="font-helvetica text-h2">More</h2>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/aboutUs">
           About Us
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/contactUs">
           Get In Touch
         </Link>
         <Link className="text-h5 hover:text-lime" href="">
           Stay Updated
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link
+          className="text-h5 hover:text-lime"
+          href="/pages/termsAndConditions"
+        >
           Terms & Conditions
         </Link>
         <Link className="text-h5 hover:text-lime" href="/pages/cookie">
