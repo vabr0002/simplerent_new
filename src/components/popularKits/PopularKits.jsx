@@ -12,7 +12,7 @@ const PopularKits = () => {
   ];
 
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white py-10 pb-24">
       <h2 className="text-center text-h1 font-bold mt-8 mb-8 text-black">
         Most Rented Kits
       </h2>

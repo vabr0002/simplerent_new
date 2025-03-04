@@ -10,8 +10,8 @@ export default function Home() {
     <>
       <Hero />
       <PopularKits />
-      <CategorySection />
       <FeaturedEquipmentSection />
+      <CategorySection />
       <div className="text-center text-xl font-bold my-4"></div>
 
       <div className="flex flex-col items-center">

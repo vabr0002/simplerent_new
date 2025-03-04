@@ -5,7 +5,6 @@ import ProductCard from "@/components/productCard/ProductCard";
 import Filter from "@/components/FilterFunction/Filter";
 
 export default function Home() {
-  // Én enkelt produktskabelon
   const productTemplate = {
     title: "Sony FX6",
     description: "Professional cinema camera.",
@@ -15,22 +14,22 @@ export default function Home() {
     imageSrc: "/img/sony_fx6.jpg"
   };
 
-  // Generer et array med 12 produkter baseret på skabelonen
   const products = Array(12).fill(productTemplate);
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 px-6 min-h-screen bg-white ">
-      {/* Filter Column (Fixed Width) */}
-      <div className="md:w-[350px] flex-shrink-0 mt-40">
+    <div className="flex flex-col md:flex-row gap-6 px-6 min-h-screen bg-white">
+      {/* Filter Column (Fixed Width, Sticky) */}
+      <div className="md:w-[350px] flex-shrink-0 mt-40 md:sticky md:top-0 z-10">
         <Filter />
+        <div className="h-[1000px] bg-gray-200">Test</div>
       </div>
 
       {/* Product Section (Flexible Width with Centered Title) */}
       <div className="flex-1 flex flex-col items-center">
-        <h1 className="text-black text-4xl font-bold mt-20 mb-10 sticky top-0">
+        <h1 className="text-black text-4xl font-bold mt-20 mb-10 sticky top-0 z-20">
           Full Kits
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 p-8 place-items-center max-w-4xl  mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 p-8 place-items-center max-w-4xl mb-20">
           {products.map((product, index) => (
             <ProductCard
               key={index}

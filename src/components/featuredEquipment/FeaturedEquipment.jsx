@@ -35,7 +35,7 @@ const FeaturedEquipmentSection = () => {
   ];
 
   return (
-    <section className="bg-darkgrey  flex flex-col items-center justify-center pt-12 pb-12 ">
+    <section className="bg-darkgrey flex flex-col items-center justify-center pt-32 pb-24 min-h-[600px]">
       {/* Centered Title */}
       <h1 className="text-center text-4xl font-bold mb-8 text-white">
         Featured Equipment This Week

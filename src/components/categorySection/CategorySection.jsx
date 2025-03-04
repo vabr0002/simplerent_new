@@ -16,7 +16,7 @@ const CategorySection = () => {
   ];
 
   return (
-    <section className="bg-white h-[75vh] flex flex-col items-center justify-center">
+    <section className="bg-white py-24 flex flex-col items-center justify-center">
       {/* Centered H1 Title */}
       <h1 className="text-center text-4xl font-bold mb-8 text-black">
         Popular Categories
