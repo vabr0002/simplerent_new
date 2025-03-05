@@ -1,66 +1,212 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
-import Cart from "@/components/cart/Cart";
 
+// ProjectItem-komponent (uændret)
+const ProjectItem = ({ item, onRemove, onUpdateQuantity }) => (
+  <li className="flex justify-between items-center py-2 border-b border-gray-300">
+    <div>
+      <span className="font-medium text-white">{item.name}</span>
+      <span className="block text-gray-500 text-sm">{item.price} DKK</span>
+    </div>
+    <div className="flex items-center space-x-4">
+      <div className="flex items-center bg-gray-100 rounded-md border border-gray-300">
+        <button
+          onClick={() =>
+            onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))
+          }
+          className="px-2 py-1 text-white hover:text-lime transition-colors duration-300"
+        >
+          -
+        </button>
+        <span className="px-2 text-white">{item.quantity}</span>
+        <button
+          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+          className="px-2 py-1 text-white hover:text-lime transition-colors duration-300"
+        >
+          +
+        </button>
+      </div>
+      <button
+        onClick={() => onRemove(item.id)}
+        className="text-red-500 hover:text-red-700 transition-colors duration-300"
+      >
+        Remove
+      </button>
+    </div>
+  </li>
+);
+
+// Project-komponent (uændret)
+const Project = ({
+  title,
+  items,
+  onRemove,
+  onUpdateQuantity,
+  onSelect,
+  isSelected
+}) => {
+  const total = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  return (
+    <div
+      className={`border-2 ${
+        isSelected ? "border-lime" : "border-white"
+      } rounded-lg p-6 cursor-pointer hover:bg-gray-50 transition-colors duration-300`}
+      onClick={() => onSelect(title)}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-h2 font-semibold text-lime text-center">{title}</h3>
+        <span className="text-gray-500">({items.length} items)</span>
+      </div>
+
+      {isSelected &&
+        (items.length === 0 ? (
+          <div className="text-center py-4 text-gray-500">
+            Your project is empty
+          </div>
+        ) : (
+          <>
+            <ul className="space-y-4 mb-6">
+              {items.map((item) => (
+                <ProjectItem
+                  key={item.id}
+                  item={item}
+                  onRemove={onRemove}
+                  onUpdateQuantity={onUpdateQuantity}
+                />
+              ))}
+            </ul>
+            <div className="flex justify-between items-center">
+              <span className="font-medium text-white">Total:</span>
+              <span className="text-lg font-bold text-white">{total} DKK</span>
+            </div>
+          </>
+        ))}
+    </div>
+  );
+};
+
+// Home-komponent med scrollable projektsektion
 export default function Home() {
-  const [wishlistItems, setWishlistItems] = useState([
-    // Placeholder wishlist items
-    { id: 1, name: "Allen & Heath SQ5 Mixer", price: 950 },
-    { id: 2, name: "Shure SM58 Microphone", price: 150 }
-  ]);
+  const [projectItems, setProjectItems] = useState({
+    "Project 1": [
+      { id: 1, name: "Allen & Heath SQ5 Mixer", price: 950, quantity: 1 }
+    ],
+    "Project 2": [
+      { id: 2, name: "Shure SM58 Microphone", price: 150, quantity: 2 }
+    ],
+    "Project 3": [
+      {
+        id: 3,
+        name: "Yamahullu 500SBC Airplane with 3 engines",
+        price: 1000,
+        quantity: 1
+      }
+    ],
+    "Project 4": [
+      {
+        id: 4,
+        name: "Yamahullu 500SBC Airplane with 3 engines",
+        price: 1000,
+        quantity: 1
+      }
+    ]
+  });
 
-  const removeFromWishlist = (id) => {
-    setWishlistItems(wishlistItems.filter((item) => item.id !== id));
+  const [selectedProject, setSelectedProject] = useState("Project 1");
+
+  const removeFromProject = (projectName, id) => {
+    setProjectItems((prev) => ({
+      ...prev,
+      [projectName]: prev[projectName].filter((item) => item.id !== id)
+    }));
   };
 
-  const addToCart = (item) => {
-    // TODO: Implement adding item to a cart
-    console.log(`Added ${item.name} to cart`);
+  const updateProjectQuantity = (projectName, id, newQuantity) => {
+    setProjectItems((prev) => ({
+      ...prev,
+      [projectName]: prev[projectName].map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    }));
+  };
+
+  const handleProjectSelect = (projectName) => {
+    setSelectedProject(projectName);
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-center mb-8">
-        <h1 className="text-4xl font-bold text-black">Projects</h1>
-      </div>
+    <div className="max-w-5xl mx-auto px-4 my-12">
+      <h2 className="text-h1 text-lime flex justify-center m-top-spacing mb-32">
+        Projects
+      </h2>
+      <p className="text-h3 flex justify-center my-14">
+        {" "}
+        Get a quick overview of you diffrent projects and its contents
+      </p>
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Projects Section (venstre) med fast højde og scroll */}
+        <div className="flex-1">
+          <div
+            className="space-y-6 max-h-[600px] overflow-y-auto pr-2" // Fast højde og scroll
+          >
+            {Object.keys(projectItems).map((projectName) => (
+              <Project
+                key={projectName}
+                title={projectName}
+                items={projectItems[projectName]}
+                onRemove={(id) => removeFromProject(projectName, id)}
+                onUpdateQuantity={(id, qty) =>
+                  updateProjectQuantity(projectName, id, qty)
+                }
+                onSelect={handleProjectSelect}
+                isSelected={projectName === selectedProject}
+              />
+            ))}
+          </div>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Wishlist Section */}
-        <div className="bg-white border rounded-lg p-6 shadow-md">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Wishlist</h2>
-            <span className="text-gray-500">
-              ({wishlistItems.length} items)
+        {/* Project Contents Section (højre, uændret) */}
+        <div className="flex-1 border-2 border-lime rounded-xl p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-h2 font-semibold text-lime text-center">
+              {selectedProject} Contents
+            </h2>
+            <span className="text-white">
+              ({projectItems[selectedProject].length} items)
             </span>
           </div>
 
-          {wishlistItems.length === 0 ? (
+          {projectItems[selectedProject].length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              Your wishlist is empty
+              This project is empty
             </div>
           ) : (
             <ul className="space-y-4">
-              {wishlistItems.map((item) => (
+              {projectItems[selectedProject].map((item) => (
                 <li
                   key={item.id}
-                  className="flex justify-between items-center border-b pb-2"
+                  className="flex justify-between items-center border-b border-gray-300 pb-2"
                 >
                   <div>
-                    <span className="font-medium">{item.name}</span>
+                    <span className="font-medium text-white">{item.name}</span>
                     <span className="block text-gray-500">
                       {item.price} DKK
                     </span>
+                    <span className="block text-gray-500">
+                      Qty: {item.quantity}
+                    </span>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-4">
                     <button
-                      onClick={() => addToCart(item)}
-                      className="text-green-500 hover:text-green-700 transition-colors"
-                    >
-                      Add to Cart
-                    </button>
-                    <button
-                      onClick={() => removeFromWishlist(item.id)}
-                      className="text-red-500 hover:text-red-700 transition-colors"
+                      onClick={() =>
+                        removeFromProject(selectedProject, item.id)
+                      }
+                      className="text-red-500 hover:text-red-700 transition-colors duration-300"
                     >
                       Remove
                     </button>
@@ -69,16 +215,6 @@ export default function Home() {
               ))}
             </ul>
           )}
-        </div>
-
-        {/* Carts Section */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Carts</h2>
-          <div className="space-y-6">
-            <Cart />
-            <Cart />
-            <Cart />
-          </div>
         </div>
       </div>
     </div>
