@@ -17,8 +17,8 @@ import {
   FaGripHorizontal,
   FaPlug,
   FaBoxOpen,
+  FaEnvelope,
 } from "react-icons/fa";
-import { BsGearWideConnected } from "react-icons/bs";
 
 const Navigation = () => {
   // Toolbox open/close state
@@ -221,7 +221,7 @@ const Navigation = () => {
               </div>
             )}
 
-            {/* Gear Icon (toolbox toggle) */}
+            {/* Exclamation Icon (toolbox toggle) - Changed from Gear */}
             <div
               className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 
                 transition-transform duration-300 cursor-pointer select-none ${
@@ -234,7 +234,7 @@ const Navigation = () => {
                 if (isToolboxOpen) setSelectedToolboxItem(null);
               }}
             >
-              <BsGearWideConnected className="absolute text-black text-xl" />
+              <FaExclamationCircle className="absolute text-black text-xl" />
             </div>
           </div>
         </div>
@@ -452,7 +452,7 @@ const Navigation = () => {
                   : "bg-white text-black hover:bg-lime"
               }`}
             >
-              <FaExclamationCircle className="text-xl" />
+              <FaEnvelope className="text-xl" />
             </button>
           </div>
         </div>
