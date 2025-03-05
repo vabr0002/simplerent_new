@@ -160,7 +160,7 @@ const Cart = () => {
         }`}
       >
         <div className="p-4 bg-gray-900 flex justify-between items-center">
-          <h2 className="text-lg font-bold">Your Cart</h2>
+          <h2 className="text-lg text-lime font-bold">Your Cart</h2>
           {cartItems.length > 0 && (
             <button
               onClick={clearCart}

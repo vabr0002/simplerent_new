@@ -8,8 +8,6 @@ import {
   FaCamera,
   FaCalendarAlt,
   FaUser,
-  FaHeart,
-  FaShoppingCart,
   FaExclamationCircle,
   FaMicrophone,
   FaLightbulb,
@@ -18,6 +16,7 @@ import {
   FaPlug,
   FaBoxOpen,
   FaEnvelope,
+  FaFolderOpen,
 } from "react-icons/fa";
 
 const Navigation = () => {
@@ -33,6 +32,8 @@ const Navigation = () => {
   const [lastScrollPos, setLastScrollPos] = useState(0);
   // Track whether the search bar is open
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // Track the active project
+  const [activeProject, setActiveProject] = useState("Studio Setup");
 
   // Use Next.js hook to get current pathname
   const pathname = usePathname();
@@ -305,104 +306,185 @@ const Navigation = () => {
         }`}
       >
         <div className="bg-black text-white p-4 rounded-lg shadow-lg flex">
-          {selectedToolboxItem && (
-            <div className="mr-4 w-56">
-              {selectedToolboxItem === "calendar" && (
-                <div className="flex flex-col gap-2">
-                  <h2 className="font-bold">Select Dates</h2>
-                  <label>
-                    Start Date
-                    <input
-                      type="date"
-                      className="text-black block w-full mt-1"
-                    />
-                  </label>
-                  <label>
-                    End Date
-                    <input
-                      type="date"
-                      className="text-black block w-full mt-1"
-                    />
-                  </label>
-                  <div className="flex gap-2 mt-2">
-                    <button className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime">
-                      Cancel
-                    </button>
-                    <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90">
-                      Apply
+          <div className="mr-4 w-52 h-[280px] overflow-y-auto pr-1">
+            {selectedToolboxItem ? (
+              <>
+                {selectedToolboxItem === "calendar" && (
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-bold">Select Dates</h2>
+                    <label>
+                      Start Date
+                      <input
+                        type="date"
+                        className="text-black block w-full mt-1"
+                      />
+                    </label>
+                    <label>
+                      End Date
+                      <input
+                        type="date"
+                        className="text-black block w-full mt-1"
+                      />
+                    </label>
+                    <div className="flex gap-2 mt-2">
+                      <button className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime">
+                        Cancel
+                      </button>
+                      <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90">
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {selectedToolboxItem === "user" && (
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-bold">Login</h2>
+                    <label>
+                      Email
+                      <input
+                        type="email"
+                        className="text-black block w-full mt-1"
+                      />
+                    </label>
+                    <label>
+                      Password
+                      <input
+                        type="password"
+                        className="text-black block w-full mt-1"
+                      />
+                    </label>
+                    <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
+                      Submit
                     </button>
                   </div>
-                </div>
-              )}
-              {selectedToolboxItem === "user" && (
-                <div className="flex flex-col gap-2">
-                  <h2 className="font-bold">Login</h2>
-                  <label>
-                    Email
-                    <input
-                      type="email"
-                      className="text-black block w-full mt-1"
-                    />
-                  </label>
-                  <label>
-                    Password
-                    <input
-                      type="password"
-                      className="text-black block w-full mt-1"
-                    />
-                  </label>
-                  <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
-                    Submit
-                  </button>
-                </div>
-              )}
-              {selectedToolboxItem === "heart" && (
-                <div className="flex flex-col gap-2">
-                  <h2 className="font-bold">Liked Items</h2>
-                  <ul className="list-disc list-inside text-sm">
-                    <li>Item #1</li>
-                    <li>Item #2</li>
-                    <li>Item #3</li>
-                  </ul>
-                </div>
-              )}
-              {selectedToolboxItem === "cart" && (
-                <div className="flex flex-col gap-2">
-                  <h2 className="font-bold">Cart Settings</h2>
-                  <p className="text-sm">Create or delete custom carts here.</p>
-                  <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90">
-                    Create New Cart
-                  </button>
-                  <ul className="list-disc list-inside text-sm mt-2">
-                    <li>Cart #1</li>
-                    <li>Cart #2</li>
-                  </ul>
-                </div>
-              )}
-              {selectedToolboxItem === "contact" && (
-                <div className="flex flex-col gap-2">
-                  <h2 className="font-bold">Contact Us</h2>
-                  <label>
-                    Name
-                    <input
-                      type="text"
-                      className="text-black block w-full mt-1"
-                    />
-                  </label>
-                  <label>
-                    Message
-                    <textarea
-                      className="text-black block w-full mt-1"
-                      rows="3"
-                    />
-                  </label>
-                  <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
-                    Send
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+                {selectedToolboxItem === "projects" && (
+                  <div className="flex flex-col gap-2 pr-1">
+                    <div className="flex justify-between items-center">
+                      <h2 className="font-bold">Projects</h2>
+                      <div className="bg-lime rounded-full px-2 py-0.5 text-black text-xs">
+                        Active: {activeProject}
+                      </div>
+                    </div>
+                    <p className="text-sm">
+                      Create and manage your projects. Add items to projects and
+                      transfer to cart when ready.
+                    </p>
+
+                    <div className="mt-2">
+                      <label className="block text-sm font-medium mb-1">
+                        Create New Project
+                      </label>
+                      <div className="flex gap-1">
+                        <input
+                          type="text"
+                          placeholder="Project name"
+                          className="text-black text-sm px-2 py-1 rounded w-32"
+                        />
+                        <button className="bg-lime text-black px-2 py-1 rounded-md hover:opacity-90 text-sm whitespace-nowrap">
+                          Create
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-2">
+                      <h3 className="text-sm font-medium mb-1">
+                        Your Projects
+                      </h3>
+                      <ul className="space-y-2 w-full">
+                        <li
+                          className={`rounded p-2 ${activeProject === "Studio Setup" ? "bg-lime/20 border border-lime" : "bg-white/10"}`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium text-sm">
+                              Studio Setup
+                            </span>
+                            <span className="text-xs">12 items</span>
+                          </div>
+                          <div className="flex gap-1 mt-1 justify-between">
+                            <Link
+                              href="/pages/projects"
+                              className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                            >
+                              View
+                            </Link>
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() => setActiveProject("Studio Setup")}
+                                className={`text-xs px-2 py-1 rounded ${activeProject === "Studio Setup" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
+                              >
+                                Choose
+                              </button>
+                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                                To Cart
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                        <li
+                          className={`rounded p-2 ${activeProject === "Location Shoot" ? "bg-lime/20 border border-lime" : "bg-white/10"}`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium text-sm">
+                              Location Shoot
+                            </span>
+                            <span className="text-xs">5 items</span>
+                          </div>
+                          <div className="flex gap-1 mt-1 justify-between">
+                            <Link
+                              href="/pages/projects"
+                              className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                            >
+                              View
+                            </Link>
+                            <div className="flex gap-1">
+                              <button
+                                onClick={() =>
+                                  setActiveProject("Location Shoot")
+                                }
+                                className={`text-xs px-2 py-1 rounded ${activeProject === "Location Shoot" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
+                              >
+                                Choose
+                              </button>
+                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                                To Cart
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+                {selectedToolboxItem === "contact" && (
+                  <div className="flex flex-col gap-2">
+                    <h2 className="font-bold">Contact Us</h2>
+                    <label>
+                      Name
+                      <input
+                        type="text"
+                        className="text-black block w-full mt-1"
+                      />
+                    </label>
+                    <label>
+                      Message
+                      <textarea
+                        className="text-black block w-full mt-1"
+                        rows="3"
+                      />
+                    </label>
+                    <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
+                      Send
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="flex items-center justify-center h-full text-white/50">
+                <p>Select an option</p>
+              </div>
+            )}
+          </div>
           <div className="grid grid-cols-1 gap-3">
             <button
               onClick={() => handleIconClick("calendar")}
@@ -425,24 +507,14 @@ const Navigation = () => {
               <FaUser className="text-xl" />
             </button>
             <button
-              onClick={() => handleIconClick("heart")}
+              onClick={() => handleIconClick("projects")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
-                selectedToolboxItem === "heart"
+                selectedToolboxItem === "projects"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
               }`}
             >
-              <FaHeart className="text-xl" />
-            </button>
-            <button
-              onClick={() => handleIconClick("cart")}
-              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
-                selectedToolboxItem === "cart"
-                  ? "bg-lime text-black"
-                  : "bg-white text-black hover:bg-lime"
-              }`}
-            >
-              <FaShoppingCart className="text-xl" />
+              <FaFolderOpen className="text-xl" />
             </button>
             <button
               onClick={() => handleIconClick("contact")}
