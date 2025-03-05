@@ -16,27 +16,27 @@ const Footer = () => {
 
         {/* Social Media Links */}
         <div className="flex justify-center md:justify-start gap-4 mt-4">
-          <a
+          <Link
             href="https://www.instagram.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaInstagram className="text-2xl hover:text-lime transition duration-300" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="https://www.facebook.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaFacebookF className="text-2xl hover:text-lime transition duration-300" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaXTwitter className="text-2xl hover:text-lime transition duration-300" />
-          </a>
+          </Link>
         </div>
       </div>
 
