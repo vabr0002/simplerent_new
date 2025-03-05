@@ -18,14 +18,11 @@ const Footer = () => {
         <Link className="text-h5 hover:text-lime" href="/pages/howItWorks">
           How It Works
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/products">
           Book Here
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/myAccount">
           My Account
-        </Link>
-        <Link className="text-h5 hover:text-lime" href="">
-          Checkout
         </Link>
       </div>
       <div className="w-full md:w-1/4 flex flex-col gap-4 text-center md:text-left">
@@ -36,7 +33,7 @@ const Footer = () => {
         <Link className="text-h5 hover:text-lime" href="/pages/contactUs">
           Get In Touch
         </Link>
-        <Link className="text-h5 hover:text-lime" href="">
+        <Link className="text-h5 hover:text-lime" href="/pages/stayUpdated">
           Stay Updated
         </Link>
         <Link
