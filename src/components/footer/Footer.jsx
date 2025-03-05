@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../button/Button";
 import Link from "next/link";
-import { FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/fa6"; // Import social icons
+import { FaInstagram, FaFacebookF, FaXTwitter, FaPlane } from "react-icons/fa6"; // Added FaPlane
 
 const Footer = () => {
   return (
@@ -80,6 +80,20 @@ const Footer = () => {
 
       <div className="w-full md:w-1/4 flex flex-col items-center md:items-start">
         <h2 className="font-helvetica text-h2">Location</h2>
+        {/* Styled airport proximity badge */}
+        <div className="mt-4 mb-4 transform hover:scale-105 transition-transform duration-300">
+          <div className="bg-black border-2 border-lime rounded-lg px-4 py-2 flex items-center justify-center gap-2 shadow-lg">
+            <FaPlane className="text-lime text-xl animate-pulse" />
+            <div className="flex flex-col">
+              <span className="text-white font-bold">
+                ONLY <span className="text-lime text-xl">11 MIN</span>
+              </span>
+              <span className="text-white text-sm uppercase tracking-wider">
+                from CPH Airport
+              </span>
+            </div>
+          </div>
+        </div>
         <iframe
           title="Google Map"
           className="w-full h-48 md:h-64"
