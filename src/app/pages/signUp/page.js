@@ -1,19 +1,21 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
-  const [formData, setFormData] = useState({
+  const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
-    phone: "",
     email: "",
-    message: ""
+    phone: "",
+    password: "",
+    confirmPassword: ""
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setSignupData((prev) => ({
       ...prev,
       [name]: value
     }));
@@ -21,63 +23,25 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data submitted:", formData);
-    alert("Tak for din besked! Vi vender tilbage hurtigst muligt.");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      message: ""
-    });
+
+    // Basic password confirmation
+    if (signupData.password !== signupData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    console.log("Signup attempt:", signupData);
+    // Add your signup logic here
+    alert("Signup functionality to be implemented");
   };
 
   return (
     <div>
-      <div className="relative h-[25vh]">
-        {/* Hero Image Container */}
-        <div className="relative w-full h-full">
-          <Image
-            src="/img/hero.webp"
-            alt="Hero Image"
-            fill
-            priority
-            className="object-cover brightness-50"
-          />
-        </div>
-
-        {/* Overlay Text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-          <div className="text-h1 font-bold">
-            <span className="text-lime text-h1">Get in touch</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Kontaktsektion med tekst og formular */}
-      <div className="max-w-5xl mx-auto my-12 px-4 flex flex-col md:flex-row gap-20 mt-top-spacing">
-        {/* Kontaktinformation boksen (nu til venstre) */}
-        <div className="flex-1 p-6 ">
-          <h2 className="text-h2 font-semibold mb-6 text-center text-white">
-            Kontakt os på disse
-          </h2>
-          <div className="space-y-4 text-white">
-            <p>
-              <strong>Telefon:</strong> +45 12 34 56 78
-            </p>
-            <p>
-              <strong>Email:</strong> kontakt@example.com
-            </p>
-            <p>
-              <strong>Adresse:</strong> Eksempelgade 123, 1234 Eksempelby
-            </p>
-          </div>
-        </div>
-
-        {/* Kontaktformular (nu til højre) */}
-        <div className="flex-1">
-          <h2 className="text-h2 font-semibold mb-6 text-center">
-            Send us a message
+      {/* Signup Section */}
+      <div className="max-w-5xl mx-auto m-top-spacing px-4 flex justify-center">
+        <div className="w-full max-w-md">
+          <h2 className="text-h2 font-semibold mb-6 text-center text-lime">
+            Sign Up
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col md:flex-row gap-4">
@@ -86,15 +50,16 @@ export default function Home() {
                   htmlFor="firstName"
                   className="block mb-2 text-sm font-medium"
                 >
-                  Fornavn
+                  First Name
                 </label>
                 <input
                   type="text"
                   id="firstName"
                   name="firstName"
-                  value={formData.firstName}
+                  value={signupData.firstName}
                   onChange={handleChange}
                   className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                  placeholder="First name"
                   required
                 />
               </div>
@@ -103,33 +68,21 @@ export default function Home() {
                   htmlFor="lastName"
                   className="block mb-2 text-sm font-medium"
                 >
-                  Efternavn
+                  Last Name
                 </label>
                 <input
                   type="text"
                   id="lastName"
                   name="lastName"
-                  value={formData.lastName}
+                  value={signupData.lastName}
                   onChange={handleChange}
                   className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                  placeholder="Last name"
                   required
                 />
               </div>
             </div>
-            <div>
-              <label htmlFor="phone" className="block mb-2 text-sm font-medium">
-                Telefonnummer
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
-                required
-              />
-            </div>
+
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium">
                 Email
@@ -138,36 +91,86 @@ export default function Home() {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
+                value={signupData.email}
                 onChange={handleChange}
                 className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                placeholder="Email"
                 required
               />
             </div>
+
+            <div>
+              <label htmlFor="phone" className="block mb-2 text-sm font-medium">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={signupData.phone}
+                onChange={handleChange}
+                className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                placeholder="Phone number"
+                required
+              />
+            </div>
+
             <div>
               <label
-                htmlFor="message"
+                htmlFor="password"
                 className="block mb-2 text-sm font-medium"
               >
-                Besked
+                Password
               </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={signupData.password}
                 onChange={handleChange}
-                rows="5"
                 className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                placeholder="Create a password"
                 required
-              ></textarea>
+                minLength={8}
+              />
             </div>
+
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block mb-2 text-sm font-medium"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={signupData.confirmPassword}
+                onChange={handleChange}
+                className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lime"
+                placeholder="Confirm your password"
+                required
+                minLength={8}
+              />
+            </div>
+
             <div>
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-lime text-black font-medium rounded-md hover:bg-transparent hover:text-lime "
+                className="w-full py-3 px-4 bg-lime text-black font-medium rounded-md hover:bg-transparent hover:text-lime transition-colors duration-300"
               >
-                Send besked
+                Create Account
               </button>
+            </div>
+
+            <div className="text-center mt-4">
+              <p className="text-white">
+                Already have an account?{" "}
+                <Link href="/pages/logIn" className="text-lime hover:underline">
+                  Log in here
+                </Link>
+              </p>
             </div>
           </form>
         </div>
