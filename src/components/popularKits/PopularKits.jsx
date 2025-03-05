@@ -8,7 +8,9 @@ const PopularKits = () => {
     { id: 3, title: "Video Kit", description: "All-in-one video solution" },
     { id: 4, title: "Audio Kit", description: "For sound professionals" },
     { id: 5, title: "Lighting Kit", description: "Illuminate your scene" },
-    { id: 6, title: "Action Kit", description: "For dynamic shoots" }
+    { id: 6, title: "Action Kit", description: "For dynamic shoots" },
+    { id: 7, title: "Streaming Kit", description: "For live broadcasts" },
+    { id: 8, title: "Mobile Kit", description: "Compact and portable" },
   ];
 
   return (
@@ -17,15 +19,15 @@ const PopularKits = () => {
         Most Rented Kits
       </h2>
       <div
-        className="grid grid-cols-3 gap-4 mx-auto max-w-screen-xl px-4"
-        style={{ gridTemplateColumns: "repeat(3, minmax(250px, 1fr))" }}
+        className="grid grid-cols-4 gap-4 mx-auto max-w-screen-xl px-4"
+        style={{ gridTemplateColumns: "repeat(4, minmax(200px, 1fr))" }}
       >
         {kits.map((kit) => (
           <Card
             key={kit.id}
             title={kit.title}
             description={kit.description}
-            buttonText="Button Text"
+            buttonText="Rent Now"
             buttonLink="#"
             imageSrc="/img/sony_fx6.jpg"
             borderColor="black"
@@ -36,7 +38,8 @@ const PopularKits = () => {
             heartColor="lime"
             borderWidth="border"
             borderRadius="rounded-2xl"
-            className="w-[350px] h-[400px]"
+            className="w-[250px] h-[350px]"
+            buttonSize="small"
           />
         ))}
       </div>

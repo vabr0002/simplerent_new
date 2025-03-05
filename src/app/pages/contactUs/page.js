@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="relative h-[25vh]">
+      <div className="relative h-[60vh] -mt-[75px]">
         {/* Hero Image Container */}
         <div className="relative w-full h-full">
           <Image

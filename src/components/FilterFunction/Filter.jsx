@@ -14,7 +14,7 @@ const Filter = () => {
     "Gimbals",
     "Batteries",
     "Monitors",
-    "Accessories"
+    "Accessories",
   ];
 
   // State to toggle showing all categories or just the first 5
@@ -39,7 +39,7 @@ const Filter = () => {
           <label key={index} className="flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-4 w-4 text-black border-gray-300 rounded"
+              className="mr-2 h-4 w-4 accent-lime text-black border-gray-300 rounded"
             />
             <span className="text-black">{category}</span>
           </label>
@@ -61,12 +61,14 @@ const Filter = () => {
         <input
           type="text"
           placeholder="From"
-          className="w-1/2 p-2 border border-gray-300 rounded-md text-black placeholder-gray-400"
+          className="w-1/2 p-2 border border-gray-300 rounded-md text-black placeholder-gray-400 
+               focus:outline-none focus:ring-2 focus:ring-lime focus:border-lime selection:bg-lime selection:text-black"
         />
         <input
           type="text"
           placeholder="To"
-          className="w-1/2 p-2 border border-gray-300 rounded-md text-black placeholder-gray-400"
+          className="w-1/2 p-2 border border-gray-300 rounded-md text-black placeholder-gray-400 
+               focus:outline-none focus:ring-2 focus:ring-lime focus:border-lime selection:bg-lime selection:text-black"
         />
       </div>
 
@@ -75,7 +77,7 @@ const Filter = () => {
       <label className="flex items-center">
         <input
           type="checkbox"
-          className="mr-2 h-4 w-4 text-black border-gray-300 rounded"
+          className="mr-2 h-4 w-4 text-black accent-lime border-gray-300 rounded"
         />
         <span className="text-black">In Stock</span>
       </label>

@@ -8,17 +8,16 @@ import {
   FaCamera,
   FaCalendarAlt,
   FaUser,
-  FaHeart,
-  FaShoppingCart,
   FaExclamationCircle,
   FaMicrophone,
   FaLightbulb,
   FaVideo,
   FaGripHorizontal,
   FaPlug,
-  FaBoxOpen
+  FaBoxOpen,
+  FaEnvelope,
+  FaFolderOpen
 } from "react-icons/fa";
-import { BsGearWideConnected } from "react-icons/bs";
 
 const Navigation = () => {
   // Toolbox open/close state
@@ -33,6 +32,8 @@ const Navigation = () => {
   const [lastScrollPos, setLastScrollPos] = useState(0);
   // Track whether the search bar is open
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // Track the active project
+  const [activeProject, setActiveProject] = useState("Studio Setup");
 
   // Use Next.js hook to get current pathname
   const pathname = usePathname();
@@ -221,7 +222,7 @@ const Navigation = () => {
               </div>
             )}
 
-            {/* Gear Icon (toolbox toggle) */}
+            {/* Exclamation Icon (toolbox toggle) - Changed from Gear */}
             <div
               className={`relative p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 
                 transition-transform duration-300 cursor-pointer select-none ${
@@ -234,7 +235,7 @@ const Navigation = () => {
                 if (isToolboxOpen) setSelectedToolboxItem(null);
               }}
             >
-              <BsGearWideConnected className="absolute text-black text-xl" />
+              <FaExclamationCircle className="absolute text-black text-xl" />
             </div>
           </div>
         </div>
@@ -335,34 +336,25 @@ const Navigation = () => {
                 </div>
               )}
               {selectedToolboxItem === "user" && (
-                <div className="flex flex-col space-y-4 bg-black/80 p-6 rounded-lg shadow-xl">
-                  <h2 className="text-xl font-bold text-center text-lime mb-4">
-                    Login
-                  </h2>
-
-                  <div className="flex flex-col items-center">
-                    <div className="flex justify-center items-center space-x-4 w-full">
-                      <Link href="/pages/logIn" className="flex-1">
-                        <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
-                          Already have a user? Login
-                        </button>
-                      </Link>
-                    </div>
-
-                    <div className="my-4 flex items-center w-full">
-                      <div className="flex-grow border-t border-gray-600"></div>
-                      <span className="px-4 text-gray-400">OR</span>
-                      <div className="flex-grow border-t border-gray-600"></div>
-                    </div>
-
-                    <div className="flex justify-center items-center space-x-4 w-full">
-                      <Link href="/pages/signUp" className="flex-1">
-                        <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
-                          Don't have a user? Sign Up Here
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-bold">Login</h2>
+                  <label>
+                    Email
+                    <input
+                      type="email"
+                      className="text-black block w-full mt-1"
+                    />
+                  </label>
+                  <label>
+                    Password
+                    <input
+                      type="password"
+                      className="text-black block w-full mt-1"
+                    />
+                  </label>
+                  <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
+                    Submit
+                  </button>
                 </div>
               )}
               {selectedToolboxItem === "heart" && (
@@ -434,24 +426,14 @@ const Navigation = () => {
               <FaUser className="text-xl" />
             </button>
             <button
-              onClick={() => handleIconClick("heart")}
+              onClick={() => handleIconClick("projects")}
               className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
-                selectedToolboxItem === "heart"
+                selectedToolboxItem === "projects"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
               }`}
             >
-              <FaHeart className="text-xl" />
-            </button>
-            <button
-              onClick={() => handleIconClick("cart")}
-              className={`flex items-center justify-center w-12 h-12 rounded-md transition select-none ${
-                selectedToolboxItem === "cart"
-                  ? "bg-lime text-black"
-                  : "bg-white text-black hover:bg-lime"
-              }`}
-            >
-              <FaShoppingCart className="text-xl" />
+              <FaFolderOpen className="text-xl" />
             </button>
             <button
               onClick={() => handleIconClick("contact")}
@@ -461,7 +443,7 @@ const Navigation = () => {
                   : "bg-white text-black hover:bg-lime"
               }`}
             >
-              <FaExclamationCircle className="text-xl" />
+              <FaEnvelope className="text-xl" />
             </button>
           </div>
         </div>
