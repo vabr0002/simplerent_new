@@ -57,36 +57,42 @@ export default function Home() {
       {/* Kontaktsektion med tekst og formular */}
       <div className="max-w-5xl mx-auto my-12 px-4 flex flex-col md:flex-row gap-20 mt-top-spacing">
         {/* Kontaktinformation boksen (nu til venstre) */}
-        <div className="flex-1 p-6 ">
-          <h2 className="text-h2 font-semibold mb-6 text-center text-white">
-            Kontakt os på disse
+        <div className="flex-1 ">
+          <h2 className="text-h2  mb-6 text-lime text-center">
+            Contact us here
           </h2>
-          <div className="space-y-4 text-white">
+          <div className="space-y-4 text-white gap-6">
             <p>
-              <strong>Telefon:</strong> +45 12 34 56 78
+              Our website is open for bookings 24/7!
+              {""} Office hours are: Mon-Fri 9.00-16.30 Weekends and holidays
+              are closed.
             </p>
             <p>
-              <strong>Email:</strong> kontakt@example.com
+              <strong>Telefon:</strong> +45 71 99 26 90
             </p>
             <p>
-              <strong>Adresse:</strong> Eksempelgade 123, 1234 Eksempelby
+              <strong>Email:</strong> hello@simplerent.dk
+            </p>
+            <p>
+              <strong>Adresse:</strong> Jernholmen 2, 2650 Hvidovre.
             </p>
           </div>
         </div>
 
         {/* Kontaktformular (nu til højre) */}
         <div className="flex-1">
-          <h2 className="text-h2 font-semibold mb-6 text-center">
+          <h2 className="text-h2 font-semibold mb-6 text-center text-lime">
             Send us a message
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Rest of the form remains the same */}
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <label
                   htmlFor="firstName"
                   className="block mb-2 text-sm font-medium"
                 >
-                  Fornavn
+                  First Name
                 </label>
                 <input
                   type="text"
@@ -103,7 +109,7 @@ export default function Home() {
                   htmlFor="lastName"
                   className="block mb-2 text-sm font-medium"
                 >
-                  Efternavn
+                  Last Name
                 </label>
                 <input
                   type="text"
@@ -116,9 +122,10 @@ export default function Home() {
                 />
               </div>
             </div>
+            {/* Rest of the form fields remain the same */}
             <div>
               <label htmlFor="phone" className="block mb-2 text-sm font-medium">
-                Telefonnummer
+                Phonenumber
               </label>
               <input
                 type="tel"
@@ -149,7 +156,7 @@ export default function Home() {
                 htmlFor="message"
                 className="block mb-2 text-sm font-medium"
               >
-                Besked
+                Message
               </label>
               <textarea
                 id="message"
@@ -164,9 +171,9 @@ export default function Home() {
             <div>
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-lime text-black font-medium rounded-md hover:bg-transparent hover:text-lime "
+                className="w-full py-3 px-4 bg-lime text-black font-medium rounded-md hover:bg-transparent hover:text-lime"
               >
-                Send besked
+                Submit
               </button>
             </div>
           </form>

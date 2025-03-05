@@ -25,7 +25,6 @@ function Hero() {
   }, []);
 
   return (
-    // Added "-mt-[75px]"
     <section className="relative h-[95vh] -mt-[75px]">
       {/* Background Image */}
       <div className="relative w-full h-full">
@@ -40,7 +39,7 @@ function Hero() {
 
       {/* Overlay Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-        {/* Title + Search */}
+        {/* Title + Search - Positioned at the top */}
         <div className="flex items-center justify-center w-full">
           <div className="text-h1 font-bold mr-4 flex flex-col justify-start items-start">
             <span>Keeping film rental</span>
@@ -83,16 +82,16 @@ function Hero() {
           </div>
         </div>
 
-        {/* Features */}
-        <div className="mt-20 flex justify-center space-x-4">
+        {/* Features - Positioned absolutely to move independently */}
+        <div className="absolute bottom-20 left-0 right-0 flex justify-center space-x-4">
           {[
             "Cashback for returning customers",
             "Build in tools for planning",
-            "24/7 instant booking",
+            "24/7 instant booking"
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white bg-opacity-20 text-white border-x-4 border-y-4 rounded-lg 
+              className="bg-black bg-opacity-20 text-white border-2 rounded-xl 
                          flex flex-col items-center justify-center p-4 w-[110px] h-[120px] 
                          transform hover:scale-105 hover:translate-y-[-3px] 
                          transition duration-300 ease-in-out"
