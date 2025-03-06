@@ -38,19 +38,32 @@ const Navigation = () => {
   // Use Next.js hook to get current pathname
   const pathname = usePathname();
 
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScroll = window.scrollY;
+  //     if (currentScroll > lastScrollPos) {
+  //       setIsCategoryVisible(false); // scrolled down -> hide
+  //     } else {
+  //       setIsCategoryVisible(true); // scrolled up -> show
+  //     }
+  //     setLastScrollPos(currentScroll);
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollPos]);
+
   useEffect(() => {
+    let lastScrollPos = window.scrollY; // Store initial scroll position
+
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      if (currentScroll > lastScrollPos) {
-        setIsCategoryVisible(false); // scrolled down -> hide
-      } else {
-        setIsCategoryVisible(true); // scrolled up -> show
-      }
-      setLastScrollPos(currentScroll);
+      setIsCategoryVisible(currentScroll < lastScrollPos); // Show when scrolling up, hide when scrolling down
+      lastScrollPos = currentScroll;
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollPos]);
+  }, []); // The dependency array is empty
 
   // Toggle which toolbox item is open
   const handleIconClick = (item) => {
