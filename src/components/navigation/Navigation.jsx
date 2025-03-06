@@ -38,21 +38,14 @@ const Navigation = () => {
   // Use Next.js hook to get current pathname
   const pathname = usePathname();
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const currentScroll = window.scrollY;
-  //     if (currentScroll > lastScrollPos) {
-  //       setIsCategoryVisible(false); // scrolled down -> hide
-  //     } else {
-  //       setIsCategoryVisible(true); // scrolled up -> show
-  //     }
-  //     setLastScrollPos(currentScroll);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [lastScrollPos]);
-
+  // In your useEffect:
   useEffect(() => {
+    // Skip scroll animation on projects page
+    if (pathname === "/pages/projects") {
+      setIsCategoryVisible(true); // Always show category menu on projects page
+      return; // Don't add scroll listener
+    }
+
     let lastScrollPos = window.scrollY; // Store initial scroll position
 
     const handleScroll = () => {
@@ -63,7 +56,7 @@ const Navigation = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // The dependency array is empty
+  }, [pathname]); // Re-run effect when pathname changes
 
   // Toggle which toolbox item is open
   const handleIconClick = (item) => {
