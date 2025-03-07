@@ -3,6 +3,73 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+// Contact Form Component
+const ContactForm = ({ closeToolbox }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
+
+  const handleSend = () => {
+    if (!name || !email || !message) {
+      setShowWarning(true);
+      return;
+    }
+
+    // If all fields are filled, proceed with sending
+    setShowWarning(false);
+    closeToolbox();
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <h2 className="font-bold">Contact Us</h2>
+      <label>
+        Name
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+        />
+      </label>
+
+      <label>
+        Email
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+        />
+      </label>
+
+      <label>
+        Message
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+          rows="3"
+        />
+      </label>
+
+      {showWarning && (
+        <div className="bg-red-500/20 border border-red-500 text-red-100 p-2 rounded text-sm mt-1">
+          Please fill out all fields before sending.
+        </div>
+      )}
+
+      <button
+        className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2"
+        onClick={handleSend}
+      >
+        Send
+      </button>
+    </div>
+  );
+};
 import {
   FaSearch,
   FaCamera,
@@ -318,7 +385,7 @@ const Navigation = () => {
         }`}
       >
         <div className="bg-black text-white p-4 rounded-lg shadow-lg flex">
-          <div className="mr-4 w-56 h-[280px] overflow-y-auto pr-1">
+          <div className="mr-4 w-64 max-h-[350px] overflow-y-auto pr-1">
             {selectedToolboxItem ? (
               <>
                 {selectedToolboxItem === "calendar" && (
@@ -502,29 +569,7 @@ const Navigation = () => {
                   </div>
                 )}
                 {selectedToolboxItem === "contact" && (
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-bold">Contact Us</h2>
-                    <label>
-                      Name
-                      <input
-                        type="text"
-                        className="text-black block w-full mt-1"
-                      />
-                    </label>
-                    <label>
-                      Message
-                      <textarea
-                        className="text-black block w-full mt-1"
-                        rows="3"
-                      />
-                    </label>
-                    <button
-                      className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2"
-                      onClick={closeToolbox}
-                    >
-                      Send
-                    </button>
-                  </div>
+                  <ContactForm closeToolbox={closeToolbox} />
                 )}
               </>
             ) : (
