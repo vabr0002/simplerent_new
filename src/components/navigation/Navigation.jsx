@@ -63,6 +63,12 @@ const Navigation = () => {
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
+  // Function to close the toolbox
+  const closeToolbox = () => {
+    setIsToolboxOpen(false);
+    setSelectedToolboxItem(null);
+  };
+
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
@@ -333,10 +339,16 @@ const Navigation = () => {
                       />
                     </label>
                     <div className="flex gap-2 mt-2">
-                      <button className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime">
+                      <button
+                        className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime"
+                        onClick={closeToolbox}
+                      >
                         Cancel
                       </button>
-                      <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90">
+                      <button
+                        className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90"
+                        onClick={closeToolbox}
+                      >
                         Apply
                       </button>
                     </div>
@@ -350,7 +362,11 @@ const Navigation = () => {
 
                     <div className="flex flex-col items-center">
                       <div className="flex justify-center items-center space-x-4 w-full">
-                        <Link href="/pages/logIn" className="flex-1">
+                        <Link
+                          href="/pages/logIn"
+                          className="flex-1"
+                          onClick={closeToolbox}
+                        >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
                             Already have a user? Login
                           </button>
@@ -364,7 +380,11 @@ const Navigation = () => {
                       </div>
 
                       <div className="flex justify-center items-center space-x-4 w-full">
-                        <Link href="/pages/signUp" className="flex-1">
+                        <Link
+                          href="/pages/signUp"
+                          className="flex-1"
+                          onClick={closeToolbox}
+                        >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
                             Don't have a user? Sign Up Here
                           </button>
@@ -420,17 +440,23 @@ const Navigation = () => {
                             <Link
                               href="/pages/projects"
                               className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                              onClick={closeToolbox}
                             >
                               View
                             </Link>
                             <div className="flex gap-1">
                               <button
-                                onClick={() => setActiveProject("Studio Setup")}
+                                onClick={() => {
+                                  setActiveProject("Studio Setup");
+                                }}
                                 className={`text-xs px-2 py-1 rounded ${activeProject === "Studio Setup" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
                               >
                                 Choose
                               </button>
-                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                              <button
+                                className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30"
+                                onClick={closeToolbox}
+                              >
                                 To Cart
                               </button>
                             </div>
@@ -449,6 +475,7 @@ const Navigation = () => {
                             <Link
                               href="/pages/projects"
                               className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                              onClick={closeToolbox}
                             >
                               View
                             </Link>
@@ -461,7 +488,10 @@ const Navigation = () => {
                               >
                                 Choose
                               </button>
-                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                              <button
+                                className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30"
+                                onClick={closeToolbox}
+                              >
                                 To Cart
                               </button>
                             </div>
@@ -488,7 +518,10 @@ const Navigation = () => {
                         rows="3"
                       />
                     </label>
-                    <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
+                    <button
+                      className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2"
+                      onClick={closeToolbox}
+                    >
                       Send
                     </button>
                   </div>
