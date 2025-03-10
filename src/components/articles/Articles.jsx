@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const Article = () => {
+const Articles = () => {
   const articles = [
     {
       title: "Filming Tips for Beginners",
@@ -46,9 +46,12 @@ const Article = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {articles.map((article, index) => (
-        <div key={index} className="w-[300px]  rounded-lg overflow-hidden">
+        <div
+          key={index}
+          className="w-full max-w-[300px] mx-auto rounded-lg overflow-hidden"
+        >
           {/* Billede øverst */}
           <div className="relative w-full h-48">
             <Image
@@ -71,7 +74,7 @@ const Article = () => {
             <p className="text-gray-600 text-sm mb-4">{article.description}</p>
 
             {/* Read More knap */}
-            <Link href="/pages/articles">
+            <Link href={article.link}>
               <button className="bg-lime text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-lime-600 transition duration-300">
                 Read More
               </button>
@@ -83,4 +86,4 @@ const Article = () => {
   );
 };
 
-export default Article;
+export default Articles;
