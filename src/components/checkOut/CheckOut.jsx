@@ -295,9 +295,108 @@ const CheckOutComponent = () => {
 
       {/* Main checkout grid */}
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left side - Checkout form */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 gap-8">
+          {/* Order summary (moved to top) */}
+          <div>
+            <div className="bg-gray-900 p-6 rounded-xl">
+              <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+
+              {/* Cart items */}
+              <div className="space-y-4 mb-6">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between pb-4 border-b border-gray-700"
+                  >
+                    <div className="flex">
+                      <div className="w-16 h-16 bg-gray-800 rounded-md flex items-center justify-center mr-3 text-2xl flex-shrink-0">
+                        {item.name.includes("Mixer") ? "🎛️" : "🎤"}
+                      </div>
+                      <div>
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm text-gray-400">
+                          Qty: {item.quantity}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">{item.price} DKK</p>
+                      <p className="text-sm text-gray-400">
+                        {item.quantity > 1 &&
+                          `${item.price * item.quantity} DKK total`}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Discount code */}
+              <div className="flex mb-6">
+                <input
+                  type="text"
+                  placeholder="Discount code"
+                  className="flex-grow p-3 border border-gray-700 rounded-l-lg bg-gray-800 text-white placeholder-gray-400"
+                />
+                <button className="bg-gray-700 text-white px-4 rounded-r-lg hover:bg-gray-600 transition-colors">
+                  Apply
+                </button>
+              </div>
+
+              {/* Cost breakdown */}
+              <div className="space-y-3 pb-4 border-b border-gray-700">
+                <div className="flex justify-between text-gray-300">
+                  <span>Subtotal</span>
+                  <span>{subtotal.toFixed(2)} DKK</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>
+                    Shipping (
+                    {
+                      shippingMethods.find(
+                        (m) => m.value === formData.shippingMethod
+                      )?.label
+                    }
+                    )
+                  </span>
+                  <span>{shippingCost.toFixed(2)} DKK</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>VAT (25%)</span>
+                  <span>{vatAmount.toFixed(2)} DKK</span>
+                </div>
+              </div>
+
+              {/* Total */}
+              <div className="flex justify-between pt-4 text-xl font-bold">
+                <span>Total</span>
+                <span>{total.toFixed(2)} DKK</span>
+              </div>
+
+              {/* Secure checkout note */}
+              <div className="mt-6 pt-4 border-t border-gray-700 text-center text-gray-400 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+                <span className="text-sm">
+                  Secure checkout - Your data is protected
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Checkout form */}
+          <div>
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Contact Information */}
               <div className="bg-gray-900 p-6 rounded-xl">
@@ -603,10 +702,10 @@ const CheckOutComponent = () => {
 
                 <button
                   type="submit"
-                  className={`w-full bg-lime-500 text-black font-bold py-5 px-6 rounded-lg text-xl flex items-center justify-center transition-all ${
+                  className={`w-full bg-lime text-black font-bold py-5 px-6 rounded-lg text-xl flex items-center justify-center transition-all ${
                     isLoading
                       ? "opacity-70 cursor-not-allowed"
-                      : "hover:bg-lime-400"
+                      : "hover:bg-lime"
                   }`}
                   disabled={isLoading}
                 >
@@ -640,105 +739,6 @@ const CheckOutComponent = () => {
                 </button>
               </div>
             </form>
-          </div>
-
-          {/* Right side - Order summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-900 p-6 rounded-xl sticky top-6">
-              <h2 className="text-xl font-bold mb-6">Order Summary</h2>
-
-              {/* Cart items */}
-              <div className="space-y-4 mb-6">
-                {cartItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between pb-4 border-b border-gray-700"
-                  >
-                    <div className="flex">
-                      <div className="w-16 h-16 bg-gray-800 rounded-md flex items-center justify-center mr-3 text-2xl flex-shrink-0">
-                        {item.name.includes("Mixer") ? "🎛️" : "🎤"}
-                      </div>
-                      <div>
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-400">
-                          Qty: {item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium">{item.price} DKK</p>
-                      <p className="text-sm text-gray-400">
-                        {item.quantity > 1 &&
-                          `${item.price * item.quantity} DKK total`}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Discount code */}
-              <div className="flex mb-6">
-                <input
-                  type="text"
-                  placeholder="Discount code"
-                  className="flex-grow p-3 border border-gray-700 rounded-l-lg bg-gray-800 text-white placeholder-gray-400"
-                />
-                <button className="bg-gray-700 text-white px-4 rounded-r-lg hover:bg-gray-600 transition-colors">
-                  Apply
-                </button>
-              </div>
-
-              {/* Cost breakdown */}
-              <div className="space-y-3 pb-4 border-b border-gray-700">
-                <div className="flex justify-between text-gray-300">
-                  <span>Subtotal</span>
-                  <span>{subtotal.toFixed(2)} DKK</span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span>
-                    Shipping (
-                    {
-                      shippingMethods.find(
-                        (m) => m.value === formData.shippingMethod
-                      )?.label
-                    }
-                    )
-                  </span>
-                  <span>{shippingCost.toFixed(2)} DKK</span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span>VAT (25%)</span>
-                  <span>{vatAmount.toFixed(2)} DKK</span>
-                </div>
-              </div>
-
-              {/* Total */}
-              <div className="flex justify-between pt-4 text-xl font-bold">
-                <span>Total</span>
-                <span>{total.toFixed(2)} DKK</span>
-              </div>
-
-              {/* Secure checkout note */}
-              <div className="mt-6 pt-4 border-t border-gray-700 text-center text-gray-400 flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-                <span className="text-sm">
-                  Secure checkout - Your data is protected
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
