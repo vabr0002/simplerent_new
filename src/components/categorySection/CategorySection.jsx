@@ -22,15 +22,15 @@ const CategorySection = () => {
         Popular Categories
       </h1>
 
-      {/* 2x5 Grid */}
+      {/* Grid med responsivitet */}
       <div
-        className="grid grid-cols-5 gap-4 mx-auto max-w-screen-xl px-4"
-        style={{ gridTemplateRows: "repeat(2, 160px)" }} // Fixed height for 2 rows
+        className="grid grid-cols-2 sm:grid-cols-5 gap-4 mx-auto max-w-screen-xl px-4"
+        style={{ gridTemplateRows: "repeat(2, 160px)" }} // Fixed height for 2 rows på desktop
       >
         {categories.map((category) => (
           <div
             key={category.id}
-            className="w-[240px] h-[160px] bg-gray-200 rounded-2xl flex items-center justify-center text-white bg-black text-lg font-semibold border  hover:scale-105 transition-transform duration-300"
+            className="w-[240px] h-[160px] bg-gray-200 rounded-2xl flex items-center justify-center text-white bg-black text-lg font-semibold border hover:scale-105 transition-transform duration-300"
           >
             {category.name}
           </div>

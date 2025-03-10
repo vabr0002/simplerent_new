@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Card from "../kitCard/KitCard";
 
 const PopularKits = () => {
@@ -11,16 +12,33 @@ const PopularKits = () => {
     { id: 6, title: "Action Kit", description: "For dynamic shoots" }
   ];
 
+  const [showAll, setShowAll] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Tjek skærmstørrelse efter mount på klienten
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640); // Tailwinds 'sm' breakpoint
+    };
+
+    // Sæt initial værdi
+    handleResize();
+
+    // Lyt til resize events
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Vis kun 3 kort på mobil, medmindre showAll er true; vis alle på desktop
+  const displayedKits = isMobile && !showAll ? kits.slice(0, 3) : kits;
+
   return (
     <section className="bg-white py-10 pb-24">
       <h2 className="text-center text-h1 font-bold mt-8 mb-8 text-black">
         Most Rented Kits
       </h2>
-      <div
-        className="grid grid-cols-3 gap-8 mx-auto max-w-screen-xl px-4"
-        style={{ gridTemplateColumns: "repeat(3, minmax(200px, 1fr))" }}
-      >
-        {kits.map((kit) => (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mx-auto max-w-screen-xl px-4">
+        {displayedKits.map((kit) => (
           <Card
             key={kit.id}
             title={kit.title}
@@ -41,6 +59,17 @@ const PopularKits = () => {
           />
         ))}
       </div>
+      {/* "Show More"-knap, kun synlig på mobil */}
+      {!showAll && kits.length > 3 && (
+        <div className="sm:hidden flex justify-center mt-6">
+          <button
+            onClick={() => setShowAll(true)}
+            className="bg-lime text-black px-6 py-2 rounded-xl font-semibold hover:bg-lime-600 transition duration-300"
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </section>
   );
 };
