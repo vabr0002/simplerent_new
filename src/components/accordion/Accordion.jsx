@@ -1,12 +1,32 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const Accordion = () => {
-  const [openIndex, setOpenIndex] = useState(null); // Holder styr på, hvilket panel der er åbent
-  const contentRefs = useRef([]); // Holder refs til indholdsdivs
+  const [openIndex, setOpenIndex] = useState(null);
+  const [contentHeights, setContentHeights] = useState([]);
+  const contentRefs = useRef([]);
+
+  // Calculate content heights when component mounts or when window resizes
+  useEffect(() => {
+    const updateContentHeights = () => {
+      const newHeights = contentRefs.current.map((ref) =>
+        ref ? ref.scrollHeight : 0
+      );
+      setContentHeights(newHeights);
+    };
+
+    // Initial calculation
+    updateContentHeights();
+
+    // Update on window resize
+    window.addEventListener("resize", updateContentHeights);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", updateContentHeights);
+  }, []);
 
   const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? null : index); // Åbner/lukker panelet
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   const accordionItems = [
@@ -26,7 +46,7 @@ const Accordion = () => {
           <br />
           Have a look below here and contact us if you have any questions.
         </>
-      )
+      ),
     },
     {
       trigger: "Opening hours",
@@ -41,7 +61,7 @@ const Accordion = () => {
           <br />
           Weekends and holidays are closed.
         </>
-      )
+      ),
     },
     {
       trigger: "Booking",
@@ -84,7 +104,7 @@ const Accordion = () => {
           Please contact us if you are planning to take the equipment outside of
           Scandinavia, as this will need our specific written approval.
         </>
-      )
+      ),
     },
     {
       trigger: "Kits",
@@ -123,7 +143,7 @@ const Accordion = () => {
             https://simplerent.dk/kits/
           </a>
         </>
-      )
+      ),
     },
     {
       trigger: "Discounts",
@@ -137,7 +157,7 @@ const Accordion = () => {
           To make it simple & fair for all, everyone gets the same low prices
           and discounts automatically when booking on our site.
         </>
-      )
+      ),
     },
     {
       trigger: "Store credit / wallet",
@@ -152,7 +172,7 @@ const Accordion = () => {
           You cannot exchange the store credit into cash or transfer it to other
           users.
         </>
-      )
+      ),
     },
     {
       trigger: "Insurance",
@@ -182,7 +202,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      )
+      ),
     },
     {
       trigger: "Payment",
@@ -190,8 +210,8 @@ const Accordion = () => {
         <>
           Our site works like any webshop, you select the date you want to rent,
           the equipment you want to rent, add it to the basket and check out
-          paying with “credit card/ mobilepay”, “bank transfer” or “credit
-          account/ invoice”.
+          paying with "credit card/ mobilepay", "bank transfer" or "credit
+          account/ invoice".
           <br />
           <br />
           Using a credit card to pay your booking is super easy and convenient.
@@ -206,7 +226,7 @@ const Accordion = () => {
           days before, your card won't be charged.
           <br />
           <br />
-          You are welcome to use “Bank transfer” as payment when checking out,
+          You are welcome to use "Bank transfer" as payment when checking out,
           you will then receive an order confirmation with our bank details to
           use for the transfer. BE AWARE all bookings must be cleared in our
           account before pickup, with NO EXCEPTIONS.
@@ -215,7 +235,7 @@ const Accordion = () => {
           Invoice payment. For returning customers with a Danish company
           registration (CVR no.), you can apply for a credit account by writing
           us an email. When we have set up your credit account, you are able to
-          select “credit account/ invoicing” on checkout and you can pay your
+          select "credit account/ invoicing" on checkout and you can pay your
           order via invoice up to 30 days after the rental has ended. Please
           allow 1-3 days for the credit account to be set up. Apply by setting
           up an account on our site and write us an email after with your CVR
@@ -228,7 +248,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      )
+      ),
     },
     {
       trigger: "Pickups & Return at Simplerent",
@@ -272,7 +292,7 @@ const Accordion = () => {
           In both cases let us know when you order and we will send you your
           access link.
         </>
-      )
+      ),
     },
     {
       trigger: "Sluse/ garage 24/7 self service",
@@ -289,7 +309,7 @@ const Accordion = () => {
           In both cases let us know when you order and we will send you your
           access link.
         </>
-      )
+      ),
     },
     {
       trigger: "Transport delivery & pickup service",
@@ -311,7 +331,7 @@ const Accordion = () => {
           Please make sure to provide valid photo ID when recieving a delivery
           from us as this is needed for us to hand over the equipment.
         </>
-      )
+      ),
     },
     {
       trigger: "Corona/ Covid 19",
@@ -322,7 +342,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      )
+      ),
     },
     {
       trigger: "Contact Shipment",
@@ -339,12 +359,12 @@ const Accordion = () => {
           Jernholmen 2<br />
           2650 Hvidovre
         </>
-      )
-    }
+      ),
+    },
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto mb-24">
+    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 md:px-0 mb-24">
       {accordionItems.map((item, index) => (
         <div
           key={index}
@@ -356,28 +376,32 @@ const Accordion = () => {
         >
           <button
             onClick={() => toggleAccordion(index)}
-            className={`w-full text-left py-4 px-6 bg-inherit hover:bg-gray-800 text-lg font-semibold flex justify-between items-center focus:outline-none transition duration-500 ease-in-out ${
+            className={`w-full text-left py-3 sm:py-4 px-3 sm:px-6 bg-inherit hover:bg-gray-800 text-base sm:text-lg font-semibold flex justify-between items-center focus:outline-none transition duration-500 ease-in-out ${
               openIndex === index ? "text-lime" : "text-white"
             }`}
+            aria-expanded={openIndex === index}
+            aria-controls={`accordion-content-${index}`}
           >
-            {item.trigger}
-            <span className={openIndex === index ? "text-lime" : "text-white"}>
+            <span className="pr-2">{item.trigger}</span>
+            <span
+              className={`text-xl ${openIndex === index ? "text-lime" : "text-white"}`}
+            >
               {openIndex === index ? "−" : "+"}
             </span>
           </button>
           <div
+            id={`accordion-content-${index}`}
             className="overflow-hidden transition-all duration-500 ease-in-out"
             style={{
               height:
-                openIndex === index
-                  ? `${contentRefs.current[index]?.scrollHeight}px`
-                  : "0px",
-              opacity: openIndex === index ? 1 : 0
+                openIndex === index ? `${contentHeights[index] || 0}px` : "0px",
+              opacity: openIndex === index ? 1 : 0,
             }}
+            aria-hidden={openIndex !== index}
           >
             <div
               ref={(el) => (contentRefs.current[index] = el)}
-              className="py-4 px-6 bg-inherit text-white"
+              className="py-3 sm:py-4 px-3 sm:px-6 bg-inherit text-white text-sm sm:text-base"
             >
               {item.info}
             </div>
