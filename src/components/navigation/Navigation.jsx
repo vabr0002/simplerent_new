@@ -3,6 +3,73 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+// Contact Form Component
+const ContactForm = ({ closeToolbox }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
+
+  const handleSend = () => {
+    if (!name || !email || !message) {
+      setShowWarning(true);
+      return;
+    }
+
+    // If all fields are filled, proceed with sending
+    setShowWarning(false);
+    closeToolbox();
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <h2 className="font-bold">Contact Us</h2>
+      <label>
+        Name
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+        />
+      </label>
+
+      <label>
+        Email
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+        />
+      </label>
+
+      <label>
+        Message
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="text-black block w-full mt-1 px-2 py-1 rounded"
+          rows="3"
+        />
+      </label>
+
+      {showWarning && (
+        <div className="bg-red-500/20 border border-red-500 text-red-100 p-2 rounded text-sm mt-1">
+          Please fill out all fields before sending.
+        </div>
+      )}
+
+      <button
+        className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2"
+        onClick={handleSend}
+      >
+        Send
+      </button>
+    </div>
+  );
+};
 import {
   FaSearch,
   FaCamera,
@@ -61,6 +128,12 @@ const Navigation = () => {
   // Toggle which toolbox item is open
   const handleIconClick = (item) => {
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
+  };
+
+  // Function to close the toolbox
+  const closeToolbox = () => {
+    setIsToolboxOpen(false);
+    setSelectedToolboxItem(null);
   };
 
   const iconClasses =
@@ -312,7 +385,7 @@ const Navigation = () => {
         }`}
       >
         <div className="bg-black text-white p-4 rounded-lg shadow-lg flex">
-          <div className="mr-4 w-56 h-[280px] overflow-y-auto pr-1">
+          <div className="mr-4 w-64 max-h-[350px] overflow-y-auto pr-1">
             {selectedToolboxItem ? (
               <>
                 {selectedToolboxItem === "calendar" && (
@@ -333,10 +406,16 @@ const Navigation = () => {
                       />
                     </label>
                     <div className="flex gap-2 mt-2">
-                      <button className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime">
+                      <button
+                        className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime"
+                        onClick={closeToolbox}
+                      >
                         Cancel
                       </button>
-                      <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90">
+                      <button
+                        className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90"
+                        onClick={closeToolbox}
+                      >
                         Apply
                       </button>
                     </div>
@@ -350,7 +429,11 @@ const Navigation = () => {
 
                     <div className="flex flex-col items-center">
                       <div className="flex justify-center items-center space-x-4 w-full">
-                        <Link href="/pages/logIn" className="flex-1">
+                        <Link
+                          href="/pages/logIn"
+                          className="flex-1"
+                          onClick={closeToolbox}
+                        >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
                             Already have a user? Login
                           </button>
@@ -364,7 +447,11 @@ const Navigation = () => {
                       </div>
 
                       <div className="flex justify-center items-center space-x-4 w-full">
-                        <Link href="/pages/signUp" className="flex-1">
+                        <Link
+                          href="/pages/signUp"
+                          className="flex-1"
+                          onClick={closeToolbox}
+                        >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
                             Don't have a user? Sign Up Here
                           </button>
@@ -420,17 +507,23 @@ const Navigation = () => {
                             <Link
                               href="/pages/projects"
                               className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                              onClick={closeToolbox}
                             >
                               View
                             </Link>
                             <div className="flex gap-1">
                               <button
-                                onClick={() => setActiveProject("Studio Setup")}
+                                onClick={() => {
+                                  setActiveProject("Studio Setup");
+                                }}
                                 className={`text-xs px-2 py-1 rounded ${activeProject === "Studio Setup" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
                               >
                                 Choose
                               </button>
-                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                              <button
+                                className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30"
+                                onClick={closeToolbox}
+                              >
                                 To Cart
                               </button>
                             </div>
@@ -449,6 +542,7 @@ const Navigation = () => {
                             <Link
                               href="/pages/projects"
                               className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30 text-center"
+                              onClick={closeToolbox}
                             >
                               View
                             </Link>
@@ -461,7 +555,10 @@ const Navigation = () => {
                               >
                                 Choose
                               </button>
-                              <button className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30">
+                              <button
+                                className="bg-white/20 text-white text-xs px-2 py-1 rounded hover:bg-white/30"
+                                onClick={closeToolbox}
+                              >
                                 To Cart
                               </button>
                             </div>
@@ -472,26 +569,7 @@ const Navigation = () => {
                   </div>
                 )}
                 {selectedToolboxItem === "contact" && (
-                  <div className="flex flex-col gap-2">
-                    <h2 className="font-bold">Contact Us</h2>
-                    <label>
-                      Name
-                      <input
-                        type="text"
-                        className="text-black block w-full mt-1"
-                      />
-                    </label>
-                    <label>
-                      Message
-                      <textarea
-                        className="text-black block w-full mt-1"
-                        rows="3"
-                      />
-                    </label>
-                    <button className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2">
-                      Send
-                    </button>
-                  </div>
+                  <ContactForm closeToolbox={closeToolbox} />
                 )}
               </>
             ) : (
