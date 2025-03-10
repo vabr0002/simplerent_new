@@ -8,9 +8,7 @@ const PopularKits = () => {
     { id: 3, title: "Video Kit", description: "All-in-one video solution" },
     { id: 4, title: "Audio Kit", description: "For sound professionals" },
     { id: 5, title: "Lighting Kit", description: "Illuminate your scene" },
-    { id: 6, title: "Action Kit", description: "For dynamic shoots" },
-    { id: 7, title: "Streaming Kit", description: "For live broadcasts" },
-    { id: 8, title: "Mobile Kit", description: "Compact and portable" },
+    { id: 6, title: "Action Kit", description: "For dynamic shoots" }
   ];
 
   return (
@@ -19,8 +17,8 @@ const PopularKits = () => {
         Most Rented Kits
       </h2>
       <div
-        className="grid grid-cols-4 gap-4 mx-auto max-w-screen-xl px-4"
-        style={{ gridTemplateColumns: "repeat(4, minmax(200px, 1fr))" }}
+        className="grid grid-cols-3 gap-8 mx-auto max-w-screen-xl px-4"
+        style={{ gridTemplateColumns: "repeat(3, minmax(200px, 1fr))" }}
       >
         {kits.map((kit) => (
           <Card

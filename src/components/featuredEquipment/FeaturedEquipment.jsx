@@ -8,29 +8,29 @@ const FeaturedEquipmentSection = () => {
       title: "Sony FX6",
       description: "Full-frame cinema camera",
       price: "500 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 2,
       title: "Canon 50mm Lens",
       description: "Prime lens for portraits",
       price: "200 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 3,
       title: "LED Panel",
       description: "Portable lighting solution",
       price: "150 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 4,
       title: "Rode Mic",
       description: "High-quality audio recording",
       price: "300 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
-    },
+      imageSrc: "/img/sony_fx6.jpg"
+    }
   ];
 
   return (

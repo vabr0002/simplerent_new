@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { Heart, X } from "lucide-react";
+import { Heart } from "lucide-react";
+import Link from "next/link";
 
 function Card({
   title = "Sony Fx6",
   description = "This is a placeholder description.",
   buttonText = "Button Text",
-  buttonLink = "#",
   imageSrc = "/img/sony_fx6.jpg",
   borderColor = "gray-300",
   bgColor = "black",
@@ -16,42 +16,49 @@ function Card({
   buttonTextColor = "black",
   heartColor = "lime",
   borderWidth = "border",
-  borderRadius = "rounded-2xl",
+  borderRadius = "rounded-xl",
   className = ""
 }) {
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
   return (
     <>
       <article
-        className={`${className} ${borderWidth} bg-${bgColor} ${borderRadius} border-black border-2 shadow-md overflow-hidden p-4 relative pb-4`}
+        className={`${className} ${borderWidth} ${borderRadius} border-darkgrey shadow-md overflow-hidden gap-4 relative w-full max-w-7xl flex flex-row h-72`}
       >
+        {/* Venstre side med billede */}
         <div
-          className="relative w-full h-2/3 bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
+          className="w-1/2 overflow-hidden cursor-pointer -mr-6"
           onClick={() => setIsLightboxOpen(true)}
         >
           <Image
             src={imageSrc}
             alt={title}
-            width={350}
-            height={240}
+            width={600}
+            height={400}
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="mt-4 text-center">
-          <h2 className={`text-lg font-bold text-${textColor}`}>{title}</h2>
-          <p className={`text-sm text-${textColor}`}>{description}</p>
-          <a href={buttonLink} className="inline-block mt-3">
-            <button
-              className={`bg-${buttonBgColor} text-${buttonTextColor} px-4 py-2 rounded-md text-sm font-semibold shadow-md mx-auto`}
-            >
-              {buttonText}
-            </button>
-          </a>
-        </div>
-        <div className="absolute bottom-4 right-4">
-          <Heart size={24} className={`text-${heartColor}`} strokeWidth={2} />
+
+        {/* Højre side med tekst og knap */}
+        <div className="w-1/2 flex flex-col justify-end py-6 px-6">
+          <div className="space-y-2">
+            <h2 className={`text-2xl font-bold text-${textColor}`}>{title}</h2>
+            <p className={`text-p text-${textColor}`}>{description}</p>
+            <Link href="/pages/products" className="inline-block">
+              <button
+                className={`bg-${buttonBgColor} text-${buttonTextColor} px-8 py-3 rounded-xl text-p relative overflow-hidden transition-all duration-500 border-2 border-${buttonBgColor} group hover:bg-transparent`}
+              >
+                <span className="relative z-10">{buttonText}</span>
+                <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:opacity-0 transition-all duration-500 ease-in-out"></span>
+              </button>
+            </Link>
+          </div>
+          <div className="absolute top-3 right-3">
+            <Heart size={24} className={`text-${heartColor}`} strokeWidth={2} />
+          </div>
         </div>
       </article>
-      {/* Lightbox omitted for brevity */}
     </>
   );
 }
