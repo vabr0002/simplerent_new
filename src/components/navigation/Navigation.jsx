@@ -451,8 +451,6 @@ const Navigation = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Removed bottom close button */}
             </div>
           </div>
         </div>
@@ -514,36 +512,37 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* TOOLBOX AREA - Adjusted for mobile */}
+      {/* TOOLBOX AREA - MOBILE STREAMLINED */}
       <div
-        className={`absolute right-1 top-full mt-1 transition-all duration-300 z-50 ${
+        className={`absolute md:right-1 top-full mt-1 transition-all duration-300 z-50 ${
           isToolboxOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-90 pointer-events-none"
-        }`}
+        } md:w-auto w-screen`}
       >
-        <div className="bg-black text-white p-4 rounded-lg shadow-lg flex flex-col md:flex-row">
-          <div className="w-full md:w-64 max-h-[350px] overflow-y-auto pr-1 mb-3 md:mb-0 md:mr-4">
+        <div className="bg-black text-white p-4 rounded-none md:rounded-lg shadow-lg flex flex-col md:flex-row">
+          {/* Content area with consistent height on mobile */}
+          <div className="w-full md:w-64 h-[280px] md:h-auto max-h-[350px] overflow-y-auto md:pr-1 mb-3 md:mb-0 md:mr-4">
             {selectedToolboxItem ? (
-              <>
+              <div className="h-full flex flex-col">
                 {selectedToolboxItem === "calendar" && (
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 h-full">
                     <h2 className="font-bold">Select Dates</h2>
                     <label>
                       Start Date
                       <input
                         type="date"
-                        className="text-black block w-full mt-1"
+                        className="text-black block w-full mt-1 px-2 py-1 rounded"
                       />
                     </label>
                     <label>
                       End Date
                       <input
                         type="date"
-                        className="text-black block w-full mt-1"
+                        className="text-black block w-full mt-1 px-2 py-1 rounded"
                       />
                     </label>
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex gap-2 mt-auto">
                       <button
                         className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime"
                         onClick={closeToolbox}
@@ -560,16 +559,16 @@ const Navigation = () => {
                   </div>
                 )}
                 {selectedToolboxItem === "user" && (
-                  <div className="flex flex-col space-y-4 bg-black/80 rounded-lg">
+                  <div className="flex flex-col space-y-4 bg-black/80 rounded-lg h-full">
                     <h2 className="text-xl font-bold text-center text-lime mb-4">
                       Login
                     </h2>
 
                     <div className="flex flex-col items-center">
-                      <div className="flex justify-center items-center space-x-4 w-full">
+                      <div className="flex justify-center items-center w-full">
                         <Link
                           href="/pages/logIn"
-                          className="flex-1"
+                          className="w-full"
                           onClick={closeToolbox}
                         >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
@@ -584,10 +583,10 @@ const Navigation = () => {
                         <div className="flex-grow border-t border-gray-600"></div>
                       </div>
 
-                      <div className="flex justify-center items-center space-x-4 w-full">
+                      <div className="flex justify-center items-center w-full">
                         <Link
                           href="/pages/signUp"
-                          className="flex-1"
+                          className="w-full"
                           onClick={closeToolbox}
                         >
                           <button className="w-full bg-lime text-black px-4 py-2 rounded-md hover:opacity-90 transition-opacity">
@@ -599,7 +598,7 @@ const Navigation = () => {
                   </div>
                 )}
                 {selectedToolboxItem === "projects" && (
-                  <div className="flex flex-col gap-2 pr-1">
+                  <div className="flex flex-col gap-2 h-full">
                     <div className="flex justify-between items-center">
                       <h2 className="font-bold">Projects</h2>
                       <div className="bg-lime rounded-full px-2 py-0.5 text-black text-xs">
@@ -619,7 +618,7 @@ const Navigation = () => {
                         <input
                           type="text"
                           placeholder="Project name"
-                          className="text-black text-sm px-2 py-1 rounded w-32"
+                          className="text-black text-sm px-2 py-1 rounded flex-grow"
                         />
                         <button className="bg-lime text-black px-2 py-1 rounded-md hover:opacity-90 text-sm whitespace-nowrap">
                           Create
@@ -627,7 +626,7 @@ const Navigation = () => {
                       </div>
                     </div>
 
-                    <div className="mt-2">
+                    <div className="mt-2 overflow-y-auto flex-grow">
                       <h3 className="text-sm font-medium mb-1">
                         Your Projects
                       </h3>
@@ -709,17 +708,19 @@ const Navigation = () => {
                 {selectedToolboxItem === "contact" && (
                   <ContactForm closeToolbox={closeToolbox} />
                 )}
-              </>
+              </div>
             ) : (
               <div className="flex items-center justify-center h-full text-white/50">
                 <p>Select an option</p>
               </div>
             )}
           </div>
+
+          {/* Icons section - consistent sizing on mobile */}
           <div className="grid grid-cols-4 md:grid-cols-1 gap-2 md:gap-3">
             <button
               onClick={() => handleIconClick("calendar")}
-              className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-md transition select-none ${
+              className={`flex items-center justify-center w-full md:w-12 h-10 md:h-12 rounded-md transition select-none ${
                 selectedToolboxItem === "calendar"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
@@ -729,7 +730,7 @@ const Navigation = () => {
             </button>
             <button
               onClick={() => handleIconClick("user")}
-              className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-md transition select-none ${
+              className={`flex items-center justify-center w-full md:w-12 h-10 md:h-12 rounded-md transition select-none ${
                 selectedToolboxItem === "user"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
@@ -739,7 +740,7 @@ const Navigation = () => {
             </button>
             <button
               onClick={() => handleIconClick("projects")}
-              className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-md transition select-none ${
+              className={`flex items-center justify-center w-full md:w-12 h-10 md:h-12 rounded-md transition select-none ${
                 selectedToolboxItem === "projects"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
@@ -749,7 +750,7 @@ const Navigation = () => {
             </button>
             <button
               onClick={() => handleIconClick("contact")}
-              className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-md transition select-none ${
+              className={`flex items-center justify-center w-full md:w-12 h-10 md:h-12 rounded-md transition select-none ${
                 selectedToolboxItem === "contact"
                   ? "bg-lime text-black"
                   : "bg-white text-black hover:bg-lime"
