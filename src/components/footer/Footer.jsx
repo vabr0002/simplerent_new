@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../button/Button";
 import Link from "next/link";
-import { FaInstagram, FaFacebookF, FaXTwitter, FaPlane } from "react-icons/fa6"; // Added FaPlane
+import { FaInstagram, FaFacebookF, FaXTwitter, FaPlane } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -11,7 +11,9 @@ const Footer = () => {
         <p className="text-h5">
           We are here to help and serve you. Give us a call or send us a mail
         </p>
-        <Button className="bg-lime text-black">Contact Us</Button>
+        <Button className="bg-lime text-black border-2 border-lime hover:bg-transparent hover:text-lime transition-all duration-300">
+          Contact Us
+        </Button>
         <h3>Jernholmen 2, 2650 Hvidovre</h3>
 
         {/* Social Media Links */}

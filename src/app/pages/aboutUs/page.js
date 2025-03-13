@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
-  // Array med medarbejdernavne
   const employees = [
     "Jude",
     "Maria",
@@ -16,8 +15,8 @@ export default function Home() {
 
   return (
     <div>
+      {/* Hero Section */}
       <div className="relative h-[60vh] -mt-[75px]">
-        {/* Hero Image Container */}
         <div className="relative w-full h-full">
           <Image
             src="/img/hero.webp"
@@ -27,86 +26,85 @@ export default function Home() {
             className="object-cover brightness-50"
           />
         </div>
-
-        {/* Overlay Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-          <div className="text-h1 font-bold mr-4 flex flex-col justify-start items-start">
-            <span className="text-lime text-h1">
-              We make it simple for you to make awsome content
+          <div className="text-3xl sm:text-4xl md:text-h1 font-bold flex flex-col justify-center items-center">
+            <span className="text-lime">
+              We make it simple for you to make awesome content
             </span>
-            <div className="w-full flex justify-end"></div>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-evenly gap-4 m-16 mt-32 p-20">
-        <div className="max-w-xs">
-          <h3 className="text-h1 text-lime">Simple</h3>
-          <p>We keep it as simple a possible renting film equipment with us.</p>
-        </div>
-        <div className="max-w-xs">
-          <h3 className="text-h1 text-lime">Learn</h3>
-          <p>
-            You can always cone and test any of our equipment, if you would like
-            to.
-          </p>
-        </div>
-        <div className="max-w-xs">
-          <h3 className="text-h1 text-lime">Assistance</h3>
-          <p>
-            Ask us if you need any assistance for your production, we can
-            problably help out.
-          </p>
+      {/* Three Columns Section */}
+      <div className="container mx-auto px-4 md:px-0">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 py-8 md:py-16 px-4 md:px-20">
+          <div className="max-w-xs text-center md:text-left">
+            <h3 className="text-3xl md:text-h1 text-lime">Simple</h3>
+            <p>
+              We keep it as simple as possible renting film equipment with us.
+            </p>
+          </div>
+          <div className="max-w-xs text-center md:text-left">
+            <h3 className="text-3xl md:text-h1 text-lime">Learn</h3>
+            <p>
+              You can always come and test any of our equipment if you’d like
+              to.
+            </p>
+          </div>
+          <div className="max-w-xs text-center md:text-left">
+            <h3 className="text-3xl md:text-h1 text-lime">Assistance</h3>
+            <p>
+              Ask us if you need any assistance for your production; we can
+              probably help out.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Medarbejder sektion */}
-      <div className="container mx-auto py-10 px-4 mt-top-spacing">
+      {/* Employee Section */}
+      <div className="container mx-auto py-10 px-4">
         <h2 className="text-h2 font-bold mb-6 text-center">The Magic Team</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-20">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4 md:px-20">
           {employees.map((name, index) => (
             <div
               key={index}
-              className="bg-white w-full h-80 rounded-lg shadow-md flex flex-col justify-center items-center transition-transform duration-300 hover:scale-105 cursor-pointer"
+              className="bg-white w-full h-64 rounded-lg shadow-md flex flex-col justify-center items-center transition-transform duration-300 hover:scale-105 cursor-pointer"
             >
-              {/* Placeholder for profilbillede */}
-              <div className="w-32 h-32 rounded-full bg-gray-200 mb-4 flex items-center justify-center overflow-hidden">
-                <span className="text-3xl text-gray-400">{name.charAt(0)}</span>
+              <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-gray-200 mb-4 flex items-center justify-center overflow-hidden">
+                <span className="text-2xl md:text-3xl text-gray-400">
+                  {name.charAt(0)}
+                </span>
               </div>
-
-              {/* Medarbejdernavn */}
-              <h3 className="text-xl font-semibold">{name}</h3>
-
-              {/* Jobtitel */}
-              <p className="text-gray-600 mt-2">Stilling</p>
+              <h3 className="text-lg md:text-xl font-semibold">{name}</h3>
+              <p className="text-gray-600 mt-2 text-sm md:text-base">
+                Stilling
+              </p>
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="flex mt-52 justify-evenly m-16">
-          <h2 className="text-h1 w-15">
-            {" "}
-            Keeping film rental <span className="text-lime">Simple.</span>
-          </h2>
-
-          <div className="max-w-3xl p-20 ">
-            <p>
-              Since 2017 we have serviced Danish and international content
-              creators working in Denmark. We do our best in making it simple
-              and safe to rent film equipment. At SimpleRent you are most
-              welcome if you are both a seasoned filmmaker or just starting out
-              with content creation. We do our best to make it a simple, hassle
-              free & all in all a great experience to work with us. We consist
-              of a mix of film and AV people, with a shared passion for gear and
-              filmmaking.
-            </p>
-            <Link href={"/pages/products"}>
-              <h2 className="font-bold text-h3 hover:text-lime">
-                Check out our gear
-              </h2>
-            </Link>
-          </div>
+      {/* Final Text Section */}
+      <div className="flex flex-col md:flex-row justify-center items-center gap-8 m-8 md:m-16 p-4 md:p-20">
+        <h2 className="text-3xl md:text-h1 text-center md:text-left">
+          Keeping film rental <span className="text-lime">Simple.</span>
+        </h2>
+        <div className="max-w-3xl text-center md:text-left">
+          <p>
+            Since 2017 we have serviced Danish and international content
+            creators working in Denmark. We do our best in making it simple and
+            safe to rent film equipment. At SimpleRent you are most welcome if
+            you are both a seasoned filmmaker or just starting out with content
+            creation. We do our best to make it a simple, hassle-free &
+            all-in-all a great experience to work with us. We consist of a mix
+            of film and AV people, with a shared passion for gear and
+            filmmaking.
+          </p>
+          <Link href="/pages/products">
+            <h2 className="font-bold text-h3 hover:text-lime mt-4 inline-block">
+              Check out our gear
+            </h2>
+          </Link>
         </div>
       </div>
     </div>

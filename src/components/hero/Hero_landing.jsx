@@ -41,14 +41,14 @@ function Hero() {
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
         {/* Title + Search - Positioned at the top */}
         <div className="flex flex-col items-center md:items-center md:flex-row md:justify-center w-full">
-          <div className="text-3xl md:text-h1 font-bold md:mr-4 flex flex-col justify-start items-center md:items-start mb-6 md:mb-0">
+          <div className="text-4xl md:text-h1 font-bold md:mr-4 flex flex-col justify-start items-center md:items-start mb-6 md:mb-0">
             <span>Keeping film rental</span>
             <div className="w-full flex justify-center md:justify-end">
               <span className="text-lime">Simple.</span>
             </div>
           </div>
 
-          {/* Search Bar med Smooth Animation - Preserving exact desktop look */}
+          {/* Search Bar med Smooth Animation */}
           <div
             ref={searchRef}
             className={`flex items-center bg-white text-black overflow-hidden 
@@ -83,14 +83,14 @@ function Hero() {
           </div>
         </div>
 
-        {/* Features - Positioned absolutely to maintain exact desktop positioning */}
-        <div className="absolute bottom-8 md:bottom-20 left-0 right-0">
+        {/* Features - Adjusted positioning for mobile */}
+        <div className="absolute bottom-20 md:bottom-20 left-0 right-0">
           <div className="flex flex-wrap justify-center gap-3 px-4 md:hidden">
             {[
               "Cashback for returning customers",
               "Build in tools for planning",
               "24/7 instant booking",
-              "Only 11 min from CPH Airport",
+              "Only 11 min from CPH Airport"
             ].map((feature, index) => (
               <div
                 key={index}
@@ -164,18 +164,18 @@ function Hero() {
             ))}
           </div>
 
-          {/* Desktop features - Keeping original desktop HTML exactly as it was */}
+          {/* Desktop features - Unchanged */}
           <div className="hidden md:flex justify-center space-x-4">
             {[
               "Cashback for returning customers",
               "Build in tools for planning",
               "24/7 instant booking",
-              "Only 11 min from CPH Airport",
+              "Only 11 min from CPH Airport"
             ].map((feature, index) => (
               <div
                 key={index}
                 className="bg-black bg-opacity-20 text-white border-2 rounded-xl 
-                         flex flex-col items-center justify-center p-4 w-[110px] h-[120px] 
+                         flex flex-col items-center justify-center p-4 w-[110px] h-[110px] 
                          transform hover:scale-105 hover:translate-y-[-3px] 
                          transition duration-300 ease-in-out"
               >
@@ -183,7 +183,7 @@ function Hero() {
                 {index === 0 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white mb-1"
+                    className="h-6 w-6 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -197,7 +197,7 @@ function Hero() {
                 {index === 1 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white mb-1"
+                    className="h-6 w-6 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -211,7 +211,7 @@ function Hero() {
                 {index === 2 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white mb-1"
+                    className="h-6 w-6 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -226,7 +226,7 @@ function Hero() {
                 {index === 3 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white mb-1"
+                    className="h-6 w-6 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

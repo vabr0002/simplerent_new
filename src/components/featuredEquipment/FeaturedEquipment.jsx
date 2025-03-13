@@ -1,4 +1,5 @@
 import React from "react";
+import { FaFolderOpen } from "react-icons/fa";
 
 const FeaturedEquipmentSection = () => {
   // Sample equipment data (replace with real data as needed)
@@ -8,29 +9,29 @@ const FeaturedEquipmentSection = () => {
       title: "Sony FX6",
       description: "Full-frame cinema camera",
       price: "500 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 2,
       title: "Canon 50mm Lens",
       description: "Prime lens for portraits",
       price: "200 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 3,
       title: "LED Panel",
       description: "Portable lighting solution",
       price: "150 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
+      imageSrc: "/img/sony_fx6.jpg"
     },
     {
       id: 4,
       title: "Rode Mic",
       description: "High-quality audio recording",
       price: "300 DKK",
-      imageSrc: "/img/sony_fx6.jpg",
-    },
+      imageSrc: "/img/sony_fx6.jpg"
+    }
   ];
 
   return (
@@ -63,22 +64,9 @@ const FeaturedEquipmentSection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
 
-              {/* Heart Icon */}
+              {/* Folder Open Icon instead of Heart */}
               <div className="absolute top-3 right-3 text-lime bg-black/30 p-1.5 rounded-full backdrop-blur-sm transition-transform duration-300 hover:scale-110 cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+                <FaFolderOpen className="h-5 w-5" />
               </div>
 
               {/* Price tag */}
@@ -92,10 +80,10 @@ const FeaturedEquipmentSection = () => {
               <h3 className="font-bold text-lg mb-2">{item.title}</h3>
               <p className="text-sm mb-4 text-gray-300">{item.description}</p>
 
-              {/* Button */}
+              {/* Button with updated hover effect */}
               <a
                 href="/pages/singleProducts"
-                className="inline-block w-full bg-lime text-black py-2 px-4 text-sm font-medium rounded-lg transition-colors duration-300 hover:bg-lime/90 text-center"
+                className="inline-block w-full bg-lime text-black border-2 border-lime py-2 px-4 text-sm font-medium rounded-lg transition-all duration-300 hover:bg-transparent hover:text-lime text-center"
               >
                 Rent Now
               </a>

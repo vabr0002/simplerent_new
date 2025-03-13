@@ -1,12 +1,14 @@
 export default function Home() {
   return (
-    <div className="">
+    <div className="min-h-screen">
       <div className="flex justify-center">
-        <h1 className="text-h1 m-top-spacing">Terms & Conditions</h1>
+        <h1 className="text-3xl md:text-h1 m-top-spacing mt-20 md:mt-32 text-center">
+          Terms & Conditions
+        </h1>
       </div>
 
-      <div className="px-20 mx-48 gap-6">
-        <p>
+      <div className="container mx-auto px-4 md:px-20 py-8 md:py-12">
+        <p className="mb-6">
           Thank you for considering Simple Rent ApS as your rental provider for
           audio-visual equipment. Our goal is to keep film rental simple, and
           our terms and conditions reflect that. For the purposes of these
@@ -20,7 +22,7 @@ export default function Home() {
         <h2 className="text-h3 my-2 text-lime">
           Website and Availability Calendar
         </h2>
-        <p>
+        <p className="mb-6">
           The calendar on our website, simplerent.dk (“Website”), shows the
           current availability of our gear, updated in real-time as a service to
           you. However, we cannot be held liable for any loss or damages due to
@@ -36,7 +38,7 @@ export default function Home() {
         <h2 className="text-h3 my-2 text-lime">
           Rental Period and Pickup/Return Information
         </h2>
-        <p>
+        <p className="mb-6">
           The rental period is the duration the equipment is rented and not
           returned to us. You may pick up equipment for free the day before your
           rental starts, between 14:00 and 16:30 at our office (Jernholmen 2,
@@ -52,13 +54,13 @@ export default function Home() {
         </p>
 
         <h2 className="text-h3 my-2 text-lime">Rental Fees and Deposits</h2>
-        <p>
+        <p className="mb-6">
           Full payment of rental fees and deposits is required via our Website
           or in person before equipment release. Deposits are refunded upon
           return of equipment in original condition. Our site functions like a
           web shop: select dates and equipment, add to cart, and pay via:
         </p>
-        <ul>
+        <ul className="list-disc pl-6 mb-6">
           <li>
             <strong>Credit Card/MobilePay:</strong> Payments are handled
             securely by an external service; data is encrypted, and nothing is
@@ -79,13 +81,13 @@ export default function Home() {
         </ul>
 
         <h2 className="text-h3 my-2 text-lime">Cancellation</h2>
-        <p>
+        <p className="mb-6">
           Cancel free of charge up to 2 days before your rental begins. Later
           cancellations are charged in full.
         </p>
 
         <h2 className="text-h3 my-2 text-lime">Responsibility and Insurance</h2>
-        <p>
+        <p className="mb-6">
           We require customers to take reasonable care of our equipment. Per
           Danish law, you are liable for damages from misuse or negligence,
           while we cover normal wear and tear. You must use the equipment only
@@ -93,8 +95,8 @@ export default function Home() {
           not covered by insurance or exceeding the deductible.
         </p>
 
-        <h2 className="text-h3 my-2 text-lime"> Insurance</h2>
-        <p>
+        <h2 className="text-h3 my-2 text-lime">Insurance</h2>
+        <p className="mb-6">
           Our equipment is insured by TopDanmark A/S in Denmark, Sweden, and
           Norway, with a DKK 10,000 deductible per claim, payable by you in case
           of loss or damage. To be covered, adhere to insurance terms (e.g., do
@@ -105,21 +107,21 @@ export default function Home() {
         <h2 className="text-h3 my-2 text-lime">
           Liability, Indemnification, and Termination
         </h2>
-        <p>
+        <p className="mb-6">
           You agree to indemnify us against claims, damages, or losses arising
           from equipment use, including third-party claims. We may terminate the
           agreement if you breach these terms or infringe third-party rights.
         </p>
 
         <h2 className="text-h3 my-2 text-lime">Modifications</h2>
-        <p>
+        <p className="mb-6">
           We may update these terms without notice. Review them at
           www.simplerent.dk/terms-and-conditions before each booking, even as a
           returning customer.
         </p>
 
         <h2 className="text-h3 my-2 text-lime">Jurisdiction</h2>
-        <p>
+        <p className="mb-6">
           This agreement is governed by Danish law. Disputes will be settled
           initially by the Copenhagen City Court.
         </p>

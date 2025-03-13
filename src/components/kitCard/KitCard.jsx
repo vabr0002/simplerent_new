@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { FaFolderOpen } from "react-icons/fa";
 import Link from "next/link";
 
 function Card({
@@ -54,8 +54,12 @@ function Card({
               </button>
             </Link>
           </div>
-          <div className="absolute top-3 right-3">
-            <Heart size={24} className={`text-${heartColor}`} strokeWidth={2} />
+          <div className="absolute top-3 right-3 cursor-pointer hover:scale-110">
+            <FaFolderOpen
+              size={30}
+              className={`text-${heartColor}`}
+              strokeWidth={2}
+            />
           </div>
         </div>
       </article>
