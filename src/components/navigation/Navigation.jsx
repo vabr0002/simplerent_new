@@ -3,8 +3,23 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  FaSearch,
+  FaCamera,
+  FaCalendarAlt,
+  FaUser,
+  FaExclamationCircle,
+  FaMicrophone,
+  FaLightbulb,
+  FaVideo,
+  FaGripHorizontal,
+  FaPlug,
+  FaBoxOpen,
+  FaEnvelope,
+  FaFolderOpen
+} from "react-icons/fa";
 
-// Contact Form Component
+// Contact Form Component (uændret)
 const ContactForm = ({ closeToolbox }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,8 +31,6 @@ const ContactForm = ({ closeToolbox }) => {
       setShowWarning(true);
       return;
     }
-
-    // If all fields are filled, proceed with sending
     setShowWarning(false);
     closeToolbox();
   };
@@ -34,7 +47,6 @@ const ContactForm = ({ closeToolbox }) => {
           className="text-black block w-full mt-1 px-2 py-1 rounded"
         />
       </label>
-
       <label>
         Email
         <input
@@ -44,7 +56,6 @@ const ContactForm = ({ closeToolbox }) => {
           className="text-black block w-full mt-1 px-2 py-1 rounded"
         />
       </label>
-
       <label>
         Message
         <textarea
@@ -54,13 +65,11 @@ const ContactForm = ({ closeToolbox }) => {
           rows="3"
         />
       </label>
-
       {showWarning && (
         <div className="bg-red-500/20 border border-red-500 text-red-100 p-2 rounded text-sm mt-1">
           Please fill out all fields before sending.
         </div>
       )}
-
       <button
         className="bg-lime text-black px-3 py-1 rounded-md hover:opacity-90 mt-2"
         onClick={handleSend}
@@ -70,52 +79,24 @@ const ContactForm = ({ closeToolbox }) => {
     </div>
   );
 };
-import {
-  FaSearch,
-  FaCamera,
-  FaCalendarAlt,
-  FaUser,
-  FaExclamationCircle,
-  FaMicrophone,
-  FaLightbulb,
-  FaVideo,
-  FaGripHorizontal,
-  FaPlug,
-  FaBoxOpen,
-  FaEnvelope,
-  FaFolderOpen,
-} from "react-icons/fa";
 
 const Navigation = () => {
-  // Toolbox open/close state
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
-  // Which toolbox icon is selected
   const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
-  // Which category index is hovered (sub-menu open)
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-  // Whether the category row is visible
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
-  // Store the last scroll position
   const [lastScrollPos, setLastScrollPos] = useState(0);
-  // Track whether the search bar is open
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // Track the active project
   const [activeProject, setActiveProject] = useState("Studio Setup");
-  // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Use Next.js hook to get current pathname
   const pathname = usePathname();
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Only run this if the mobile menu is open
       if (isMobileMenuOpen) {
-        // Check if the click was outside the menu content
         const mobileMenu = document.getElementById("mobile-menu-content");
         const burgerButton = document.getElementById("burger-button");
-
         if (
           mobileMenu &&
           !mobileMenu.contains(event.target) &&
@@ -126,47 +107,33 @@ const Navigation = () => {
         }
       }
     };
-
-    // Add the event listener
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Clean up
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen]);
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  // In your useEffect:
   useEffect(() => {
-    // Skip scroll animation on projects page
     if (pathname === "/pages/projects") {
-      setIsCategoryVisible(true); // Always show category menu on projects page
-      return; // Don't add scroll listener
+      setIsCategoryVisible(true);
+      return;
     }
-
-    let lastScrollPos = window.scrollY; // Store initial scroll position
-
+    let lastScrollPos = window.scrollY;
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      setIsCategoryVisible(currentScroll < lastScrollPos); // Show when scrolling up, hide when scrolling down
+      setIsCategoryVisible(currentScroll < lastScrollPos);
       lastScrollPos = currentScroll;
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]); // Re-run effect when pathname changes
+  }, [pathname]);
 
-  // Toggle which toolbox item is open
   const handleIconClick = (item) => {
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
-  // Function to close the toolbox
   const closeToolbox = () => {
     setIsToolboxOpen(false);
     setSelectedToolboxItem(null);
@@ -178,12 +145,11 @@ const Navigation = () => {
     "group text-h4 font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
     "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
-  // Category definitions
   const categories = [
     {
       name: "Kits",
       icon: <FaBoxOpen className={iconClasses} />,
-      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"],
+      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"]
     },
     {
       name: "Camera & Accessories",
@@ -196,8 +162,8 @@ const Navigation = () => {
         "Stabilizers",
         "Batteries",
         "Memory Cards",
-        "Cases",
-      ],
+        "Cases"
+      ]
     },
     {
       name: "Audio",
@@ -207,8 +173,8 @@ const Navigation = () => {
         "Recorders",
         "Mixers",
         "Headphones",
-        "Wireless Systems",
-      ],
+        "Wireless Systems"
+      ]
     },
     {
       name: "Lighting, Sfx & Stands",
@@ -218,28 +184,28 @@ const Navigation = () => {
         "Fresnel",
         "Modifiers",
         "Light Stands",
-        "Special Effects",
-      ],
+        "Special Effects"
+      ]
     },
     {
       name: "Live Production",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"],
+      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"]
     },
     {
       name: "Monitors & Recorders",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"],
+      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"]
     },
     {
       name: "Grips & Gadgets",
       icon: <FaGripHorizontal className={iconClasses} />,
-      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"],
+      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"]
     },
     {
       name: "Cables & Adapters",
       icon: <FaPlug className={iconClasses} />,
-      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"],
+      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"]
     },
     {
       name: "Production & Consumables",
@@ -249,27 +215,24 @@ const Navigation = () => {
         "Markers",
         "Batteries",
         "Gels",
-        "Cleaning Supplies",
-      ],
-    },
+        "Cleaning Supplies"
+      ]
+    }
   ];
 
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-    if (index >= total - 3)
-      return "right-[-30px]"; // Shift right submenus slightly to the right
+    if (index >= total - 3) return "right-[-30px]";
     else if (index >= Math.floor(total / 3) && index < total - 3)
-      return "left-1/2 -translate-x-[45%]"; // Shift centered submenus slightly to the right
-    else return "left-[-30px]"; // Shift left-aligned submenus slightly to the right
+      return "left-1/2 -translate-x-[45%]";
+    else return "left-[-30px]";
   };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-transparent select-none">
-      {/* Wrap top nav + category row in one container */}
       <div className="flex flex-col w-full">
         {/* TOP NAV BAR */}
         <div className="relative w-full p-3 bg-black text-white flex items-center justify-between">
-          {/* Burger Menu Icon (mobile only) */}
           <div className="flex md:hidden">
             <button
               id="burger-button"
@@ -284,9 +247,7 @@ const Navigation = () => {
             </button>
           </div>
 
-          {/* Left Links - Hidden on mobile */}
           <div className="hidden md:flex gap-6 ml-4">
-            {/* "Home" link: active (lime) when pathname is "/" */}
             <Link
               className={`text-h4 ${
                 pathname === "/" ? "text-lime" : "hover:text-lime"
@@ -295,7 +256,6 @@ const Navigation = () => {
             >
               Home
             </Link>
-            {/* "How it works" link: active when pathname is "/pages/howItWorks" */}
             <Link
               className={`text-h4 ${
                 pathname === "/pages/howItWorks"
@@ -306,7 +266,6 @@ const Navigation = () => {
             >
               How it works
             </Link>
-            {/* "Learn" link: active when pathname is "/pages/learn" */}
             <Link
               className={`text-h4 ${
                 pathname === "/pages/learn" ? "text-lime" : "hover:text-lime"
@@ -317,42 +276,54 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* LOGO center-absolute - visible at all times */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
             <Link href="/">
               <Image src="/logo/logo.svg" width={150} height={50} alt="Logo" />
             </Link>
           </div>
 
-          {/* Right Icons */}
-          <div className="flex gap-3 md:gap-6 mr-2 md:mr-4 ml-auto relative">
-            {isSearchOpen ? (
-              <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-transform duration-300 select-none">
-                <FaSearch className="text-black text-xl mr-2" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="bg-white text-black outline-none w-24 md:w-40"
-                />
-                <button
-                  onClick={() => setIsSearchOpen(false)}
-                  className="ml-2 text-black hover:text-lime transition-colors"
+          <div className="flex gap-3 md:gap-6 mr-2 md:mr-4 ml-auto relative z-10">
+            {/* Desktop Search (inline) */}
+            <div className="hidden md:flex">
+              {isSearchOpen ? (
+                <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-all duration-500 ease-in-out select-none w-64 opacity-100">
+                  <FaSearch className="text-black text-xl mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="bg-white text-black outline-none w-full"
+                  />
+                  <button
+                    onClick={() => setIsSearchOpen(false)}
+                    className="ml-2 text-black hover:text-lime transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
+        rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
+        hover:bg-lime select-none"
+                  onClick={() => setIsSearchOpen(true)}
                 >
-                  Close
-                </button>
-              </div>
-            ) : (
+                  <FaSearch className="absolute text-black text-xl" />
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Search (icon only, triggers full-width below) */}
+            <div className="md:hidden">
               <div
-                className="relative bg-white text-black p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center 
+                className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center 
                   rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
                   hover:bg-lime select-none"
                 onClick={() => setIsSearchOpen(true)}
               >
-                <FaSearch className="absolute text-black text-lg md:text-xl" />
+                <FaSearch className="absolute text-black text-lg" />
               </div>
-            )}
+            </div>
 
-            {/* Exclamation Icon (toolbox toggle) - Changed from Gear */}
             <div
               className={`relative p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 
                 transition-transform duration-300 cursor-pointer select-none ${
@@ -370,24 +341,49 @@ const Navigation = () => {
           </div>
         </div>
 
+        {/* Mobile Search Bar - Full width under navbar when open */}
+        <div
+          className={`md:hidden w-full bg-black transition-all duration-300 ${
+            isSearchOpen
+              ? "max-h-16 opacity-100"
+              : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className="flex items-center justify-center bg-white text-black h-12 px-4 mx-2 my-2 rounded-xl">
+            <FaSearch className="text-black text-xl mr-2" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="bg-white text-black outline-none w-full"
+            />
+            <button
+              onClick={() => setIsSearchOpen(false)}
+              className="ml-2 text-black hover:text-lime transition-colors font-semibold"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
         {/* Mobile Menu - Full screen overlay */}
         <div
           className={`fixed inset-0 bg-black z-40 transition-all duration-300 pt-16 
-          ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}
+          ${
+            isMobileMenuOpen
+              ? "opacity-100 visible"
+              : "opacity-0 invisible pointer-events-none"
+          }`}
         >
-          {/* Close button at top right of menu */}
           <button
             className="absolute top-4 right-4 text-white hover:text-lime p-2"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <span className="text-3xl">✕</span>
           </button>
-
           <div
             id="mobile-menu-content"
             className="flex flex-col h-full overflow-y-auto pointer-events-auto"
           >
-            {/* Mobile navigation links */}
             <div className="flex flex-col items-center gap-6 py-8 border-b border-gray-800">
               <Link
                 className={`text-xl ${
@@ -421,8 +417,6 @@ const Navigation = () => {
                 Learn
               </Link>
             </div>
-
-            {/* Categories in mobile menu */}
             <div className="px-4 py-6 overflow-y-auto">
               <h2 className="text-lime text-lg font-bold mb-4 text-center">
                 Categories
@@ -432,7 +426,7 @@ const Navigation = () => {
                   <div key={index} className="border-b border-gray-800 pb-4">
                     <div className="flex items-center gap-3 mb-2">
                       {React.cloneElement(cat.icon, {
-                        className: "text-2xl text-white",
+                        className: "text-2xl text-white"
                       })}
                       <span className="text-white text-lg">{cat.name}</span>
                     </div>
@@ -458,13 +452,11 @@ const Navigation = () => {
         {/* CATEGORY ROW - Hidden on mobile */}
         <div
           className={`hidden md:flex flex-row flex-wrap justify-center w-full bg-black/30 font-helvetica select-none
-            transition-all duration-150
-            ${
+            transition-all duration-150 ${
               isCategoryVisible
                 ? "max-h-32 opacity-100 pt-2"
                 : "max-h-0 opacity-0"
-            }
-          `}
+            }`}
         >
           {categories.map((cat, index, arr) => (
             <div
@@ -482,7 +474,7 @@ const Navigation = () => {
                 {React.cloneElement(cat.icon, {
                   className:
                     cat.icon.props.className +
-                    (activeSubmenu === index ? " text-lime" : ""),
+                    (activeSubmenu === index ? " text-lime" : "")
                 })}
                 <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
                   {cat.name}
@@ -521,7 +513,6 @@ const Navigation = () => {
         } md:w-auto w-screen`}
       >
         <div className="bg-black text-white p-4 rounded-none md:rounded-lg shadow-lg flex flex-col md:flex-row">
-          {/* Content area with consistent height on mobile */}
           <div className="w-full md:w-64 h-[280px] md:h-auto max-h-[350px] overflow-y-auto md:pr-1 mb-3 md:mb-0 md:mr-4">
             {selectedToolboxItem ? (
               <div className="h-full flex flex-col">
@@ -563,7 +554,6 @@ const Navigation = () => {
                     <h2 className="text-xl font-bold text-center text-lime mb-4">
                       Login
                     </h2>
-
                     <div className="flex flex-col items-center">
                       <div className="flex justify-center items-center w-full">
                         <Link
@@ -576,13 +566,11 @@ const Navigation = () => {
                           </button>
                         </Link>
                       </div>
-
                       <div className="my-4 flex items-center w-full">
                         <div className="flex-grow border-t border-gray-600"></div>
                         <span className="px-4 text-gray-400">OR</span>
                         <div className="flex-grow border-t border-gray-600"></div>
                       </div>
-
                       <div className="flex justify-center items-center w-full">
                         <Link
                           href="/pages/signUp"
@@ -609,7 +597,6 @@ const Navigation = () => {
                       Create and manage your projects. Add items to projects and
                       transfer to cart when ready.
                     </p>
-
                     <div className="mt-2">
                       <label className="block text-sm font-medium mb-1">
                         Create New Project
@@ -625,14 +612,17 @@ const Navigation = () => {
                         </button>
                       </div>
                     </div>
-
                     <div className="mt-2 overflow-y-auto flex-grow">
                       <h3 className="text-sm font-medium mb-1">
                         Your Projects
                       </h3>
                       <ul className="space-y-2 w-full">
                         <li
-                          className={`rounded p-2 ${activeProject === "Studio Setup" ? "bg-lime/20 border border-lime" : "bg-white/10"}`}
+                          className={`rounded p-2 ${
+                            activeProject === "Studio Setup"
+                              ? "bg-lime/20 border border-lime"
+                              : "bg-white/10"
+                          }`}
                         >
                           <div className="flex justify-between items-center">
                             <span className="font-medium text-sm">
@@ -650,10 +640,12 @@ const Navigation = () => {
                             </Link>
                             <div className="flex gap-1">
                               <button
-                                onClick={() => {
-                                  setActiveProject("Studio Setup");
-                                }}
-                                className={`text-xs px-2 py-1 rounded ${activeProject === "Studio Setup" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
+                                onClick={() => setActiveProject("Studio Setup")}
+                                className={`text-xs px-2 py-1 rounded ${
+                                  activeProject === "Studio Setup"
+                                    ? "bg-lime text-black"
+                                    : "bg-white/20 text-white hover:bg-white/30"
+                                }`}
                               >
                                 Choose
                               </button>
@@ -667,7 +659,11 @@ const Navigation = () => {
                           </div>
                         </li>
                         <li
-                          className={`rounded p-2 ${activeProject === "Location Shoot" ? "bg-lime/20 border border-lime" : "bg-white/10"}`}
+                          className={`rounded p-2 ${
+                            activeProject === "Location Shoot"
+                              ? "bg-lime/20 border border-lime"
+                              : "bg-white/10"
+                          }`}
                         >
                           <div className="flex justify-between items-center">
                             <span className="font-medium text-sm">
@@ -688,7 +684,11 @@ const Navigation = () => {
                                 onClick={() =>
                                   setActiveProject("Location Shoot")
                                 }
-                                className={`text-xs px-2 py-1 rounded ${activeProject === "Location Shoot" ? "bg-lime text-black" : "bg-white/20 text-white hover:bg-white/30"}`}
+                                className={`text-xs px-2 py-1 rounded ${
+                                  activeProject === "Location Shoot"
+                                    ? "bg-lime text-black"
+                                    : "bg-white/20 text-white hover:bg-white/30"
+                                }`}
                               >
                                 Choose
                               </button>
@@ -715,8 +715,6 @@ const Navigation = () => {
               </div>
             )}
           </div>
-
-          {/* Icons section - consistent sizing on mobile */}
           <div className="grid grid-cols-4 md:grid-cols-1 gap-2 md:gap-3">
             <button
               onClick={() => handleIconClick("calendar")}

@@ -64,7 +64,7 @@ const PopularKits = () => {
         <div className="sm:hidden flex justify-center mt-6">
           <button
             onClick={() => setShowAll(true)}
-            className="bg-lime text-black px-6 py-2 rounded-xl font-semibold hover:bg-lime-600 transition duration-300"
+            className="bg-lime text-black border-2 border-lime px-6 py-2 rounded-xl font-semibold transition-all duration-300 hover:bg-transparent hover:text-black"
           >
             Show More
           </button>

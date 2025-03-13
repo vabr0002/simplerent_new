@@ -104,7 +104,7 @@ function Hero() {
                 {index === 0 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white mb-1"
+                    className="h-5 w-5 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -118,7 +118,7 @@ function Hero() {
                 {index === 1 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white mb-1"
+                    className="h-5 w-5 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -132,7 +132,7 @@ function Hero() {
                 {index === 2 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white mb-1"
+                    className="h-5 w-5 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -147,7 +147,7 @@ function Hero() {
                 {index === 3 && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-white mb-1"
+                    className="h-5 w-5 text-lime mb-1"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

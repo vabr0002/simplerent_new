@@ -61,7 +61,7 @@ const CartItem = ({ item, onRemove, onUpdateQuantity }) => (
 const Cart = () => {
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Allen & Heath SQ5 Mixer", price: 950, quantity: 1 },
-    { id: 2, name: "Shure SM58 Microphone", price: 150, quantity: 2 },
+    { id: 2, name: "Shure SM58 Microphone", price: 150, quantity: 2 }
   ]);
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -127,7 +127,9 @@ const Cart = () => {
       {/* Cart Button */}
       <button
         id="cart-button"
-        className={`flex items-center justify-center bg-white text-black px-4 py-2 rounded-full shadow-lg cursor-pointer hover:bg-lime-100 transition-all ${isAnimating ? "scale-110" : ""}`}
+        className={`flex items-center justify-center bg-white text-black px-4 py-2 rounded-full shadow-lg cursor-pointer hover:bg-lime-100 transition-all ${
+          isAnimating ? "scale-110" : ""
+        }`}
         onClick={toggleCart}
         aria-expanded={isOpen}
         aria-controls="cart-panel"
@@ -219,7 +221,7 @@ const Cart = () => {
 
             {/* Checkout Button */}
             <Link href="/pages/checkout">
-              <button className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors font-medium flex items-center justify-center">
+              <button className="w-full bg-lime text-black py-2 px-4 rounded-md hover:bg-transparent border hover:border-black transition-colors font-medium flex items-center justify-center">
                 Proceed to Checkout
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
