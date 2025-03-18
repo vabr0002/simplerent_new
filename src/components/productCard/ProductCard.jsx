@@ -9,22 +9,11 @@ const ProductCard = ({
   price,
   imageSrc,
   buttonText = "Reserve",
-  buttonLink = "/pages/singleProduct",
-  bgColor = "",
-  textColor = "",
-  borderColor = "",
-  borderWidth = "",
-  buttonBgColor = "",
-  buttonTextColor = "",
-  heartColor = "",
-  className = "",
-  gapClass = "gap4"
+  buttonLink = "/pages/singleProduct"
 }) => {
   return (
-    <div
-      className={`p-4 rounded-lg ${gapClass} ${bgColor} ${textColor} ${borderColor} ${borderWidth} ${className}`}
-    >
-      <div className="relative w-full h-[160px] mb-4">
+    <div className=" p-6 rounded-lg border-2 hover:border-black ">
+      <div className="relative w-full h-[160px] mb-6">
         <Image
           src={imageSrc}
           alt={title}
@@ -33,13 +22,13 @@ const ProductCard = ({
           className="w-full h-full object-cover rounded"
         />
       </div>
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-sm">{description}</p>
-      <p className="text-base font-bold mt-2">{price}</p>
-      <div className="flex justify-between items-center">
+      <h3 className="text-lg text-black font-semibold ">{title}</h3>
+      <p className="text-sm text-black mt-6 ">{description}</p>
+      <p className="text-base text-black font-bold ">{price}</p>
+      <div className="flex justify-between items-center mt-6">
         <Button
           href={buttonLink}
-          className={`${buttonBgColor} ${buttonTextColor}`}
+          className="bg-lime border-2 border-lime hover:scale-105"
         >
           {buttonText}
         </Button>
