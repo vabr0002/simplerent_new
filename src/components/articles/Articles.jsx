@@ -8,15 +8,15 @@ const Articles = () => {
       title: "Filming Tips for Beginners",
       description:
         "Learn the basics of filming with our expert tips and tricks to get started.",
-      imageSrc: "/img/filming-tips.jpg",
+      imageSrc: "/img/filming-tips.jpg", // Skal ligge i public/img/
       link: "/articles/filming-tips"
     },
     {
       title: "Choosing the Right Camera",
       description:
         "A guide to picking the perfect camera for your next project.",
-      imageSrc: "/img/camera-guide.jpg",
-      link: "/articles/camera-guide"
+      imageSrc: "/img/camera-guide.jpg", // Rettet fra forkert sti
+      link: "/articles/choosing-camera" // Rettet til mere konsistent URL
     },
     {
       title: "Lighting Techniques 101",
@@ -57,7 +57,7 @@ const Articles = () => {
             <Image
               src={article.imageSrc}
               alt={article.title}
-              layout="fill"
+              fill // Bruger 'fill' i stedet for 'layout="fill"'
               objectFit="cover"
               className="w-full h-full"
             />
@@ -65,15 +65,10 @@ const Articles = () => {
 
           {/* Indhold */}
           <div className="p-4">
-            {/* Overskrift */}
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {article.title}
             </h2>
-
-            {/* Beskrivende tekst */}
             <p className="text-gray-600 text-sm mb-4">{article.description}</p>
-
-            {/* Read More knap */}
             <Link href={article.link}>
               <button className="bg-lime text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-lime-600 transition duration-300">
                 Read More

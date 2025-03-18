@@ -53,19 +53,19 @@ const FeaturedEquipmentSection = () => {
         {equipment.map((item) => (
           <div
             key={item.id}
-            className="w-full max-w-xs mx-auto bg-black/40 backdrop-blur-sm text-white rounded-xl overflow-hidden shadow-lg border border-white/10 transform transition-transform duration-300 hover:scale-105 hover:shadow-lime/20 hover:shadow-lg"
+            className="w-full max-w-xs mx-auto bg-black/40  text-white rounded-xl overflow-hidden shadow-lg border border-white/10 transform transition-transform duration-300 hover:scale-105 hover:shadow-lime/20 hover:shadow-lg"
           >
             {/* Product Image with gradient overlay */}
             <div className="relative group">
               <img
                 src={item.imageSrc}
                 alt={item.title}
-                className="w-full h-48 object-cover transition-all duration-300 group-hover:brightness-110"
+                className="w-full h-48 object-cover  "
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
 
               {/* Folder Open Icon instead of Heart */}
-              <div className="absolute top-3 right-3 text-lime bg-black/30 p-1.5 rounded-full backdrop-blur-sm transition-transform duration-300 hover:scale-110 cursor-pointer">
+              <div className="absolute top-3 right-3 text-lime bg-black/30 p-1.5 rounded-full  transition-transform duration-300 hover:scale-110 cursor-pointer">
                 <FaFolderOpen className="h-5 w-5" />
               </div>
 
