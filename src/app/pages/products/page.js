@@ -1,26 +1,11 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import Filter from '@/components/FilterFunction/Filter'; 
-import ProductCard from '@/components/productCard/ProductCard'; 
+
+import Filter from "@/components/FilterFunction/Filter";
+import ProductCard from "@/components/productCard/ProductCard";
 
 export default function ProductPage() {
-  const [equipment, setEquipment] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("/api/rentman/equipment"); // Fetching from API route
-        if (!response.ok) {
-          throw new Error("Failed to fetch equipment");
-        }
-        const data = await response.json();
-        setEquipment(data);
-      } catch (error) {
-        console.error("Error fetching equipment:", error);
-      }
-    }
-    fetchData();
-  }, []);
+
 
   return (
     <div className="bg-white min-h-screen w-full">
@@ -33,11 +18,8 @@ export default function ProductPage() {
 
           {/* Products Grid Column (Flexible Width) */}
           <div className="flex-grow">
-            {/* Product Grid - 4 cards per row on desktop, responsive on smaller screens */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {equipment.map((item) => (
-                <ProductCard key={item.id} product={item} />
-              ))}
+           <ProductCard />
             </div>
           </div>
         </div>
