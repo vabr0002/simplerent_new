@@ -19,7 +19,7 @@ export default function ProductPage() {
             {/* Product Grid - 4 cards per row on desktop, responsive on smaller screens */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
              
-           < ProductCard />
+           
              
             </div>
             
