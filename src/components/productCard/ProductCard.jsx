@@ -4,12 +4,12 @@ import React from "react";
 import Button from "../button/Button";
 
 const ProductCard = ({
-  title,
-  description,
-  price,
-  imageSrc,
+  title = "Product Title",
+  description = "Product Description",
+  price = "Product Price",
+  imageSrc = "/img/hero.webp",
   buttonText = "Reserve",
-  buttonLink = "/pages/singleProduct"
+  buttonLink = "/pages/singleProduct",
 }) => {
   return (
     <div className=" p-6 rounded-lg border-2 hover:border-black ">
