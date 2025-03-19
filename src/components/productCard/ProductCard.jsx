@@ -7,12 +7,12 @@ const ProductCard = ({
   title = "Product Title",
   description = "Product Description",
   price = "Product Price",
-  imageSrc = "/img/hero.webp",
+  imageSrc = "/img/sony_fx6.jpg",
   buttonText = "Reserve",
   buttonLink = "/pages/singleProduct",
 }) => {
   return (
-    <div className="p-6 rounded-lg border-2 hover:shadow-md hover:scale-105 group transition-transform duration-300">
+    <div className="p-6 rounded-lg border-2 hover:shadow-sm  group transition-transform duration-300">
       <div className="relative w-full h-[160px] mb-6 overflow-hidden">
         <Image
           src={imageSrc}
