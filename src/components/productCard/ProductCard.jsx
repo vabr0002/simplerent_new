@@ -9,27 +9,24 @@ const ProductCard = ({
   price = "Product Price",
   imageSrc = "/img/hero.webp",
   buttonText = "Reserve",
-  buttonLink = "/pages/singleProduct",
+  buttonLink = "/pages/singleProduct"
 }) => {
   return (
-    <div className=" p-6 rounded-lg border-2 hover:scale-105 hover:shadow-md ">
-      <div className="relative w-full h-[160px] mb-6">
+    <div className="p-6 rounded-lg border-2 hover:shadow-sm group">
+      <div className="relative w-full h-[160px] mb-6 inline-block overflow-hidden">
         <Image
           src={imageSrc}
           alt={title}
           width={240}
           height={160}
-          className="w-full h-full object-cover rounded"
+          className="w-full h-full object-cover rounded transition-transform duration-500 group-hover:scale-110"
         />
       </div>
-      <h3 className="text-lg text-black font-semibold ">{title}</h3>
-      <p className="text-sm text-black mt-6 ">{description}</p>
-      <p className="text-base text-black font-bold ">{price}</p>
+      <h3 className="text-lg text-black font-semibold">{title}</h3>
+      <p className="text-sm text-black mt-6">{description}</p>
+      <p className="text-base text-black font-bold">{price}</p>
       <div className="flex justify-between items-center mt-6">
-        <Button
-          href={buttonLink}
-          className="bg-lime border-2 border-lime hover:scale-105"
-        >
+        <Button href={buttonLink} className="bg-lime  hover:scale-105">
           {buttonText}
         </Button>
       </div>
