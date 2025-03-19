@@ -12,7 +12,7 @@ const ProductCard = ({
   buttonLink = "/pages/singleProduct",
 }) => {
   return (
-    <div className=" p-6 rounded-lg border-2 hover:border-black ">
+    <div className=" p-6 rounded-lg border-2 hover:scale-105 hover:shadow-md ">
       <div className="relative w-full h-[160px] mb-6">
         <Image
           src={imageSrc}

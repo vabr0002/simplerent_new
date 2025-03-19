@@ -1,7 +1,11 @@
 import React from "react";
 import Link from "next/link";
 
-const Button = ({ href = "#", className = "", children = "Click Me" }) => {
+const Button = ({
+  href = "/pages/singleProduct",
+  className = "",
+  children = "Click Me"
+}) => {
   return (
     <Link href={href}>
       <button
