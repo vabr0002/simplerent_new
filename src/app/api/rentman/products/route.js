@@ -26,12 +26,11 @@ export async function GET() {
     // Fetch images for each product.
     const productsWithImages = await Promise.all(
       products.map(async (product) => {
-        // Check if the product has an image property.
+        // Check if the product has an image flag set.
         if (!product.image) return product;
 
-        // Extract the file ID from the image string, e.g., "/files/98" gives "98"
-        const segments = product.image.split("/");
-        const fileId = segments.pop();
+        // Use the product’s id as the file id.
+        const fileId = product.id; // Adjust this if your API returns a separate file id
 
         const imageResponse = await fetch(`https://api.rentman.net/files/${fileId}`, {
           method: "GET",
