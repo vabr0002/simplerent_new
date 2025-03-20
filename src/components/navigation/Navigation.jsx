@@ -20,6 +20,9 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 
+// Import the calendar store
+import useCalendarStore from "@/store/calendarStore";
+
 // Contact Form Component (uændret)
 const ContactForm = ({ closeToolbox }) => {
   const [name, setName] = useState("");
@@ -94,6 +97,14 @@ const Navigation = () => {
 
   const pathname = usePathname();
   const lastScrollPosRef = useRef(0);
+
+  // Retrieve calendar store state and functions
+  const {
+    bookingPeriod,
+    setBookingPeriod,
+    clearBookingPeriod,
+    isValidBooking,
+  } = useCalendarStore();
 
   // Languages available in the toggle
   const languages = [
@@ -621,6 +632,10 @@ const Navigation = () => {
                       <input
                         type="date"
                         className="text-black block w-full mt-1 px-2 py-1 rounded"
+                        value={bookingPeriod.start || ""}
+                        onChange={(e) =>
+                          setBookingPeriod(e.target.value, bookingPeriod.end)
+                        }
                       />
                     </label>
                     <label>
@@ -628,12 +643,19 @@ const Navigation = () => {
                       <input
                         type="date"
                         className="text-black block w-full mt-1 px-2 py-1 rounded"
+                        value={bookingPeriod.end || ""}
+                        onChange={(e) =>
+                          setBookingPeriod(bookingPeriod.start, e.target.value)
+                        }
                       />
                     </label>
                     <div className="flex gap-2 mt-auto">
                       <button
                         className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime"
-                        onClick={closeToolbox}
+                        onClick={() => {
+                          clearBookingPeriod();
+                          closeToolbox();
+                        }}
                       >
                         Cancel
                       </button>
