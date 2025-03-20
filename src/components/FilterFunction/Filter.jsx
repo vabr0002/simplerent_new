@@ -80,27 +80,125 @@ const Filter = () => {
           ]
         },
         {
-          name: "Other Lighting",
-          items: [
-            "Light Modifiers",
-            "Light Stands",
-            "Light Accessories",
-            "Light Control",
-            "SFX"
-          ]
+          name: "Light Modifiers",
+          items: []
+        },
+        {
+          name: "Light Stands",
+          items: []
+        },
+        {
+          name: "Light Accessories",
+          items: []
+        },
+        {
+          name: "Light Control",
+          items: []
+        },
+        {
+          name: "SFX",
+          items: []
+        }
+      ]
+    },
+    {
+      name: "Live Production",
+      subcategories: [
+        {
+          name: "Streaming",
+          items: []
+        },
+        {
+          name: "AV",
+          items: []
+        },
+        {
+          name: "IT",
+          items: []
+        }
+      ]
+    },
+    {
+      name: "Monitors & Recorders",
+      subcategories: [
+        {
+          name: "Monitors & Recorders",
+          items: []
+        }
+      ]
+    },
+    {
+      name: "Grips & Gadgets",
+      subcategories: [
+        {
+          name: "Trust & Rigging",
+          items: []
+        },
+        {
+          name: "Grip",
+          items: []
+        },
+        {
+          name: "Decoration",
+          items: []
+        }
+      ]
+    },
+    {
+      name: "Cables & Adapters",
+      subcategories: [
+        {
+          name: "Cables",
+          items: ["Audio Cables", "Video Cables", "Power Cables", "Network"]
+        },
+        {
+          name: "Adapters, converters & dist",
+          items: []
+        },
+        {
+          name: "Accessories",
+          items: []
+        }
+      ]
+    },
+    {
+      name: "Sales items",
+      subcategories: [
+        {
+          name: "Production & consumables",
+          items: []
+        },
+        {
+          name: "Production equipment",
+          items: []
+        },
+        {
+          name: "Backgrounds",
+          items: []
         }
       ]
     }
   ];
 
-  // State to track expanded categories
+  // State to track expanded main categories
   const [expandedCategories, setExpandedCategories] = useState({});
+
+  // State to track expanded subcategories (e.g., "Lights & Modifiers")
+  const [expandedSubcategories, setExpandedSubcategories] = useState({});
 
   // Toggle expanded state for main categories
   const toggleCategory = (categoryName) => {
     setExpandedCategories((prev) => ({
       ...prev,
       [categoryName]: !prev[categoryName]
+    }));
+  };
+
+  // Toggle expanded state for subcategories
+  const toggleSubcategory = (subcategoryName) => {
+    setExpandedSubcategories((prev) => ({
+      ...prev,
+      [subcategoryName]: !prev[subcategoryName]
     }));
   };
 
@@ -123,7 +221,7 @@ const Filter = () => {
         {displayedMainCategories.map((category, index) => (
           <div key={index} className="mb-2">
             <div
-              className="flex justify-between items-center cursor-pointer "
+              className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleCategory(category.name)}
             >
               <label className="flex items-center">
@@ -138,34 +236,60 @@ const Filter = () => {
               </span>
             </div>
 
-            {/* Subcategories with Items */}
+            {/* Subcategories */}
             {expandedCategories[category.name] && (
               <div className="ml-6 mt-2 space-y-3">
                 {category.subcategories.map((subcategory, subIndex) => (
                   <div key={subIndex} className="mb-1">
-                    {/* Subcategory label */}
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        className="mr-2 h-4 w-4 accent-lime text-black border-gray-300 rounded"
-                      />
-                      <span className="text-black font-medium">
-                        {subcategory.name}
-                      </span>
-                    </label>
-
-                    {/* Items - always visible when parent category is expanded */}
-                    <div className="ml-6 mt-1 space-y-1">
-                      {subcategory.items.map((item, itemIndex) => (
-                        <label key={itemIndex} className="flex items-center">
+                    {/* Subcategory with toggle only for "Lights & Modifiers" */}
+                    {subcategory.name === "Lights & Modifiers" ? (
+                      <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => toggleSubcategory(subcategory.name)}
+                      >
+                        <label className="flex items-center">
                           <input
                             type="checkbox"
                             className="mr-2 h-4 w-4 accent-lime text-black border-gray-300 rounded"
                           />
-                          <span className="text-black text-sm">{item}</span>
+                          <span className="text-black font-medium">
+                            {subcategory.name}
+                          </span>
                         </label>
-                      ))}
-                    </div>
+                        <span className="text-black">
+                          {expandedSubcategories[subcategory.name] ? "−" : "+"}
+                        </span>
+                      </div>
+                    ) : (
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="mr-2 h-4 w-4 accent-lime text-black border-gray-300 rounded"
+                        />
+                        <span className="text-black font-medium">
+                          {subcategory.name}
+                        </span>
+                      </label>
+                    )}
+
+                    {/* Items - only visible for "Lights & Modifiers" when expanded */}
+                    {subcategory.name === "Lights & Modifiers" &&
+                      expandedSubcategories[subcategory.name] && (
+                        <div className="ml-6 mt-1 space-y-1">
+                          {subcategory.items.map((item, itemIndex) => (
+                            <label
+                              key={itemIndex}
+                              className="flex items-center"
+                            >
+                              <input
+                                type="checkbox"
+                                className="mr-2 h-4 w-4 accent-lime text-black border-gray-300 rounded"
+                              />
+                              <span className="text-black text-sm">{item}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
                   </div>
                 ))}
               </div>
