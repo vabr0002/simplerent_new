@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,8 +16,12 @@ import {
   FaPlug,
   FaBoxOpen,
   FaEnvelope,
-  FaFolderOpen
+  FaFolderOpen,
+  FaGlobe,
 } from "react-icons/fa";
+
+// Import the calendar store
+import useCalendarStore from "@/store/calendarStore";
 
 // Contact Form Component (uændret)
 const ContactForm = ({ closeToolbox }) => {
@@ -63,7 +67,7 @@ const ContactForm = ({ closeToolbox }) => {
           onChange={(e) => setMessage(e.target.value)}
           className="text-black block w-full mt-1 px-2 py-1 rounded"
           rows="3"
-        />
+        ></textarea>
       </label>
       {showWarning && (
         <div className="bg-red-500/20 border border-red-500 text-red-100 p-2 rounded text-sm mt-1">
@@ -85,15 +89,33 @@ const Navigation = () => {
   const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
-  const [lastScrollPos, setLastScrollPos] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeProject, setActiveProject] = useState("Studio Setup");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const pathname = usePathname();
+  const lastScrollPosRef = useRef(0);
+
+  // Retrieve calendar store state and functions
+  const {
+    bookingPeriod,
+    setBookingPeriod,
+    clearBookingPeriod,
+    isValidBooking,
+  } = useCalendarStore();
+
+  // Languages available in the toggle
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "da", name: "Danish" },
+    { code: "es", name: "Spanish" },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // For mobile menu
       if (isMobileMenuOpen) {
         const mobileMenu = document.getElementById("mobile-menu-content");
         const burgerButton = document.getElementById("burger-button");
@@ -106,13 +128,22 @@ const Navigation = () => {
           setIsMobileMenuOpen(false);
         }
       }
+
+      // For language dropdown
+      if (isLanguageOpen) {
+        const langToggle = document.getElementById("language-toggle");
+        if (langToggle && !langToggle.contains(event.target)) {
+          setIsLanguageOpen(false);
+        }
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isLanguageOpen]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsLanguageOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -120,11 +151,11 @@ const Navigation = () => {
       setIsCategoryVisible(true);
       return;
     }
-    let lastScrollPos = window.scrollY;
+    lastScrollPosRef.current = window.scrollY;
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      setIsCategoryVisible(currentScroll < lastScrollPos);
-      lastScrollPos = currentScroll;
+      setIsCategoryVisible(currentScroll < lastScrollPosRef.current);
+      lastScrollPosRef.current = currentScroll;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -139,6 +170,12 @@ const Navigation = () => {
     setSelectedToolboxItem(null);
   };
 
+  const handleLanguageSelect = (language) => {
+    setSelectedLanguage(language);
+    setIsLanguageOpen(false);
+    // Here you would implement the actual language change functionality
+  };
+
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
@@ -149,7 +186,7 @@ const Navigation = () => {
     {
       name: "Kits",
       icon: <FaBoxOpen className={iconClasses} />,
-      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"]
+      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"],
     },
     {
       name: "Camera & Accessories",
@@ -162,8 +199,8 @@ const Navigation = () => {
         "Stabilizers",
         "Batteries",
         "Memory Cards",
-        "Cases"
-      ]
+        "Cases",
+      ],
     },
     {
       name: "Audio",
@@ -173,8 +210,8 @@ const Navigation = () => {
         "Recorders",
         "Mixers",
         "Headphones",
-        "Wireless Systems"
-      ]
+        "Wireless Systems",
+      ],
     },
     {
       name: "Lighting, Sfx & Stands",
@@ -184,28 +221,28 @@ const Navigation = () => {
         "Fresnel",
         "Modifiers",
         "Light Stands",
-        "Special Effects"
-      ]
+        "Special Effects",
+      ],
     },
     {
       name: "Live Production",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"]
+      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"],
     },
     {
       name: "Monitors & Recorders",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"]
+      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"],
     },
     {
       name: "Grips & Gadgets",
       icon: <FaGripHorizontal className={iconClasses} />,
-      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"]
+      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"],
     },
     {
       name: "Cables & Adapters",
       icon: <FaPlug className={iconClasses} />,
-      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"]
+      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"],
     },
     {
       name: "Production & Consumables",
@@ -215,9 +252,9 @@ const Navigation = () => {
         "Markers",
         "Batteries",
         "Gels",
-        "Cleaning Supplies"
-      ]
-    }
+        "Cleaning Supplies",
+      ],
+    },
   ];
 
   const getSubmenuPosition = (index) => {
@@ -283,6 +320,32 @@ const Navigation = () => {
           </div>
 
           <div className="flex gap-3 md:gap-6 mr-2 md:mr-4 ml-auto relative z-10">
+            {/* Language Toggle */}
+            <div id="language-toggle" className="relative">
+              <div
+                className="relative bg-white text-black p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+              >
+                <FaGlobe className="absolute text-black text-lg md:text-xl" />
+              </div>
+
+              {isLanguageOpen && (
+                <div className="absolute top-full right-0 mt-1 bg-black text-white rounded-md shadow-lg overflow-hidden z-50">
+                  {languages.map((lang) => (
+                    <div
+                      key={lang.code}
+                      className={`px-4 py-2 cursor-pointer hover:bg-lime hover:text-black transition-colors whitespace-nowrap ${
+                        selectedLanguage === lang.name ? "bg-lime/30" : ""
+                      }`}
+                      onClick={() => handleLanguageSelect(lang.name)}
+                    >
+                      {lang.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Desktop Search (inline) */}
             <div className="hidden md:flex">
               {isSearchOpen ? (
@@ -365,6 +428,32 @@ const Navigation = () => {
           </div>
         </div>
 
+        {/* Mobile Language Selector - Similar to search bar */}
+        <div
+          className={`md:hidden w-full bg-black transition-all duration-300 ${
+            isLanguageOpen && !isSearchOpen
+              ? "max-h-48 opacity-100"
+              : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className="flex flex-col bg-black text-white mx-2 my-2 rounded-xl border border-white/20">
+            <div className="p-2 border-b border-white/20">
+              <h3 className="text-center font-medium">Select Language</h3>
+            </div>
+            {languages.map((lang) => (
+              <div
+                key={lang.code}
+                className={`p-3 cursor-pointer hover:bg-lime hover:text-black transition-colors ${
+                  selectedLanguage === lang.name ? "bg-lime/30" : ""
+                }`}
+                onClick={() => handleLanguageSelect(lang.name)}
+              >
+                {lang.name}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Mobile Menu - Full screen overlay */}
         <div
           className={`fixed inset-0 bg-black z-40 transition-all duration-300 pt-16 
@@ -384,6 +473,25 @@ const Navigation = () => {
             id="mobile-menu-content"
             className="flex flex-col h-full overflow-y-auto pointer-events-auto"
           >
+            {/* Language Selection in Mobile Menu */}
+            <div className="flex justify-center p-4 border-b border-gray-800">
+              <div className="flex gap-2 justify-center">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    className={`px-4 py-2 rounded-md transition-colors ${
+                      selectedLanguage === lang.name
+                        ? "bg-lime text-black"
+                        : "bg-white/10 hover:bg-white/20"
+                    }`}
+                    onClick={() => handleLanguageSelect(lang.name)}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="flex flex-col items-center gap-6 py-8 border-b border-gray-800">
               <Link
                 className={`text-xl ${
@@ -426,7 +534,7 @@ const Navigation = () => {
                   <div key={index} className="border-b border-gray-800 pb-4">
                     <div className="flex items-center gap-3 mb-2">
                       {React.cloneElement(cat.icon, {
-                        className: "text-2xl text-white"
+                        className: "text-2xl text-white",
                       })}
                       <span className="text-white text-lg">{cat.name}</span>
                     </div>
@@ -474,7 +582,7 @@ const Navigation = () => {
                 {React.cloneElement(cat.icon, {
                   className:
                     cat.icon.props.className +
-                    (activeSubmenu === index ? " text-lime" : "")
+                    (activeSubmenu === index ? " text-lime" : ""),
                 })}
                 <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
                   {cat.name}
@@ -524,6 +632,10 @@ const Navigation = () => {
                       <input
                         type="date"
                         className="text-black block w-full mt-1 px-2 py-1 rounded"
+                        value={bookingPeriod.start || ""}
+                        onChange={(e) =>
+                          setBookingPeriod(e.target.value, bookingPeriod.end)
+                        }
                       />
                     </label>
                     <label>
@@ -531,12 +643,19 @@ const Navigation = () => {
                       <input
                         type="date"
                         className="text-black block w-full mt-1 px-2 py-1 rounded"
+                        value={bookingPeriod.end || ""}
+                        onChange={(e) =>
+                          setBookingPeriod(bookingPeriod.start, e.target.value)
+                        }
                       />
                     </label>
                     <div className="flex gap-2 mt-auto">
                       <button
                         className="bg-white text-black px-3 py-1 rounded-md hover:bg-lime"
-                        onClick={closeToolbox}
+                        onClick={() => {
+                          clearBookingPeriod();
+                          closeToolbox();
+                        }}
                       >
                         Cancel
                       </button>
