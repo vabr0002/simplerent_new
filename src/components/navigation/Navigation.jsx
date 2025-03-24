@@ -319,9 +319,45 @@ const Navigation = () => {
             </Link>
           </div>
 
+          {/* TOP RIGHT ICONS */}
           <div className="flex gap-3 md:gap-6 mr-2 md:mr-4 ml-auto relative z-10">
-            {/* Language Toggle */}
-            <div id="language-toggle" className="relative">
+            {/* Search Icon */}
+            <div className="hidden md:flex">
+              {isSearchOpen ? (
+                <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-all duration-500 ease-in-out select-none w-64 opacity-100">
+                  <FaSearch className="text-black text-xl mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="bg-white text-black outline-none w-full"
+                  />
+                  <button
+                    onClick={() => setIsSearchOpen(false)}
+                    className="ml-2 text-black hover:text-lime transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
+                  onClick={() => setIsSearchOpen(true)}
+                >
+                  <FaSearch className="absolute text-black text-xl" />
+                </div>
+              )}
+            </div>
+            <div className="md:hidden">
+              <div
+                className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                <FaSearch className="absolute text-black text-lg" />
+              </div>
+            </div>
+
+            {/* Language Toggle for Desktop */}
+            <div id="language-toggle" className="hidden md:block relative">
               <div
                 className="relative bg-white text-black p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
@@ -346,54 +382,20 @@ const Navigation = () => {
               )}
             </div>
 
-            {/* Desktop Search (inline) */}
-            <div className="hidden md:flex">
-              {isSearchOpen ? (
-                <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-all duration-500 ease-in-out select-none w-64 opacity-100">
-                  <FaSearch className="text-black text-xl mr-2" />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="bg-white text-black outline-none w-full"
-                  />
-                  <button
-                    onClick={() => setIsSearchOpen(false)}
-                    className="ml-2 text-black hover:text-lime transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center 
-        rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
-        hover:bg-lime select-none"
-                  onClick={() => setIsSearchOpen(true)}
-                >
-                  <FaSearch className="absolute text-black text-xl" />
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Search (icon only, triggers full-width below) */}
-            <div className="md:hidden">
-              <div
-                className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center 
-                  rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer 
-                  hover:bg-lime select-none"
-                onClick={() => setIsSearchOpen(true)}
-              >
-                <FaSearch className="absolute text-black text-lg" />
+            {/* Globe Icon for Mobile (non-active) */}
+            <div className="block md:hidden">
+              <div className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center rounded-xl select-none">
+                <FaGlobe className="absolute text-black text-lg" />
               </div>
             </div>
 
+            {/* Toolbox Icon */}
             <div
-              className={`relative p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 
-                transition-transform duration-300 cursor-pointer select-none ${
-                  isToolboxOpen
-                    ? "bg-lime text-black"
-                    : "bg-white text-black hover:bg-lime"
-                }`}
+              className={`relative p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer select-none ${
+                isToolboxOpen
+                  ? "bg-lime text-black"
+                  : "bg-white text-black hover:bg-lime"
+              }`}
               onClick={() => {
                 setIsToolboxOpen(!isToolboxOpen);
                 if (isToolboxOpen) setSelectedToolboxItem(null);
