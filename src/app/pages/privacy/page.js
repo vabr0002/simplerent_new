@@ -1,13 +1,19 @@
+// Enables client-side rendering for this component
 "use client";
+
 import React, { useState } from "react";
 
+// Main functional component for the Privacy Policy page
 const PrivacyPage = () => {
+  // State to track which section is currently expanded
   const [activeSection, setActiveSection] = useState(null);
 
+  // Toggle function to expand/collapse individual sections
   const toggleSection = (sectionId) => {
     setActiveSection(activeSection === sectionId ? null : sectionId);
   };
 
+  // Array of all policy sections including id, title, and content JSX
   const sections = [
     {
       id: "data-controller",
@@ -218,21 +224,17 @@ const PrivacyPage = () => {
 
   return (
     <div className="bg-black text-white min-h-screen font-sans">
-      {/* Hero Section */}
+      {/* Hero/Header Section */}
       <div className="bg-gradient-to-r from-gray-900 to-black py-12 px-4 md:px-20 lg:px-40">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
           Privacy Policy
         </h1>
         <p className="text-base md:text-lg leading-relaxed max-w-3xl mx-auto text-center">
-          At SimpleRent ApS, we are committed to protecting the privacy and
-          security of our users. This Privacy Policy outlines the types of
-          personal information we collect, how it’s used, and the measures we
-          take to protect it. This policy is designed to comply with the General
-          Data Protection Regulation (GDPR) and Danish data protection laws.
+          Intro paragraph explaining the purpose of the Privacy Policy and GDPR compliance.
         </p>
       </div>
 
-      {/* Table of Contents */}
+      {/* Table of Contents with clickable smooth-scroll links */}
       <div className="py-8 px-4 md:px-20 lg:px-40 bg-gray-900">
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">
           Contents
@@ -244,10 +246,10 @@ const PrivacyPage = () => {
               href={`#${section.id}`}
               className="text-lime hover:text-lime-300 hover:underline transition-colors"
               onClick={(e) => {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default anchor behavior
                 document
                   .getElementById(section.id)
-                  .scrollIntoView({ behavior: "smooth" });
+                  .scrollIntoView({ behavior: "smooth" }); // Smooth scroll to section
               }}
             >
               {section.title}
@@ -256,10 +258,11 @@ const PrivacyPage = () => {
         </div>
       </div>
 
-      {/* Content Sections */}
+      {/* Expandable Sections */}
       <div className="py-12 px-4 md:px-20 lg:px-40">
         {sections.map((section) => (
           <div key={section.id} id={section.id} className="mb-12 scroll-mt-24">
+            {/* Section Header - Clickable to toggle content */}
             <div
               className="flex items-center justify-between bg-gray-800 p-4 rounded-t-lg cursor-pointer"
               onClick={() => toggleSection(section.id)}
@@ -269,6 +272,8 @@ const PrivacyPage = () => {
                 {activeSection === section.id ? "−" : "+"}
               </span>
             </div>
+
+            {/* Section Content - Expand/collapse with transition */}
             <div
               className={`bg-gray-800 bg-opacity-50 p-4 md:p-6 rounded-b-lg transition-all duration-300 ${
                 activeSection === section.id
@@ -293,4 +298,5 @@ const PrivacyPage = () => {
   );
 };
 
+// Export the PrivacyPage component as default
 export default PrivacyPage;

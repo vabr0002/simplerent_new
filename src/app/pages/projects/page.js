@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-// ProjectItem-komponent (uændret)
+// Individual item inside a project
 const ProjectItem = ({ item, onRemove, onUpdateQuantity }) => (
   <li className="flex justify-between items-center py-2 border-b border-gray-300">
     <div>
@@ -10,11 +10,10 @@ const ProjectItem = ({ item, onRemove, onUpdateQuantity }) => (
       <span className="block text-gray-500 text-sm">{item.price} DKK</span>
     </div>
     <div className="flex items-center space-x-4">
+      {/* Quantity controls */}
       <div className="flex items-center bg-gray-100 rounded-md border border-gray-300">
         <button
-          onClick={() =>
-            onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))
-          }
+          onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
           className="px-2 py-1 text-white hover:text-lime transition-colors duration-300"
         >
           -
@@ -27,6 +26,8 @@ const ProjectItem = ({ item, onRemove, onUpdateQuantity }) => (
           +
         </button>
       </div>
+
+      {/* Remove item */}
       <button
         onClick={() => onRemove(item.id)}
         className="text-red-500 hover:text-red-700 transition-colors duration-300"
@@ -37,7 +38,7 @@ const ProjectItem = ({ item, onRemove, onUpdateQuantity }) => (
   </li>
 );
 
-// Project-komponent (uændret)
+// Component for a single project
 const Project = ({
   title,
   items,
@@ -46,10 +47,8 @@ const Project = ({
   onSelect,
   isSelected
 }) => {
-  const total = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  // Calculate total project price
+  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <div
@@ -63,6 +62,7 @@ const Project = ({
         <span className="text-gray-500">({items.length} items)</span>
       </div>
 
+      {/* Show contents if selected */}
       {isSelected &&
         (items.length === 0 ? (
           <div className="text-center py-4 text-gray-500">
@@ -80,6 +80,8 @@ const Project = ({
                 />
               ))}
             </ul>
+
+            {/* Total price */}
             <div className="flex justify-between items-center">
               <span className="font-medium text-white">Total:</span>
               <span className="text-lg font-bold text-white">{total} DKK</span>
@@ -90,8 +92,9 @@ const Project = ({
   );
 };
 
-// Home-komponent med scrollable projektsektion
+// Main component rendering all projects and selected project details
 export default function Home() {
+  // Sample project data
   const [projectItems, setProjectItems] = useState({
     "Project 1": [
       { id: 1, name: "Allen & Heath SQ5 Mixer", price: 950, quantity: 1 }
@@ -117,8 +120,10 @@ export default function Home() {
     ]
   });
 
+  // Currently selected project
   const [selectedProject, setSelectedProject] = useState("Project 1");
 
+  // Remove item from a project
   const removeFromProject = (projectName, id) => {
     setProjectItems((prev) => ({
       ...prev,
@@ -126,6 +131,7 @@ export default function Home() {
     }));
   };
 
+  // Update item quantity in a project
   const updateProjectQuantity = (projectName, id, newQuantity) => {
     setProjectItems((prev) => ({
       ...prev,
@@ -135,6 +141,7 @@ export default function Home() {
     }));
   };
 
+  // Change selected project
   const handleProjectSelect = (projectName) => {
     setSelectedProject(projectName);
   };
@@ -145,15 +152,13 @@ export default function Home() {
         Projects
       </h2>
       <p className="text-h3 flex justify-center my-14">
-        {" "}
-        Get a quick overview of you diffrent projects and its contents
+        Get a quick overview of your different projects and their contents
       </p>
+
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Projects Section (venstre) med fast højde og scroll */}
+        {/* Left side: scrollable list of projects */}
         <div className="flex-1">
-          <div
-            className="space-y-6 max-h-[600px] overflow-y-auto pr-2" // Fast højde og scroll
-          >
+          <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2">
             {Object.keys(projectItems).map((projectName) => (
               <Project
                 key={projectName}
@@ -170,7 +175,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Project Contents Section (højre, uændret) */}
+        {/* Right side: details of selected project */}
         <div className="flex-1 border-2 border-lime rounded-xl p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-h2 font-semibold text-lime text-center">
@@ -181,11 +186,13 @@ export default function Home() {
             </span>
           </div>
 
+          {/* If empty */}
           {projectItems[selectedProject].length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               This project is empty
             </div>
           ) : (
+            // Show item list
             <ul className="space-y-4">
               {projectItems[selectedProject].map((item) => (
                 <li
@@ -194,18 +201,12 @@ export default function Home() {
                 >
                   <div>
                     <span className="font-medium text-white">{item.name}</span>
-                    <span className="block text-gray-500">
-                      {item.price} DKK
-                    </span>
-                    <span className="block text-gray-500">
-                      Qty: {item.quantity}
-                    </span>
+                    <span className="block text-gray-500">{item.price} DKK</span>
+                    <span className="block text-gray-500">Qty: {item.quantity}</span>
                   </div>
                   <div className="flex space-x-4">
                     <button
-                      onClick={() =>
-                        removeFromProject(selectedProject, item.id)
-                      }
+                      onClick={() => removeFromProject(selectedProject, item.id)}
                       className="text-red-500 hover:text-red-700 transition-colors duration-300"
                     >
                       Remove

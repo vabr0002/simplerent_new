@@ -1,27 +1,32 @@
+// Enable client-side rendering in Next.js
 "use client";
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
 
+import { useState } from "react"; // Import useState hook for managing local state
+import Link from "next/link";     // Import Link component for client-side navigation
+import Image from "next/image";   // Import Image component (currently unused here)
+
+// Default export of the Home component
 export default function Home() {
+  // State to store the user's login credentials
   const [loginData, setLoginData] = useState({
     username: "",
     password: ""
   });
 
+  // Handle input field changes and update the corresponding state
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Destructure name and value from the input
     setLoginData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value // Dynamically update the field being edited
     }));
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login attempt:", loginData);
-    // Add your login logic here
-    alert("Login functionality to be implemented");
+    e.preventDefault(); // Prevent the page from refreshing on submit
+    console.log("Login attempt:", loginData); // Log login data (for testing)
+    alert("Login functionality to be implemented"); // Placeholder feedback
   };
 
   return (
@@ -29,10 +34,14 @@ export default function Home() {
       {/* Login Section */}
       <div className="max-w-5xl mx-auto m-top-spacing px-4 flex justify-center">
         <div className="w-full max-w-md">
+          {/* Login Heading */}
           <h2 className="text-h2 font-semibold mb-6 text-center text-lime">
             Login
           </h2>
+
+          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Username Field */}
             <div>
               <label
                 htmlFor="username"
@@ -52,6 +61,7 @@ export default function Home() {
               />
             </div>
 
+            {/* Password Field */}
             <div>
               <label
                 htmlFor="password"
@@ -71,6 +81,7 @@ export default function Home() {
               />
             </div>
 
+            {/* Submit Button */}
             <div>
               <button
                 type="submit"
@@ -80,6 +91,7 @@ export default function Home() {
               </button>
             </div>
 
+            {/* Sign-Up Link */}
             <div className="text-center mt-4">
               <p className="text-white">
                 Don't have an account?{" "}

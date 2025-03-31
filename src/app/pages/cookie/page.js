@@ -2,13 +2,18 @@
 import React, { useState } from "react";
 
 const CookiePolicyPage = () => {
+  // State to manage the currently expanded section
   const [activeSection, setActiveSection] = useState(null);
+
+  // State to manage the active cookie category tab
   const [activeCategory, setActiveCategory] = useState("necessary");
 
+  // Toggle visibility of a section based on ID
   const toggleSection = (sectionId) => {
     setActiveSection(activeSection === sectionId ? null : sectionId);
   };
 
+  // Available cookie categories
   const cookieCategories = [
     "necessary",
     "functional",
@@ -18,28 +23,17 @@ const CookiePolicyPage = () => {
     "others"
   ];
 
+  // Dummy data structure for cookies (actual data omitted for brevity)
   const cookieData = {
-    // Samme cookie-data som før, udeladt her for korthed
-    necessary: [
-      /* ... */
-    ],
-    functional: [
-      /* ... */
-    ],
-    performance: [
-      /* ... */
-    ],
-    analytics: [
-      /* ... */
-    ],
-    advertisement: [
-      /* ... */
-    ],
-    others: [
-      /* ... */
-    ]
+    necessary: [/* ... */],
+    functional: [/* ... */],
+    performance: [/* ... */],
+    analytics: [/* ... */],
+    advertisement: [/* ... */],
+    others: [/* ... */]
   };
 
+  // Content sections for the policy page
   const sections = [
     {
       id: "about",
@@ -47,15 +41,11 @@ const CookiePolicyPage = () => {
       content: (
         <>
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            This Cookie Policy explains what cookies are and how we use them.
-            You should read this policy to understand what cookies are, how we
-            use them, the types of cookies we use i.e, the information we
-            collect using cookies and how that information is used and how to
-            control the cookie preferences.
+            This Cookie Policy explains what cookies are and how we use them...
           </p>
+          {/* Links to Privacy Policy */}
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            For further information on how we use, store and keep your personal
-            data secure, see our{" "}
+            For further information... see our{" "}
             <a
               href="/privacy"
               className="text-lime-400 hover:text-lime-300 hover:underline"
@@ -65,8 +55,7 @@ const CookiePolicyPage = () => {
             .
           </p>
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            You can at any time change or withdraw your consent from the Cookie
-            Declaration on our website.
+            You can at any time change or withdraw your consent...
           </p>
           <p className="text-base md:text-lg leading-relaxed">
             Your consent applies to the following domains: simplerent.dk
@@ -79,12 +68,7 @@ const CookiePolicyPage = () => {
       title: "2. What are Cookies?",
       content: (
         <p className="text-base md:text-lg leading-relaxed">
-          Cookies are small text files that are used to store small pieces of
-          information. The cookies are stored on your device when the website is
-          loaded on your browser. These cookies help us make the website
-          function properly, make the website more secure, provide better user
-          experience, and understand how the website performs and to analyze
-          what works and where it needs improvement.
+          Cookies are small text files used to store small pieces of information...
         </p>
       )
     },
@@ -94,19 +78,10 @@ const CookiePolicyPage = () => {
       content: (
         <>
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            As most of the online services, our website uses cookies first-party
-            and third-party cookies for a number of purposes. The first-party
-            cookies are mostly necessary for the website to function the right
-            way, and they do not collect any of your personally identifiable
-            data.
+            Our website uses both first-party and third-party cookies...
           </p>
           <p className="text-base md:text-lg leading-relaxed">
-            The third-party cookies used on our websites are used mainly for
-            understanding how the website performs, how you interact with our
-            website, keeping our services secure, providing advertisements that
-            are relevant to you, and all in all providing you with a better and
-            improved user experience and help speed up your future interactions
-            with our website.
+            Third-party cookies help us understand how users interact...
           </p>
         </>
       )
@@ -117,10 +92,10 @@ const CookiePolicyPage = () => {
       content: (
         <>
           <p className="text-base md:text-lg leading-relaxed mb-6">
-            The cookies used on our website are grouped into the following
-            categories:
+            The cookies used on our website are grouped into the following categories:
           </p>
 
+          {/* Cookie category tabs */}
           <div className="mb-8">
             <div className="flex flex-wrap gap-3 md:gap-4 mb-6">
               {cookieCategories.map((category) => (
@@ -138,68 +113,52 @@ const CookiePolicyPage = () => {
               ))}
             </div>
 
+            {/* Description and cookie table based on selected category */}
             <div className="bg-gray-800 bg-opacity-50 rounded-lg p-4 md:p-6">
               <h3 className="text-lg md:text-xl font-bold mb-4 capitalize">
                 {activeCategory} Cookies
               </h3>
 
+              {/* Category-specific description */}
               {activeCategory === "necessary" && (
                 <p className="text-base md:text-lg mb-6">
-                  Necessary cookies are absolutely essential for the website to
-                  function properly. These cookies ensure basic functionalities
-                  and security features of the website, anonymously.
+                  Necessary cookies are essential for website functionality...
                 </p>
               )}
               {activeCategory === "functional" && (
                 <p className="text-base md:text-lg mb-6">
-                  Functional cookies help to perform certain functionalities
-                  like sharing the content of the website on social media
-                  platforms, collect feedbacks, and other third-party features.
+                  Functional cookies help with social sharing, feedback, etc.
                 </p>
               )}
               {activeCategory === "performance" && (
                 <p className="text-base md:text-lg mb-6">
-                  Performance cookies are used to understand and analyze the key
-                  performance indexes of the website which helps in delivering a
-                  better user experience for the visitors.
+                  Performance cookies track key site metrics for optimization.
                 </p>
               )}
               {activeCategory === "analytics" && (
                 <p className="text-base md:text-lg mb-6">
-                  Analytical cookies are used to understand how visitors
-                  interact with the website. These cookies help provide
-                  information on metrics the number of visitors, bounce rate,
-                  traffic source, etc.
+                  Analytics cookies measure engagement and behavior on-site.
                 </p>
               )}
               {activeCategory === "advertisement" && (
                 <p className="text-base md:text-lg mb-6">
-                  Advertisement cookies are used to provide visitors with
-                  relevant ads and marketing campaigns. These cookies track
-                  visitors across websites and collect information to provide
-                  customized ads.
+                  Advertisement cookies serve personalized ads based on user data.
                 </p>
               )}
               {activeCategory === "others" && (
                 <p className="text-base md:text-lg mb-6">
-                  Other uncategorized cookies are those that are being analyzed
-                  and have not been classified into a category as yet.
+                  Uncategorized cookies being analyzed for classification.
                 </p>
               )}
 
+              {/* Cookie data table */}
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-sm md:text-base">
                   <thead>
                     <tr className="bg-gray-900">
-                      <th className="text-left p-2 md:p-4 border border-gray-700">
-                        Cookie
-                      </th>
-                      <th className="text-left p-2 md:p-3 border border-gray-700">
-                        Duration
-                      </th>
-                      <th className="text-left p-2 md:p-3 border border-gray-700">
-                        Description
-                      </th>
+                      <th className="text-left p-2 md:p-4 border border-gray-700">Cookie</th>
+                      <th className="text-left p-2 md:p-3 border border-gray-700">Duration</th>
+                      <th className="text-left p-2 md:p-3 border border-gray-700">Description</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -237,21 +196,13 @@ const CookiePolicyPage = () => {
       content: (
         <>
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            You can manage your cookies preferences by clicking on the
-            "Settings" button and enabling or disabling the cookie categories on
-            the popup according to your preferences.
+            You can manage your cookies preferences by clicking on the "Settings" button...
           </p>
           <p className="text-base md:text-lg leading-relaxed mb-4">
-            Should you decide to change your preferences later through your
-            browsing session, you can click on the "Manage consent" tab on your
-            screen. This will display the consent notice again enabling you to
-            change your preferences or withdraw your consent entirely.
+            You can also click "Manage consent" during your session to update preferences.
           </p>
           <p className="text-base md:text-lg leading-relaxed mb-6">
-            In addition to this, different browsers provide different methods to
-            block and delete cookies used by websites. You can change the
-            settings of your browser to block/delete the cookies. To find out
-            more out more on how to manage and delete cookies, visit{" "}
+            Different browsers offer different methods to block and delete cookies. Visit{" "}
             <a
               href="https://www.wikipedia.org"
               target="_blank"
@@ -267,11 +218,12 @@ const CookiePolicyPage = () => {
               rel="noopener noreferrer"
               className="text-lime-400 hover:text-lime-300 hover:underline"
             >
-              www.allaboutcookies.org
-            </a>
-            .
+              allaboutcookies.org
+            </a>{" "}
+            for more info.
           </p>
 
+          {/* Action buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
             <button className="bg-lime-500 text-black border-2 border-lime font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg transition-all duration-300 hover:bg-transparent hover:text-lime">
               Accept All Cookies
@@ -287,21 +239,20 @@ const CookiePolicyPage = () => {
 
   return (
     <div className="bg-black text-white min-h-screen font-sans">
-      {/* Hero Section */}
+      {/* Header & Hero */}
       <div className="bg-gradient-to-r from-gray-900 to-black py-12 px-4 md:px-20 lg:px-40">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
           Cookie Policy
         </h1>
         <p className="text-base md:text-lg leading-relaxed max-w-3xl mx-auto text-center">
-          At SimpleRent ApS, we use cookies to enhance your browsing experience
-          and provide you with personalized service. This policy explains what
-          cookies are, how we use them, and how you can manage your cookie
-          preferences.
+          At SimpleRent ApS, we use cookies to enhance your browsing experience...
         </p>
 
+        {/* Consent Status Display */}
         <div className="bg-gray-800 p-4 rounded-lg mt-6 max-w-2xl mx-auto text-center">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <div className="p-2 bg-lime-500 rounded-full text-black">
+              {/* Info Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 md:h-6 md:w-6"
@@ -318,9 +269,7 @@ const CookiePolicyPage = () => {
               </svg>
             </div>
             <p className="text-sm md:text-base">
-              <span className="font-bold">Your current state:</span> Consent
-              accepted. Allowed cookies (Necessary, Functional, Performance,
-              Analytics, Others). Not allowed cookies (Advertisement).
+              <span className="font-bold">Your current state:</span> Consent accepted...
             </p>
           </div>
         </div>
@@ -328,9 +277,7 @@ const CookiePolicyPage = () => {
 
       {/* Table of Contents */}
       <div className="py-8 px-4 md:px-20 lg:px-40 bg-gray-900">
-        <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">
-          Contents
-        </h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">Contents</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sections.map((section) => (
             <a
@@ -350,7 +297,7 @@ const CookiePolicyPage = () => {
         </div>
       </div>
 
-      {/* Content Sections */}
+      {/* Expandable Sections */}
       <div className="py-12 px-4 md:px-20 lg:px-40">
         {sections.map((section) => (
           <div key={section.id} id={section.id} className="mb-12 scroll-mt-24">
