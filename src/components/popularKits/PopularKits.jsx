@@ -49,22 +49,22 @@ const PopularKits = () => {
         {displayedKits.map((kit) => (
           // Render a Card component for each kit
           <Card
-            key={kit.id} // Unique key for React list rendering
-            title={kit.title} // Kit title from data
-            description={kit.description} // Kit description from data
-            buttonText="Rent Now" // Static button text
-            buttonLink="#" // Placeholder link (to be updated)
-            imageSrc="/img/sony_fx6.jpg" // Static image source (could be dynamic)
-            borderColor="black" // Card border color
-            bgColor="lightgray" // Card background color
-            textColor="black" // Text color inside card
-            buttonBgColor="lime" // Button background color
-            buttonTextColor="black" // Button text color
-            heartColor="lime" // Icon color (e.g., folder/heart)
-            borderWidth="border" // Border width class
-            borderRadius="rounded-2xl" // Border radius class
-            className="w-[250px] h-[350px]" // Custom size for card
-            buttonSize="small" // Button size variant
+            key={kit.id}
+            title={kit.title}
+            description={kit.description}
+            buttonText="Rent Now"
+            buttonLink="/kitPage"
+            imageSrc="/img/sony_fx6.jpg"
+            borderColor="black"
+            bgColor="lightgray"
+            textColor="black"
+            buttonBgColor="lime"
+            buttonTextColor="black"
+            heartColor="lime"
+            borderWidth="border"
+            borderRadius="rounded-2xl"
+            className="w-[250px] h-[350px]"
+            buttonSize="small"
           />
         ))}
       </div>

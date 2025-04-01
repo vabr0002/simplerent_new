@@ -1,17 +1,22 @@
-"use client";
+"use client"; // Enables client-side interactivity in Next.js
+
 import { useState } from "react";
 import Link from "next/link";
 
 export default function Home() {
+  // State to manage form inputs
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
+  // Handles form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload
+
+    // For now, just log the values and show a success message
     console.log("Newsletter signup:", { email, name });
-    alert(
-      "Thank you for signing up! You are now subscribed to our newsletter."
-    );
+    alert("Thank you for signing up! You are now subscribed to our newsletter.");
+
+    // Clear form fields after submission
     setEmail("");
     setName("");
   };
@@ -19,10 +24,13 @@ export default function Home() {
   return (
     <div className="max-w-5xl mx-auto my-12 px-4">
       <div className="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg">
+        
+        {/* Title */}
         <h1 className="text-3xl md:text-h1 font-bold text-center mb-8 text-white">
           Sign up for our <span className="text-lime">Newsletter</span>
         </h1>
 
+        {/* Description */}
         <div className="my-6 md:my-10 px-4 md:px-16 text-center md:text-left">
           <p>
             Join our newsletter to stay updated with our gear and services. We
@@ -37,7 +45,10 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Signup Form */}
         <form onSubmit={handleSubmit} className="space-y-6 px-4 md:px-12">
+          
+          {/* Name input */}
           <div>
             <label
               htmlFor="name"
@@ -57,6 +68,7 @@ export default function Home() {
             />
           </div>
 
+          {/* Email input */}
           <div>
             <label
               htmlFor="email"
@@ -76,6 +88,7 @@ export default function Home() {
             />
           </div>
 
+          {/* Submit button */}
           <div>
             <button
               type="submit"

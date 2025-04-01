@@ -1,9 +1,11 @@
-"use client";
+"use client"; // Enables client-side rendering for this component
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
+  // State to hold form data
   const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
@@ -13,6 +15,7 @@ export default function Home() {
     confirmPassword: ""
   });
 
+  // Handles input changes and updates form state dynamically
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSignupData((prev) => ({
@@ -21,35 +24,38 @@ export default function Home() {
     }));
   };
 
+  // Handles form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic password confirmation
+    // Basic client-side password match check
     if (signupData.password !== signupData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
+    // Log signup data (placeholder for real logic)
     console.log("Signup attempt:", signupData);
-    // Add your signup logic here
     alert("Signup functionality to be implemented");
   };
 
   return (
     <div>
-      {/* Signup Section */}
+      {/* Signup Section Container */}
       <div className="max-w-5xl mx-auto m-top-spacing px-4 flex justify-center">
         <div className="w-full max-w-md">
+          {/* Form Title */}
           <h2 className="text-h2 font-semibold mb-6 text-center text-lime">
             Sign Up
           </h2>
+
+          {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name fields: First and Last */}
             <div className="flex flex-col md:flex-row gap-4">
+              {/* First Name */}
               <div className="flex-1">
-                <label
-                  htmlFor="firstName"
-                  className="block mb-2 text-sm font-medium"
-                >
+                <label htmlFor="firstName" className="block mb-2 text-sm font-medium">
                   First Name
                 </label>
                 <input
@@ -63,11 +69,10 @@ export default function Home() {
                   required
                 />
               </div>
+
+              {/* Last Name */}
               <div className="flex-1">
-                <label
-                  htmlFor="lastName"
-                  className="block mb-2 text-sm font-medium"
-                >
+                <label htmlFor="lastName" className="block mb-2 text-sm font-medium">
                   Last Name
                 </label>
                 <input
@@ -83,6 +88,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Email Field */}
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium">
                 Email
@@ -99,6 +105,7 @@ export default function Home() {
               />
             </div>
 
+            {/* Phone Number Field */}
             <div>
               <label htmlFor="phone" className="block mb-2 text-sm font-medium">
                 Phone Number
@@ -115,11 +122,9 @@ export default function Home() {
               />
             </div>
 
+            {/* Password Field */}
             <div>
-              <label
-                htmlFor="password"
-                className="block mb-2 text-sm font-medium"
-              >
+              <label htmlFor="password" className="block mb-2 text-sm font-medium">
                 Password
               </label>
               <input
@@ -135,11 +140,9 @@ export default function Home() {
               />
             </div>
 
+            {/* Confirm Password Field */}
             <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block mb-2 text-sm font-medium"
-              >
+              <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium">
                 Confirm Password
               </label>
               <input
@@ -155,6 +158,7 @@ export default function Home() {
               />
             </div>
 
+            {/* Submit Button */}
             <div>
               <button
                 type="submit"
@@ -164,6 +168,7 @@ export default function Home() {
               </button>
             </div>
 
+            {/* Login Redirect */}
             <div className="text-center mt-4">
               <p className="text-white">
                 Already have an account?{" "}
