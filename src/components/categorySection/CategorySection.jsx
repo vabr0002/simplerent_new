@@ -1,5 +1,6 @@
 import React from "react";
 
+// Component to display a section of popular categories in a grid layout
 const CategorySection = () => {
   // Sample category data (you can replace this with real data later)
   const categories = [
@@ -22,16 +23,17 @@ const CategorySection = () => {
         Popular Categories
       </h1>
 
-      {/* Grid med responsivitet */}
+      {/* Responsive grid layout for categories */}
       <div
         className="grid grid-cols-2 sm:grid-cols-5 gap-4 mx-auto max-w-screen-xl px-4"
-        style={{ gridTemplateRows: "repeat(2, 160px)" }} // Fixed height for 2 rows på desktop
+        style={{ gridTemplateRows: "repeat(2, 160px)" }} // Fixed height for 2 rows on desktop
       >
         {categories.map((category) => (
           <div
             key={category.id}
             className="w-[240px] h-[160px] bg-gray-200 rounded-2xl flex items-center justify-center text-white bg-black text-lg font-semibold border hover:scale-105 transition-transform duration-300"
           >
+            {/* Each category displayed in a styled box with hover scaling effect */}
             {category.name}
           </div>
         ))}

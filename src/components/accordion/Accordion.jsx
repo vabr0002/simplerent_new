@@ -1,34 +1,41 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 
+// Component for a collapsible accordion element
 const Accordion = () => {
+  // State to track which item is currently open (null if none are open)
   const [openIndex, setOpenIndex] = useState(null);
+  // State to store the height of each content section for smooth animation
   const [contentHeights, setContentHeights] = useState([]);
+  // Ref to access DOM elements of the accordion content sections
   const contentRefs = useRef([]);
 
-  // Calculate content heights when component mounts or when window resizes
+  // useEffect to calculate and update content heights on component mount and window resize
   useEffect(() => {
+    // Function to measure and store the height of each content section
     const updateContentHeights = () => {
-      const newHeights = contentRefs.current.map((ref) =>
-        ref ? ref.scrollHeight : 0
+      const newHeights = contentRefs.current.map(
+        (ref) => (ref ? ref.scrollHeight : 0) // Use scrollHeight if ref exists, otherwise 0
       );
-      setContentHeights(newHeights);
+      setContentHeights(newHeights); // Update state with new heights
     };
 
-    // Initial calculation
+    // Perform initial height calculation when the component mounts
     updateContentHeights();
 
-    // Update on window resize
+    // Listen for window resize events and update heights accordingly
     window.addEventListener("resize", updateContentHeights);
 
-    // Cleanup
+    // Cleanup: remove event listener when the component unmounts
     return () => window.removeEventListener("resize", updateContentHeights);
-  }, []);
+  }, []); // Empty dependency array ensures this runs only on mount and unmount
 
+  // Function to toggle an accordion item open or closed on click
   const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndex(openIndex === index ? null : index); // If already open, close it; otherwise, open the new one
   };
 
+  // Array of accordion items, each containing a trigger (title) and associated info
   const accordionItems = [
     {
       trigger: "Hi!",
@@ -46,7 +53,7 @@ const Accordion = () => {
           <br />
           Have a look below here and contact us if you have any questions.
         </>
-      ),
+      )
     },
     {
       trigger: "Opening hours",
@@ -61,7 +68,7 @@ const Accordion = () => {
           <br />
           Weekends and holidays are closed.
         </>
-      ),
+      )
     },
     {
       trigger: "Booking",
@@ -104,7 +111,7 @@ const Accordion = () => {
           Please contact us if you are planning to take the equipment outside of
           Scandinavia, as this will need our specific written approval.
         </>
-      ),
+      )
     },
     {
       trigger: "Kits",
@@ -143,7 +150,7 @@ const Accordion = () => {
             https://simplerent.dk/kits/
           </a>
         </>
-      ),
+      )
     },
     {
       trigger: "Discounts",
@@ -157,7 +164,7 @@ const Accordion = () => {
           To make it simple & fair for all, everyone gets the same low prices
           and discounts automatically when booking on our site.
         </>
-      ),
+      )
     },
     {
       trigger: "Store credit / wallet",
@@ -172,7 +179,7 @@ const Accordion = () => {
           You cannot exchange the store credit into cash or transfer it to other
           users.
         </>
-      ),
+      )
     },
     {
       trigger: "Insurance",
@@ -202,7 +209,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      ),
+      )
     },
     {
       trigger: "Payment",
@@ -248,7 +255,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      ),
+      )
     },
     {
       trigger: "Pickups & Return at Simplerent",
@@ -292,7 +299,7 @@ const Accordion = () => {
           In both cases let us know when you order and we will send you your
           access link.
         </>
-      ),
+      )
     },
     {
       trigger: "Sluse/ garage 24/7 self service",
@@ -309,7 +316,7 @@ const Accordion = () => {
           In both cases let us know when you order and we will send you your
           access link.
         </>
-      ),
+      )
     },
     {
       trigger: "Transport delivery & pickup service",
@@ -331,7 +338,7 @@ const Accordion = () => {
           Please make sure to provide valid photo ID when recieving a delivery
           from us as this is needed for us to hand over the equipment.
         </>
-      ),
+      )
     },
     {
       trigger: "Corona/ Covid 19",
@@ -342,7 +349,7 @@ const Accordion = () => {
           <br />
           Please contact us if you have any questions.
         </>
-      ),
+      )
     },
     {
       trigger: "Contact Shipment",
@@ -359,10 +366,11 @@ const Accordion = () => {
           Jernholmen 2<br />
           2650 Hvidovre
         </>
-      ),
-    },
+      )
+    }
   ];
 
+  // Render the accordion items inside a container
   return (
     <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 md:px-0 mb-24">
       {accordionItems.map((item, index) => (
@@ -370,14 +378,15 @@ const Accordion = () => {
           key={index}
           className={`mb-4 ${
             openIndex === index
-              ? "border-b border-lime"
-              : "border-b border-gray-300"
+              ? "border-b border-lime" // Green border when open
+              : "border-b border-gray-300" // Gray border when closed
           }`}
         >
+          {/* Button to toggle the accordion item */}
           <button
             onClick={() => toggleAccordion(index)}
             className={`w-full text-left py-3 sm:py-4 px-3 sm:px-6 bg-inherit hover:bg-gray-800 text-base sm:text-lg font-semibold flex justify-between items-center focus:outline-none transition duration-500 ease-in-out ${
-              openIndex === index ? "text-lime" : "text-white"
+              openIndex === index ? "text-lime" : "text-white" // Lime text when open, white when closed
             }`}
             aria-expanded={openIndex === index}
             aria-controls={`accordion-content-${index}`}
@@ -386,21 +395,23 @@ const Accordion = () => {
             <span
               className={`text-xl ${openIndex === index ? "text-lime" : "text-white"}`}
             >
-              {openIndex === index ? "−" : "+"}
+              {openIndex === index ? "−" : "+"}{" "}
+              {/* Minus when open, plus when closed */}
             </span>
           </button>
+          {/* Collapsible content section */}
           <div
             id={`accordion-content-${index}`}
             className="overflow-hidden transition-all duration-500 ease-in-out"
             style={{
               height:
-                openIndex === index ? `${contentHeights[index] || 0}px` : "0px",
-              opacity: openIndex === index ? 1 : 0,
+                openIndex === index ? `${contentHeights[index] || 0}px` : "0px", // Dynamic height based on content
+              opacity: openIndex === index ? 1 : 0 // Fade in/out effect
             }}
             aria-hidden={openIndex !== index}
           >
             <div
-              ref={(el) => (contentRefs.current[index] = el)}
+              ref={(el) => (contentRefs.current[index] = el)} // Assign ref to measure content height
               className="py-3 sm:py-4 px-3 sm:px-6 bg-inherit text-white text-sm sm:text-base"
             >
               {item.info}

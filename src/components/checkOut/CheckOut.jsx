@@ -1,21 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 
-// Form field components for better organization
+// Reusable input field component for form inputs
 const InputField = ({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  required,
-  type = "text",
-  className = "",
+  label, // Label text for the input
+  name, // Input name for form handling
+  value, // Current value of the input
+  onChange, // Function to handle input changes
+  placeholder, // Placeholder text
+  required, // Whether the field is required
+  type = "text", // Input type (defaults to "text")
+  className = "" // Additional CSS classes for customization
 }) => (
   <div className="space-y-2">
     {label && (
       <label htmlFor={name} className="block text-sm font-medium text-gray-300">
-        {label}
+        {label} {/* Display label if provided */}
       </label>
     )}
     <input
@@ -27,15 +27,17 @@ const InputField = ({
       placeholder={placeholder}
       required={required}
       className={`w-full p-4 h-14 border border-gray-700 rounded-lg bg-gray-800 text-white placeholder-gray-400 text-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all ${className}`}
+      // Styled input with focus ring and transition effects
     />
   </div>
 );
 
+// Reusable select field component for dropdowns
 const SelectField = ({ label, name, value, onChange, options, required }) => (
   <div className="space-y-2">
     {label && (
       <label htmlFor={name} className="block text-sm font-medium text-gray-300">
-        {label}
+        {label} {/* Display label if provided */}
       </label>
     )}
     <select
@@ -48,13 +50,14 @@ const SelectField = ({ label, name, value, onChange, options, required }) => (
     >
       {options.map((option, index) => (
         <option key={index} value={option}>
-          {option}
+          {option} {/* Render each option from the provided array */}
         </option>
       ))}
     </select>
   </div>
 );
 
+// Reusable radio button group component
 const RadioGroup = ({ label, name, value, onChange, options }) => (
   <div className="space-y-3">
     {label && (
@@ -75,8 +78,9 @@ const RadioGroup = ({ label, name, value, onChange, options }) => (
             className="h-4 w-4 text-lime-500 focus:ring-lime-500 border-gray-600"
           />
           <span className="flex items-center">
-            {option.icon && <span className="mr-2">{option.icon}</span>}
-            <span>{option.label}</span>
+            {option.icon && <span className="mr-2">{option.icon}</span>}{" "}
+            {/* Optional icon */}
+            <span>{option.label}</span> {/* Radio option label */}
           </span>
         </label>
       ))}
@@ -84,7 +88,7 @@ const RadioGroup = ({ label, name, value, onChange, options }) => (
   </div>
 );
 
-// List of all countries
+// List of all countries for the country dropdown
 const countries = [
   "Denmark",
   "Sweden",
@@ -103,24 +107,26 @@ const countries = [
   "Brazil",
   "Mexico",
   "India",
-  "South Africa",
+  "South Africa"
 ];
 
-// Payment method options
+// Payment method options with icons
 const paymentMethods = [
   { value: "credit-card", label: "Credit Card", icon: "💳" },
   { value: "paypal", label: "PayPal", icon: "🔄" },
-  { value: "bank-transfer", label: "Bank Transfer", icon: "🏦" },
+  { value: "bank-transfer", label: "Bank Transfer", icon: "🏦" }
 ];
 
-// Shipping method options
+// Shipping method options with prices
 const shippingMethods = [
   { value: "standard", label: "Standard (3-5 days)", price: 39 },
   { value: "express", label: "Express (1-2 days)", price: 79 },
-  { value: "pickup", label: "Store Pickup", price: 0 },
+  { value: "pickup", label: "Store Pickup", price: 0 }
 ];
 
+// Main checkout component
 const CheckOutComponent = () => {
+  // State for form data
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -136,9 +142,10 @@ const CheckOutComponent = () => {
     paymentMethod: "credit-card",
     shippingMethod: "standard",
     newsletter: false,
-    acceptTerms: false,
+    acceptTerms: false
   });
 
+  // State for cart and cost calculations
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
   const [vatAmount, setVatAmount] = useState(0);
@@ -147,29 +154,28 @@ const CheckOutComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
-  // Load cart items and calculate costs
+  // Load cart items on mount (simulated data)
   useEffect(() => {
     // Simulate loading cart items from a store or API
     const items = [
       { id: 1, name: "Allen & Heath SQ5 Mixer", price: 950, quantity: 1 },
-      { id: 2, name: "Shure SM58 Microphone", price: 150, quantity: 2 },
+      { id: 2, name: "Shure SM58 Microphone", price: 150, quantity: 2 }
     ];
-
     setCartItems(items);
   }, []);
 
-  // Calculate costs whenever relevant data changes
+  // Calculate costs whenever cart items, VAT number, or shipping method changes
   useEffect(() => {
     const subtotalPrice = cartItems.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
     );
 
-    // Apply VAT logic (no VAT for business customers with VAT number)
+    // Apply VAT logic: no VAT if valid VAT number is provided (minimum 6 chars)
     const hasValidVat = !!formData.vatNumber && formData.vatNumber.length > 5;
     const vat = hasValidVat ? 0 : subtotalPrice * 0.25;
 
-    // Get shipping cost based on selected method
+    // Get shipping cost based on selected shipping method
     const selectedShipping = shippingMethods.find(
       (method) => method.value === formData.shippingMethod
     );
@@ -181,26 +187,27 @@ const CheckOutComponent = () => {
     setTotal(subtotalPrice + vat + shipping);
   }, [cartItems, formData.vatNumber, formData.shippingMethod]);
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : value
     });
 
     // Clear validation error when field is edited
     if (validationErrors[name]) {
       setValidationErrors({
         ...validationErrors,
-        [name]: null,
+        [name]: null
       });
     }
   };
 
+  // Validate form fields before submission
   const validate = () => {
     const errors = {};
 
-    // Example validations
     if (!formData.email.includes("@")) {
       errors.email = "Please enter a valid email address";
     }
@@ -218,14 +225,15 @@ const CheckOutComponent = () => {
     }
 
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    return Object.keys(errors).length === 0; // Returns true if no errors
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) {
-      // Scroll to the first error
+      // Scroll to the first error if validation fails
       const firstError = document.querySelector("[data-error]");
       if (firstError) {
         firstError.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -236,14 +244,13 @@ const CheckOutComponent = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call
+      // Simulate API call for order submission
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Order submitted:", { formData, cartItems, total });
 
-      // Show success or redirect
+      // Show success message (replace with redirect if needed)
       alert("Order submitted successfully!");
-
-      // Reset form or redirect
+      // Optional: Reset form or redirect
       // window.location.href = "/confirmation";
     } catch (error) {
       console.error("Error submitting order:", error);
@@ -265,7 +272,8 @@ const CheckOutComponent = () => {
             <div className="ml-2">Cart</div>
           </div>
           <div className="h-1 bg-gray-700 flex-grow mx-2">
-            <div className="h-full bg-lime-500 w-full"></div>
+            <div className="h-full bg-lime-500 w-full"></div>{" "}
+            {/* Progress bar */}
           </div>
           <div className="flex items-center">
             <div className="bg-lime-500 text-black rounded-full w-8 h-8 flex items-center justify-center font-bold">
@@ -320,7 +328,7 @@ const CheckOutComponent = () => {
                   />
                   {validationErrors.email && (
                     <p className="text-red-500 text-sm mt-1">
-                      {validationErrors.email}
+                      {validationErrors.email} {/* Email error message */}
                     </p>
                   )}
 
@@ -334,7 +342,7 @@ const CheckOutComponent = () => {
                   />
                   {validationErrors.phone && (
                     <p className="text-red-500 text-sm mt-1">
-                      {validationErrors.phone}
+                      {validationErrors.phone} {/* Phone error message */}
                     </p>
                   )}
 
@@ -424,7 +432,7 @@ const CheckOutComponent = () => {
 
                   {validationErrors.zip && (
                     <p className="text-red-500 text-sm mt-1">
-                      {validationErrors.zip}
+                      {validationErrors.zip} {/* Zip code error message */}
                     </p>
                   )}
 
@@ -465,6 +473,7 @@ const CheckOutComponent = () => {
                           />
                           <div>
                             <p className="font-medium">{method.label}</p>
+                            {/* Simulated delivery dates */}
                             {method.value === "standard" && (
                               <p className="text-sm text-gray-400">
                                 Delivery by Wednesday, March 5
@@ -596,7 +605,7 @@ const CheckOutComponent = () => {
                   </label>
                   {validationErrors.acceptTerms && (
                     <p className="text-red-500 text-sm mt-1 ml-8">
-                      {validationErrors.acceptTerms}
+                      {validationErrors.acceptTerms} {/* Terms error message */}
                     </p>
                   )}
                 </div>
@@ -632,7 +641,7 @@ const CheckOutComponent = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      Processing...
+                      Processing... {/* Loading state */}
                     </>
                   ) : (
                     <>Complete Order</>
@@ -656,7 +665,8 @@ const CheckOutComponent = () => {
                   >
                     <div className="flex">
                       <div className="w-16 h-16 bg-gray-800 rounded-md flex items-center justify-center mr-3 text-2xl flex-shrink-0">
-                        {item.name.includes("Mixer") ? "🎛️" : "🎤"}
+                        {item.name.includes("Mixer") ? "🎛️" : "🎤"}{" "}
+                        {/* Icon based on item type */}
                       </div>
                       <div>
                         <p className="font-medium">{item.name}</p>

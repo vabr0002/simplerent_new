@@ -2,21 +2,23 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+// Component to display a grid of article previews
 const Articles = () => {
+  // Array of article objects, each containing title, description, image source, and link
   const articles = [
     {
       title: "Filming Tips for Beginners",
       description:
         "Learn the basics of filming with our expert tips and tricks to get started.",
-      imageSrc: "/img/filming-tips.jpg", // Skal ligge i public/img/
+      imageSrc: "/img/filming-tips.jpg", // Must be located in public/img/
       link: "/articles/filming-tips"
     },
     {
       title: "Choosing the Right Camera",
       description:
         "A guide to picking the perfect camera for your next project.",
-      imageSrc: "/img/camera-guide.jpg", // Rettet fra forkert sti
-      link: "/articles/choosing-camera" // Rettet til mere konsistent URL
+      imageSrc: "/img/camera-guide.jpg", // Corrected from a previously incorrect path
+      link: "/articles/choosing-camera" // Adjusted for consistent URL naming
     },
     {
       title: "Lighting Techniques 101",
@@ -45,6 +47,7 @@ const Articles = () => {
     }
   ];
 
+  // Render a responsive grid layout for the articles
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {articles.map((article, index) => (
@@ -52,18 +55,18 @@ const Articles = () => {
           key={index}
           className="w-full max-w-[300px] mx-auto rounded-lg overflow-hidden"
         >
-          {/* Billede øverst */}
+          {/* Image section at the top of each article card */}
           <div className="relative w-full h-48">
             <Image
               src={article.imageSrc}
               alt={article.title}
-              fill // Bruger 'fill' i stedet for 'layout="fill"'
-              objectFit="cover"
+              fill // Uses 'fill' to ensure the image fills its container
+              objectFit="cover" // Ensures the image covers the area without distortion
               className="w-full h-full"
             />
           </div>
 
-          {/* Indhold */}
+          {/* Content section below the image */}
           <div className="p-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {article.title}

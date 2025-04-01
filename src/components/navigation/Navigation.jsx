@@ -1,8 +1,9 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+"use client"; // Indicates this is a client-side component in Next.js
+
+import React, { useState, useEffect, useRef } from "react"; // Core React hooks
+import Image from "next/image"; // Optimized image component from Next.js
+import Link from "next/link"; // Next.js Link for client-side navigation
+import { usePathname } from "next/navigation"; // Hook to get current URL path
 import {
   FaSearch,
   FaCamera,
@@ -17,29 +18,32 @@ import {
   FaBoxOpen,
   FaEnvelope,
   FaFolderOpen,
-  FaGlobe,
-} from "react-icons/fa";
+  FaGlobe
+} from "react-icons/fa"; // Icons from react-icons
 
-// Import the calendar store
+// Import the calendar store for managing booking dates
 import useCalendarStore from "@/store/calendarStore";
 
-// Contact Form Component (uændret)
+// Contact Form Component (unchanged from original)
 const ContactForm = ({ closeToolbox }) => {
+  // State for form inputs and validation warning
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [showWarning, setShowWarning] = useState(false);
 
+  // Handle form submission
   const handleSend = () => {
     if (!name || !email || !message) {
-      setShowWarning(true);
+      setShowWarning(true); // Show warning if fields are empty
       return;
     }
-    setShowWarning(false);
-    closeToolbox();
+    setShowWarning(false); // Clear warning on successful submission
+    closeToolbox(); // Close toolbox after sending
   };
 
   return (
+    // Contact form layout
     <div className="flex flex-col gap-2">
       <h2 className="font-bold">Contact Us</h2>
       <label>
@@ -69,6 +73,7 @@ const ContactForm = ({ closeToolbox }) => {
           rows="3"
         ></textarea>
       </label>
+      {/* Warning message for incomplete form */}
       {showWarning && (
         <div className="bg-red-500/20 border border-red-500 text-red-100 p-2 rounded text-sm mt-1">
           Please fill out all fields before sending.
@@ -85,37 +90,39 @@ const ContactForm = ({ closeToolbox }) => {
 };
 
 const Navigation = () => {
-  const [isToolboxOpen, setIsToolboxOpen] = useState(false);
-  const [selectedToolboxItem, setSelectedToolboxItem] = useState(null);
-  const [activeSubmenu, setActiveSubmenu] = useState(null);
-  const [isCategoryVisible, setIsCategoryVisible] = useState(true);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState("Studio Setup");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  // State variables for controlling navigation UI
+  const [isToolboxOpen, setIsToolboxOpen] = useState(false); // Toolbox visibility
+  const [selectedToolboxItem, setSelectedToolboxItem] = useState(null); // Selected toolbox item
+  const [activeSubmenu, setActiveSubmenu] = useState(null); // Active category submenu
+  const [isCategoryVisible, setIsCategoryVisible] = useState(true); // Category row visibility
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // Search bar visibility
+  const [activeProject, setActiveProject] = useState("Studio Setup"); // Active project in toolbox
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu visibility
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false); // Language dropdown visibility
+  const [selectedLanguage, setSelectedLanguage] = useState("English"); // Selected language
 
-  const pathname = usePathname();
-  const lastScrollPosRef = useRef(0);
+  const pathname = usePathname(); // Current URL path
+  const lastScrollPosRef = useRef(0); // Ref to track last scroll position
 
-  // Retrieve calendar store state and functions
+  // Calendar store state and functions for booking management
   const {
     bookingPeriod,
     setBookingPeriod,
     clearBookingPeriod,
-    isValidBooking,
+    isValidBooking
   } = useCalendarStore();
 
-  // Languages available in the toggle
+  // List of supported languages for the language toggle
   const languages = [
     { code: "en", name: "English" },
     { code: "da", name: "Danish" },
-    { code: "es", name: "Spanish" },
+    { code: "es", name: "Spanish" }
   ];
 
+  // Effect to handle clicks outside mobile menu and language dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // For mobile menu
+      // Close mobile menu if click is outside
       if (isMobileMenuOpen) {
         const mobileMenu = document.getElementById("mobile-menu-content");
         const burgerButton = document.getElementById("burger-button");
@@ -128,8 +135,7 @@ const Navigation = () => {
           setIsMobileMenuOpen(false);
         }
       }
-
-      // For language dropdown
+      // Close language dropdown if click is outside
       if (isLanguageOpen) {
         const langToggle = document.getElementById("language-toggle");
         if (langToggle && !langToggle.contains(event.target)) {
@@ -141,52 +147,59 @@ const Navigation = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen, isLanguageOpen]);
 
+  // Effect to reset mobile menu and language dropdown on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsLanguageOpen(false);
   }, [pathname]);
 
+  // Effect to hide/show category row based on scroll direction
   useEffect(() => {
     if (pathname === "/pages/projects") {
-      setIsCategoryVisible(true);
+      setIsCategoryVisible(true); // Always show on projects page
       return;
     }
     lastScrollPosRef.current = window.scrollY;
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      setIsCategoryVisible(currentScroll < lastScrollPosRef.current);
+      setIsCategoryVisible(currentScroll < lastScrollPosRef.current); // Show if scrolling up
       lastScrollPosRef.current = currentScroll;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
+  // Toggle selected toolbox item
   const handleIconClick = (item) => {
     setSelectedToolboxItem((prev) => (prev === item ? null : item));
   };
 
+  // Close the toolbox and reset selected item
   const closeToolbox = () => {
     setIsToolboxOpen(false);
     setSelectedToolboxItem(null);
   };
 
+  // Handle language selection
   const handleLanguageSelect = (language) => {
     setSelectedLanguage(language);
     setIsLanguageOpen(false);
-    // Here you would implement the actual language change functionality
+    // TODO: Implement actual language change logic here
   };
 
+  // Common classes for icons and links
   const iconClasses =
     "text-3xl text-white group-hover:text-lime transition-colors duration-200";
   const linkClasses =
     "group text-h4 font-light hover:text-lime py-2 px-4 w-full h-16 text-center " +
     "flex flex-col items-center justify-center whitespace-nowrap select-none relative";
 
+  // Category data with icons and submenus
   const categories = [
     {
       name: "Kits",
       icon: <FaBoxOpen className={iconClasses} />,
-      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"],
+      submenu: ["Basic Kit", "Advanced Kit", "Pro Kit", "Custom Kit"]
     },
     {
       name: "Camera & Accessories",
@@ -199,8 +212,8 @@ const Navigation = () => {
         "Stabilizers",
         "Batteries",
         "Memory Cards",
-        "Cases",
-      ],
+        "Cases"
+      ]
     },
     {
       name: "Audio",
@@ -210,8 +223,8 @@ const Navigation = () => {
         "Recorders",
         "Mixers",
         "Headphones",
-        "Wireless Systems",
-      ],
+        "Wireless Systems"
+      ]
     },
     {
       name: "Lighting, Sfx & Stands",
@@ -221,28 +234,28 @@ const Navigation = () => {
         "Fresnel",
         "Modifiers",
         "Light Stands",
-        "Special Effects",
-      ],
+        "Special Effects"
+      ]
     },
     {
       name: "Live Production",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"],
+      submenu: ["Switchers", "Streaming", "Monitors", "Teleprompters"]
     },
     {
       name: "Monitors & Recorders",
       icon: <FaVideo className={iconClasses} />,
-      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"],
+      submenu: ["Field Monitors", "External Recorders", "Directors Monitors"]
     },
     {
       name: "Grips & Gadgets",
       icon: <FaGripHorizontal className={iconClasses} />,
-      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"],
+      submenu: ["Clamps", "Arms", "Rigs", "Sliders", "Dollies"]
     },
     {
       name: "Cables & Adapters",
       icon: <FaPlug className={iconClasses} />,
-      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"],
+      submenu: ["Power Cables", "HDMI", "SDI", "XLR", "USB", "Adapters"]
     },
     {
       name: "Production & Consumables",
@@ -252,24 +265,28 @@ const Navigation = () => {
         "Markers",
         "Batteries",
         "Gels",
-        "Cleaning Supplies",
-      ],
-    },
+        "Cleaning Supplies"
+      ]
+    }
   ];
 
+  // Calculate submenu position based on category index
   const getSubmenuPosition = (index) => {
     const total = categories.length;
-    if (index >= total - 3) return "right-[-30px]";
+    if (index >= total - 3)
+      return "right-[-30px]"; // Right-aligned for last 3 items
     else if (index >= Math.floor(total / 3) && index < total - 3)
-      return "left-1/2 -translate-x-[45%]";
-    else return "left-[-30px]";
+      return "left-1/2 -translate-x-[45%]"; // Centered for middle items
+    else return "left-[-30px]"; // Left-aligned for first items
   };
 
   return (
+    // Main navigation container with sticky positioning
     <nav className="sticky top-0 z-50 w-full bg-transparent select-none">
       <div className="flex flex-col w-full">
         {/* TOP NAV BAR */}
         <div className="relative w-full p-3 bg-black text-white flex items-center justify-between">
+          {/* Mobile Burger Menu Button */}
           <div className="flex md:hidden">
             <button
               id="burger-button"
@@ -277,13 +294,14 @@ const Navigation = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
-                <span className="text-2xl">✕</span>
+                <span className="text-2xl">✕</span> // Close icon
               ) : (
-                <span className="text-2xl">☰</span>
+                <span className="text-2xl">☰</span> // Hamburger icon
               )}
             </button>
           </div>
 
+          {/* Desktop Navigation Links */}
           <div className="hidden md:flex gap-6 ml-4">
             <Link
               className={`text-h4 ${
@@ -313,6 +331,7 @@ const Navigation = () => {
             </Link>
           </div>
 
+          {/* Logo (Centered) */}
           <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
             <Link href="/">
               <Image src="/logo/logo.svg" width={150} height={50} alt="Logo" />
@@ -321,9 +340,10 @@ const Navigation = () => {
 
           {/* TOP RIGHT ICONS */}
           <div className="flex gap-3 md:gap-6 mr-2 md:mr-4 ml-auto relative z-10">
-            {/* Search Icon */}
+            {/* Desktop Search Icon */}
             <div className="hidden md:flex">
               {isSearchOpen ? (
+                // Expanded search bar
                 <div className="flex items-center bg-white text-black h-10 px-3 rounded-xl transition-all duration-500 ease-in-out select-none w-64 opacity-100">
                   <FaSearch className="text-black text-xl mr-2" />
                   <input
@@ -339,6 +359,7 @@ const Navigation = () => {
                   </button>
                 </div>
               ) : (
+                // Collapsed search icon
                 <div
                   className="relative bg-white text-black p-4 w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
                   onClick={() => setIsSearchOpen(true)}
@@ -347,6 +368,7 @@ const Navigation = () => {
                 </div>
               )}
             </div>
+            {/* Mobile Search Icon */}
             <div className="md:hidden">
               <div
                 className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer hover:bg-lime select-none"
@@ -364,7 +386,7 @@ const Navigation = () => {
               >
                 <FaGlobe className="absolute text-black text-lg md:text-xl" />
               </div>
-
+              {/* Language Dropdown */}
               {isLanguageOpen && (
                 <div className="absolute top-full right-0 mt-1 bg-black text-white rounded-md shadow-lg overflow-hidden z-50">
                   {languages.map((lang) => (
@@ -382,14 +404,14 @@ const Navigation = () => {
               )}
             </div>
 
-            {/* Globe Icon for Mobile (non-active) */}
+            {/* Globe Icon for Mobile (non-functional placeholder) */}
             <div className="block md:hidden">
               <div className="relative bg-white text-black p-4 w-8 h-8 flex items-center justify-center rounded-xl select-none">
                 <FaGlobe className="absolute text-black text-lg" />
               </div>
             </div>
 
-            {/* Toolbox Icon */}
+            {/* Toolbox Toggle Icon */}
             <div
               className={`relative p-4 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer select-none ${
                 isToolboxOpen
@@ -406,7 +428,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Search Bar - Full width under navbar when open */}
+        {/* Mobile Search Bar */}
         <div
           className={`md:hidden w-full bg-black transition-all duration-300 ${
             isSearchOpen
@@ -430,7 +452,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Language Selector - Similar to search bar */}
+        {/* Mobile Language Selector */}
         <div
           className={`md:hidden w-full bg-black transition-all duration-300 ${
             isLanguageOpen && !isSearchOpen
@@ -456,7 +478,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Menu - Full screen overlay */}
+        {/* Mobile Menu - Full Screen Overlay */}
         <div
           className={`fixed inset-0 bg-black z-40 transition-all duration-300 pt-16 
           ${
@@ -494,6 +516,7 @@ const Navigation = () => {
               </div>
             </div>
 
+            {/* Mobile Navigation Links */}
             <div className="flex flex-col items-center gap-6 py-8 border-b border-gray-800">
               <Link
                 className={`text-xl ${
@@ -527,6 +550,7 @@ const Navigation = () => {
                 Learn
               </Link>
             </div>
+            {/* Mobile Categories */}
             <div className="px-4 py-6 overflow-y-auto">
               <h2 className="text-lime text-lg font-bold mb-4 text-center">
                 Categories
@@ -536,7 +560,7 @@ const Navigation = () => {
                   <div key={index} className="border-b border-gray-800 pb-4">
                     <div className="flex items-center gap-3 mb-2">
                       {React.cloneElement(cat.icon, {
-                        className: "text-2xl text-white",
+                        className: "text-2xl text-white"
                       })}
                       <span className="text-white text-lg">{cat.name}</span>
                     </div>
@@ -559,7 +583,7 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* CATEGORY ROW - Hidden on mobile */}
+        {/* CATEGORY ROW - Desktop Only */}
         <div
           className={`hidden md:flex flex-row flex-wrap justify-center w-full bg-black/30 font-helvetica select-none
             transition-all duration-150 ${
@@ -584,12 +608,13 @@ const Navigation = () => {
                 {React.cloneElement(cat.icon, {
                   className:
                     cat.icon.props.className +
-                    (activeSubmenu === index ? " text-lime" : ""),
+                    (activeSubmenu === index ? " text-lime" : "")
                 })}
                 <span className="text-center leading-tight text-xs sm:text-sm md:text-base lg:text-lg overflow-hidden text-ellipsis text-white">
                   {cat.name}
                 </span>
               </Link>
+              {/* Submenu Dropdown */}
               {activeSubmenu === index && (
                 <div
                   className={`absolute top-full ${getSubmenuPosition(
@@ -614,7 +639,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* TOOLBOX AREA - MOBILE STREAMLINED */}
+      {/* TOOLBOX AREA */}
       <div
         className={`absolute md:right-1 top-full mt-1 transition-all duration-300 z-50 ${
           isToolboxOpen
@@ -623,9 +648,11 @@ const Navigation = () => {
         } md:w-auto w-screen`}
       >
         <div className="bg-black text-white p-4 rounded-none md:rounded-lg shadow-lg flex flex-col md:flex-row">
+          {/* Toolbox Content */}
           <div className="w-full md:w-64 h-[280px] md:h-auto max-h-[350px] overflow-y-auto md:pr-1 mb-3 md:mb-0 md:mr-4">
             {selectedToolboxItem ? (
               <div className="h-full flex flex-col">
+                {/* Calendar Tool */}
                 {selectedToolboxItem === "calendar" && (
                   <div className="flex flex-col gap-2 h-full">
                     <h2 className="font-bold">Select Dates</h2>
@@ -670,6 +697,7 @@ const Navigation = () => {
                     </div>
                   </div>
                 )}
+                {/* User Tool */}
                 {selectedToolboxItem === "user" && (
                   <div className="flex flex-col space-y-4 bg-black/80 rounded-lg h-full">
                     <h2 className="text-xl font-bold text-center text-lime mb-4">
@@ -706,6 +734,7 @@ const Navigation = () => {
                     </div>
                   </div>
                 )}
+                {/* Projects Tool */}
                 {selectedToolboxItem === "projects" && (
                   <div className="flex flex-col gap-2 h-full">
                     <div className="flex justify-between items-center">
@@ -826,16 +855,19 @@ const Navigation = () => {
                     </div>
                   </div>
                 )}
+                {/* Contact Tool */}
                 {selectedToolboxItem === "contact" && (
                   <ContactForm closeToolbox={closeToolbox} />
                 )}
               </div>
             ) : (
+              // Default message when no toolbox item is selected
               <div className="flex items-center justify-center h-full text-white/50">
                 <p>Select an option</p>
               </div>
             )}
           </div>
+          {/* Toolbox Icons */}
           <div className="grid grid-cols-4 md:grid-cols-1 gap-2 md:gap-3">
             <button
               onClick={() => handleIconClick("calendar")}
