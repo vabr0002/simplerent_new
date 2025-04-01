@@ -9,7 +9,7 @@ const PopularKits = () => {
     { id: 3, title: "Video Kit", description: "All-in-one video solution" },
     { id: 4, title: "Audio Kit", description: "For sound professionals" },
     { id: 5, title: "Lighting Kit", description: "Illuminate your scene" },
-    { id: 6, title: "Action Kit", description: "For dynamic shoots" }
+    { id: 6, title: "Action Kit", description: "For dynamic shoots" },
   ];
 
   const [showAll, setShowAll] = useState(false);
@@ -44,7 +44,7 @@ const PopularKits = () => {
             title={kit.title}
             description={kit.description}
             buttonText="Rent Now"
-            buttonLink="#"
+            buttonLink="/kitPage"
             imageSrc="/img/sony_fx6.jpg"
             borderColor="black"
             bgColor="lightgray"
