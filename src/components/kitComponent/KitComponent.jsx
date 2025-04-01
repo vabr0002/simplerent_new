@@ -71,6 +71,113 @@ const KitComponent = () => {
             <button>reserve</button>
           </div>
         </div>
+
+        <div>
+          <iframe src="" frameborder="0"></iframe>
+        </div>
+
+        <div className="flex flex-wrap gap-4">
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/hero.webp"
+            alt="Kit Image"
+            width={500}
+            height={500}
+          />
+        </div>
+
+        <div>
+          <h1>You might be interested in these add ons</h1>
+          <div>
+            <Image
+              src="/img/hero.webp"
+              alt="Kit Image"
+              width={50}
+              height={50}
+            />
+            <h1>Title</h1>
+            <Link href="/">
+              <p>Read More</p>
+            </Link>
+          </div>
+          <div>
+            <Image
+              src="/img/hero.webp"
+              alt="Kit Image"
+              width={50}
+              height={50}
+            />
+            <h1>Title</h1>
+            <Link href="/">
+              <p>Read More</p>
+            </Link>
+          </div>
+          <div>
+            <Image
+              src="/img/hero.webp"
+              alt="Kit Image"
+              width={50}
+              height={50}
+            />
+            <h1>Title</h1>
+            <Link href="/">
+              <p>Read More</p>
+            </Link>
+          </div>
+          <div>
+            <Image
+              src="/img/hero.webp"
+              alt="Kit Image"
+              width={50}
+              height={50}
+            />
+            <h1>Title</h1>
+            <Link href="/">
+              <p>Read More</p>
+            </Link>
+          </div>
+          <div>
+            <Image
+              src="/img/hero.webp"
+              alt="Kit Image"
+              width={50}
+              height={50}
+            />
+            <h1>Title</h1>
+            <Link href="/">
+              <p>Read More</p>
+            </Link>
+          </div>
+        </div>
       </article>
     </>
   );
