@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react"; // Core React hooks
 import Card from "../kitCard/KitCard"; // Custom Card component for displaying kits
+import Link from "next/link"; // Import Link for navigation
 
 const PopularKits = () => {
   // Array of kit objects with basic data
@@ -14,8 +15,6 @@ const PopularKits = () => {
     { id: 6, title: "Action Kit", description: "For dynamic shoots" },
   ];
 
-  // State to control whether all kits are shown or just a subset
-  const [showAll, setShowAll] = useState(false);
   // State to track if the screen size is mobile (below 640px)
   const [isMobile, setIsMobile] = useState(false);
 
@@ -34,8 +33,8 @@ const PopularKits = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []); // Empty dependency array ensures this runs only on mount/unmount
 
-  // Determine which kits to display: 3 on mobile (unless showAll), all on desktop
-  const displayedKits = isMobile && !showAll ? kits.slice(0, 3) : kits;
+  // Determine which kits to display: 3 on mobile, all on desktop
+  const displayedKits = isMobile ? kits.slice(0, 3) : kits;
 
   return (
     // Section container with white background and padding
@@ -68,15 +67,15 @@ const PopularKits = () => {
           />
         ))}
       </div>
-      {/* "Show More" button, visible only on mobile if not all kits are shown */}
-      {!showAll && kits.length > 3 && (
+      {/* "See All Kits" link, visible only on mobile */}
+      {kits.length > 3 && (
         <div className="sm:hidden flex justify-center mt-6">
-          <button
-            onClick={() => setShowAll(true)} // Show all kits on click
+          <Link
+            href="/kitPage"
             className="bg-lime text-black border-2 border-lime px-6 py-2 rounded-xl font-semibold transition-all duration-300 hover:bg-transparent hover:text-black"
           >
-            Show More
-          </button>
+            See All Kits
+          </Link>
         </div>
       )}
     </section>
