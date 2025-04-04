@@ -60,7 +60,7 @@ const Footer = () => {
         <Link className="text-h5 hover:text-lime" href="/pages/products">
           Book Here
         </Link>
-        <Link className="text-h5 hover:text-lime" href="/pages/myAccount">
+        <Link className="text-h5 hover:text-lime" href="/pages/userPage">
           My Account
         </Link>
       </div>
